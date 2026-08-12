@@ -1,0 +1,153 @@
+% =========================================================================
+% ENCODAGE ET LANGUE
+% =========================================================================
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+
+% =========================================================================
+% GEOMETRIE ET EN-TETES
+% =========================================================================
+\usepackage[a4paper, margin=2.5cm, headheight=14pt]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\scshape Analyse III}
+\fancyhead[R]{\small\leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% =========================================================================
+% PACKAGES MATHEMATIQUES
+% =========================================================================
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{physics} % Pour \pdv, \grad, \div, \curl, \bra, \ket, etc.
+\usepackage{bm}      % Symboles gras en mode mathématique
+
+% Ens. de nombres usuels
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\K}{\mathbb{K}}
+
+% Operateurs d'analyse
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\res}{Res}
+
+% =========================================================================
+% TIKZ ET GRAPHISME
+% =========================================================================
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, positioning, shapes, patterns, decorations.pathmorphing}
+
+% =========================================================================
+% COULEURS & TCOLORBOX
+% =========================================================================
+\usepackage[x11names, dvipsnames, table]{xcolor}
+\usepackage[most]{tcolorbox}
+
+% Definition des teintes (Palettes professionnelles et contrastees)
+\definecolor{ThmColor}{HTML}{1A365D}   % Bleu Nuit
+\definecolor{PropColor}{HTML}{2B6CB0}  % Bleu Petrole
+\definecolor{DefColor}{HTML}{1C4532}   % Vert Foret
+\definecolor{ExColor}{HTML}{744210}    % Ambre / Brun
+\definecolor{RemColor}{HTML}{4A5568}   % Slate / Anthracite
+\definecolor{ProofColor}{HTML}{4A154B} % Violet Sombre
+
+% Style de base pour les boites
+\tcbset{
+    basebox/.style={
+        enhanced,
+        breakable,
+        boxrule=0pt,
+        frame hidden,
+        arc=2pt,
+        outer arc=2pt,
+        top=8pt,
+        bottom=8pt,
+        left=10pt,
+        right=10pt,
+        separator sign={. \ },
+        fonttitle=\bfseries,
+    }
+}
+
+% Env 1 : Theoreme
+\newtcbtheorem[number within=section]{theoreme}{Théorème}{
+    basebox,
+    borderline west={3.5pt}{0pt}{ThmColor},
+    colback=ThmColor!5!white,
+    coltitle=ThmColor,
+    colbacktitle=ThmColor!5!white,
+    attach title to upper,
+}{thm}
+
+% Env 2 : Proposition
+\newtcbtheorem[use counter from=theoreme]{proposition}{Proposition}{
+    basebox,
+    borderline west={3.5pt}{0pt}{PropColor},
+    colback=PropColor!5!white,
+    coltitle=PropColor,
+    colbacktitle=PropColor!5!white,
+    attach title to upper,
+}{prop}
+
+% Env 3 : Definition
+\newtcbtheorem[use counter from=theoreme]{definition}{Définition}{
+    basebox,
+    borderline west={3.5pt}{0pt}{DefColor},
+    colback=DefColor!5!white,
+    coltitle=DefColor,
+    colbacktitle=DefColor!5!white,
+    attach title to upper,
+}{def}
+
+% Env 4 : Exemple (Sans numérotation obligatoire)
+\newtcolorbox{exemple}[1][]{
+    basebox,
+    borderline west={3.5pt}{0pt}{ExColor},
+    colback=ExColor!5!white,
+    coltitle=ExColor,
+    title=\textbf{Exemple\ifx\relax#1\relax\else\ (#1)\fi .},
+    attach title to upper,
+}
+
+% Env 5 : Remarque
+\newtcolorbox{remarque}[1][]{
+    basebox,
+    borderline west={3.5pt}{0pt}{RemColor},
+    colback=RemColor!5!white,
+    coltitle=RemColor,
+    title=\textbf{Remarque\ifx\relax#1\relax\else\ (#1)\fi .},
+    attach title to upper,
+}
+
+% Env 6 : Demonstration
+\newtcolorbox{demonstration}[1][]{
+    basebox,
+    borderline west={2pt}{0pt}{ProofColor},
+    colback=ProofColor!3!white,
+    coltitle=ProofColor,
+    title=\textbf{Démonstration\ifx\relax#1\relax\else\ (#1)\fi .},
+    attach title to upper,
+    after upper={\hfill $\square$}
+}
+
+% =========================================================================
+% HYPERREF & OUTILS DIVERS
+% =========================================================================
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ThmColor,
+    citecolor=DefColor,
+    urlcolor=PropColor,
+    pdfauthor={Étudiant EPFL},
+    pdftitle={Polycopié Analyse III}
+}
