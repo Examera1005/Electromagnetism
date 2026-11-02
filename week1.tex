@@ -1,0 +1,140 @@
+% Specific shortcut for the separation vector (Griffiths script r)
+\newcommand{\sepr}{\bm{r} - \bm{r}'}
+\newcommand{\seprmag}{\|\bm{r} - \bm{r}'\|}
+\newcommand{\uvec}[1]{\hat{\bm{#1}}}
+
+
+\vspace{1.5em}
+
+% =========================================================================
+% PART 1: LECTURE FOUNDATIONS
+% =========================================================================
+\section{Week 1 - Intrinsic Properties of Electric Charge }
+
+Electrostatics describes macroscopic and microscopic interactions between stationary charge distributions in an inertial reference frame.
+
+\begin{definition}{Electric Charge and Fundamental Symmetries}{charge}
+Electric charge $q \in \R$ is a fundamental scalar quantity governed by three universal principles:
+\begin{enumerate}
+    \item \textbf{Duality \& Matter/Antimatter Symmetry:} Charge carriers fall into two strict inversion classes (positive and negative). For every particle carrying charge $q$, there exists an antiparticle with identical mass and opposite charge $-q$.
+    \item \textbf{Relativistic Invariance:} Unlike mass, proper time, or volume, the net scalar charge of an isolated system is a universal Lorentz invariant; its numerical value is strictly identical in all inertial reference frames.
+    \item \textbf{Quantization:} All isolable electric charge in nature occurs in integer multiples of the elementary charge $e \approx 1.602 \times 10^{-19}\ \text{C}$ such that $q = n e$ with $n \in \Z$. Although quarks carry fractional charges ($\pm \frac{1}{3}e, \pm \frac{2}{3}e$), color confinement prevents them from existing in isolated asymptotic states.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}{Local and Global Conservation of Charge}{cons_charge}
+For an isolated domain $\Omega$ bounded by a closed boundary $\partial\Omega$, the total algebraic charge is strictly conserved over time:
+\begin{equation}
+    \dv{t} Q_{\text{tot}} = \dv{t} \int_{\Omega} \rho(\bm{r}, t)\,\dd^3\bm{r} = -\oint_{\partial\Omega} \bm{J}\cdot\dd\bm{S} = 0 \iff \pdv{\rho}{t} + \div\bm{J} = 0
+\end{equation}
+Matter creation and annihilation processes strictly preserve net charge neutrality ($\Delta Q = 0$), as confirmed experimentally in pair production ($\gamma \to e^- + e^+$).
+\end{theorem}
+
+\subsection{Coulomb's Law and Electrostatic Field}
+
+\begin{theorem}{Coulomb's Law of Electrostatic Interaction}{coulomb}
+Let two stationary point charges $q_1$ and $q_2$ be located at $\bm{r}_1$ and $\bm{r}_2$, respectively. The electrostatic force exerted by $q_1$ on $q_2$ in vacuum is given by:
+\begin{equation}
+    \bm{F}_{1 \to 2} = \frac{1}{4\pi\varepsilon_0} \frac{q_1 q_2}{\|\bm{r}_2 - \bm{r}_1\|^2} \uvec{r}_{12} = \frac{1}{4\pi\varepsilon_0} \frac{q_1 q_2}{\|\bm{r}_2 - \bm{r}_1\|^3} (\bm{r}_2 - \bm{r}_1)
+\end{equation}
+where $\varepsilon_0 \approx 8.854 \times 10^{-12}\ \text{F}\cdot\text{m}^{-1}$ is the vacuum permittivity.
+\end{theorem}
+
+\begin{remark}
+Coulomb's law is strictly exact only under two physical requirements:
+\begin{enumerate}
+    \item \textbf{Absolute stationarity:} Charges must be at mutual rest. Nonzero relative velocities or accelerations generate magnetic induction forces of order $\mathcal{O}(v/c)$ alongside causal retardation effects (Liénard-Wiechert potentials).
+    \item \textbf{Spatial isotropy:} The force acts strictly along the central line connecting both charges, an immediate consequence of the rotational invariance of empty, isotropic space for structureless scalar charges.
+\end{enumerate}
+\end{remark}
+
+\subsection{Vector Differential Calculus (Griffiths)}
+
+Vector calculus in Cartesian coordinates $(\uvec{x}, \uvec{y}, \uvec{z})$ relies on the position vector $\bm{r} = x\uvec{x} + y\uvec{y} + z\uvec{z}$ and the \textbf{separation vector} directed from a source point at $\bm{r}'$ to a field observation point at $\bm{r}$:
+\begin{equation}
+    \bm{\imath} \equiv \bm{r} - \bm{r}', \quad \imath = \|\bm{r} - \bm{r}'\| = \sqrt{(x-x')^2 + (y-y')^2 + (z-z')^2}, \quad \uvec{\imath} = \frac{\bm{\imath}}{\imath}
+\end{equation}
+The symbolic differential \textit{del} operator is defined as $\nabla = \uvec{x}\pdv{x} + \uvec{y}\pdv{y} + \uvec{z}\pdv{z}$.
+
+\begin{proposition}{Fundamental Properties of First- and Second-Order Derivatives}{der_vec}
+For any scalar field $T(\bm{r})$ and vector field $\bm{v}(\bm{r})$ of class $\mathcal{C}^2(\R^3)$:
+\begin{align}
+    \grad T &= \nabla T = \pdv{T}{x}\uvec{x} + \pdv{T}{y}\uvec{y} + \pdv{T}{z}\uvec{z} \quad \text{(direction of maximum rate of increase)} \\
+    \div \bm{v} &= \nabla \cdot \bm{v} = \pdv{v_x}{x} + \pdv{v_y}{y} + \pdv{v_z}{z} \quad \text{(flux density outflow per unit volume)} \\
+    \curl \bm{v} &= \nabla \times \bm{v} = \begin{vmatrix} \uvec{x} & \uvec{y} & \uvec{z} \\ \pdv{x} & \pdv{y} & \pdv{z} \\ v_x & v_y & v_z \end{vmatrix} \quad \text{(local circulation / vorticity density)}
+\end{align}
+The equality of mixed partial derivatives enforces two universal null identities:
+\begin{equation}
+    \nabla \times (\nabla T) = \bm{0} \quad \text{and} \quad \nabla \cdot (\nabla \times \bm{v}) = 0
+\end{equation}
+The double curl expansion yields the vector Laplacian $\nabla^2\bm{v}$:
+\begin{equation}
+    \nabla \times (\nabla \times \bm{v}) = \nabla(\nabla \cdot \bm{v}) - \nabla^2\bm{v} \iff \nabla^2\bm{v} = \nabla(\nabla \cdot \bm{v}) - \nabla \times (\nabla \times \bm{v})
+\end{equation}
+\end{proposition}
+
+\subsection[Axiomatic Properties of Electric Charge]{Axiomatic Properties of Electric Charge}
+
+Electrostatics studies the interactions and configurations of electric charges strictly at rest in an inertial reference frame. Electric charge is an intrinsic scalar property characterized by fundamental experimental principles:
+
+\begin{definition}{Electric Charge, Quantization, and Conservation}{def:charge_axioms}
+Electric charge is an empirical scalar invariant of classical electrodynamics obeying three foundational principles:
+\begin{enumerate}
+    \item \textbf{Two-Sign Duality:} Charge exists in two opposite polarities ($+e$ and $-e$). Charges of identical algebraic sign experience mutual repulsion, whereas charges of opposite signs experience mutual attraction.
+    \item \textbf{Global and Local Charge Conservation:} The net electric charge $Q_{\text{tot}}$ within any isolated system is strictly constant in time:
+    \begin{equation}
+        Q_{\text{tot}} = \sum_{i} q_i = \text{constant}.
+    \end{equation}
+    \item \textbf{Exact Quantization:} Every observable electric charge is an integer multiple of the elementary unit charge $e$:
+    \begin{equation}
+        q = N e, \quad N \in \mathbb{Z}, \quad e = 1.602\,176\,634 \times 10^{-19} \text{ C}.
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+The exact equality of the magnitude of proton and electron charges ($q_p = |q_e| = e$) is empirically established by neutrality experiments on macroscopic quantities of matter (such as the J.~G. King experiment on molecular hydrogen $\mathrm{H}_2$), bounding any fractional charge asymmetry to $|q_p - |q_e|| / e < 10^{-20}$.
+\end{remark}
+
+\subsection[Coulomb's Law and Linear Superposition]{Coulomb's Law and Linear Superposition}
+
+\begin{theorem}{Coulomb's Law}{thm:coulomb_law}
+Let two point charges $q_1$ and $q_2$ be at rest in a vacuum, separated by a displacement vector $\bm{r}_{21} \equiv \bm{r}_2 - \bm{r}_1$. The electrostatic force exerted by $q_1$ on $q_2$ is governed by the inverse-square central force law:
+\begin{equation}
+    \bm{F}_{21} = \frac{1}{4\pi\varepsilon_0} \frac{q_1 q_2}{r_{21}^2} \hat{\bm{r}}_{21} = \frac{1}{4\pi\varepsilon_0} \frac{q_1 q_2}{\norm{\bm{r}_2 - \bm{r}_1}^3} (\bm{r}_2 - \bm{r}_1),
+\end{equation}
+where $\varepsilon_0$ denotes the vacuum permittivity. The force satisfies Newton's third law identically:
+\begin{equation}
+    \bm{F}_{12} = -\bm{F}_{21}.
+\end{equation}
+\end{theorem}
+
+\begin{theorem}{Principle of Linear Superposition}{thm:superposition_discrete}
+The pairwise electrostatic interaction between any two charges is strictly independent of the presence of third-party charges. For an ensemble of $N$ localized point source charges $\{q_i\}_{i=1}^N$ located at positions $\{\bm{r}_i\}_{i=1}^N$, the net electrostatic force acting on a test charge $Q$ at field position $\bm{r}$ is the vector sum:
+\begin{equation}
+    \bm{F}_Q = \frac{Q}{4\pi\varepsilon_0} \sum_{i=1}^N \frac{q_i}{\norm{\bm{r} - \bm{r}_i}^3} (\bm{r} - \bm{r}_i).
+\end{equation}
+\end{theorem}
+
+\subsection[Continuous Charge Distributions]{Continuous Charge Distributions}
+
+Whenever the inter-carrier spacing is negligible compared to the macroscopic length scales of interest, charge is represented via continuous differential distributions:
+\begin{align}
+    \text{Linear density:} \quad \lambda &= \dv{q}{l} \implies \dd q = \lambda \, \dd l, \\
+    \text{Surface density:} \quad \sigma &= \dv{q}{A} \implies \dd q = \sigma \, \dd A, \\
+    \text{Volume density:} \quad \rho &= \dv{q}{V} \implies \dd q = \rho \, \dd V.
+\end{align}
+The net Coulomb force exerted on a localized test charge $Q$ at $\bm{r}$ is obtained by Lebesgue integration over the geometric support of the distribution:
+\begin{equation}
+    \bm{F}(\bm{r}) = \frac{Q}{4\pi\varepsilon_0} \int_\Omega \frac{\hat{i}}{\imath^2} \, \dd q(\bm{r}') = \frac{Q}{4\pi\varepsilon_0} \int_\Omega \frac{\bm{r} - \bm{r}'}{\norm{\bm{r} - \bm{r}'}^3} \, \dd q(\bm{r}').
+\end{equation}
+
+\subsection{Electronvolt}
+
+\begin{definition}{Electronvolt}{def:Electronvolt}
+ The electronvolt ($\text{eV}$) is a non-SI unit of energy defined as the kinetic energy gained or lost by an elementary charge $e$ traversing an electrostatic potential difference of $1\text{ V}$:
+\begin{equation}
+    1\text{ eV} \equiv e \cdot (1\text{ V}) \approx 1.602\,176\,634 \times 10^{-19}\text{ J}.
+\end{equation}
+\end{definition}
+

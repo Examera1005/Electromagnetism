@@ -1,0 +1,468 @@
+\section { Week 2 - The Electric Field: Gauss’s Law}
+\subsection[Electrostatic Potential Energy and Conservative Work]{Electrostatic Potential Energy and Conservative Work}
+
+\begin{proposition}{Conservative Work in Central Fields}{prop:conservative_central_work}
+Consider the electrostatic central force $\bm{F}_{\text{el}} = \frac{Q q}{4\pi\varepsilon_0 r^2}\hat{\bm{r}}$ exerted by a fixed source $Q$ on a movable charge $q$. The work required by an external agent $\bm{F}_{\text{ext}} = -\bm{F}_{\text{el}}$ to displace $q$ quasi-statically from radius $r_2$ to $r_1$ along an arbitrary regular curve $C$ is strictly path-independent:
+\begin{equation}
+    W = \int_{r_2}^{r_1} \bm{F}_{\text{ext}} \cdot \dd\bm{l} = -\int_{r_2}^{r_1} \frac{Q q}{4\pi\varepsilon_0 r^2} \, \dd r = \frac{Q q}{4\pi\varepsilon_0} \left( \frac{1}{r_1} - \frac{1}{r_2} \right).
+\end{equation}
+\end{proposition}
+
+\begin{proofbox}
+In spherical coordinates, an arbitrary spatial displacement element is $\dd\bm{s} = \dd r\,\hat{\bm{r}} + r\,\dd\theta\,\hat{\bm{\theta}} + r\sin\theta\,\dd\phi\,\hat{\bm{\phi}}$. Because the electrostatic interaction is central, $\bm{F}(\bm{r}) = F(r)\hat{\bm{r}}$, the differential work 1-form projects exclusively onto the radial displacement component:
+\begin{equation}
+    \bm{F} \cdot \dd\bm{s} = F(r)\hat{\bm{r}} \cdot (\dd r\,\hat{\bm{r}} + r\,\dd\theta\,\hat{\bm{\theta}} + r\sin\theta\,\dd\phi\,\hat{\bm{\phi}}) = F(r)\,\dd r.
+\end{equation}
+The line integral depends exclusively on the endpoints $(r_1, r_2)$. For any closed loop $\gamma$, the total work vanishes identically:
+\begin{equation}
+    \oint_\gamma \bm{F} \cdot \dd\bm{s} = 0 \quad \iff \quad \curl{\bm{E}} = \bm{0}.
+\end{equation}
+\end{proofbox}
+
+\begin{theorem}{Total Electrostatic Assembly Energy}{thm:assembly_energy}
+The electrostatic potential energy $U$ stored within an ensemble of $N$ discrete charges corresponds to the total work required to assemble the charges from infinite mutual separation ($\lim r \to \infty$):
+\begin{equation}
+    U = \frac{1}{2} \sum_{j=1}^N \sum_{\substack{k=1 \\ k \neq j}}^N \frac{1}{4\pi\varepsilon_0} \frac{q_j q_k}{r_{jk}}.
+\end{equation}
+\end{theorem}
+
+\subsection[The Electric Field and Field Line Topologies]{The Electric Field and Field Line Topologies}
+
+\begin{definition}{The Electric Field Vector}{def:efield_vec}
+The electric field $\bm{E}(\bm{r})$ is an operational vector field defined as the electrostatic force per unit positive test charge:
+\begin{equation}
+    \bm{E}(\bm{r}) \equiv \frac{\bm{F}}{q}, \quad [\bm{E}] = \frac{\text{N}}{\text{C}} = \frac{\text{V}}{\text{m}}.
+\end{equation}
+For a continuous volume charge distribution $\rho(\bm{r}')$ occupying spatial domain $V$, linear superposition yields:
+\begin{equation}
+    \bm{E}(\bm{r}) = \frac{1}{4\pi\varepsilon_0} \int_V \frac{\bm{r} - \bm{r}'}{\norm{\bm{r} - \bm{r}'}^3} \rho(\bm{r}') \, \dd V'.
+\end{equation}
+\end{definition}
+
+\begin{remark}
+Field lines provide a geometric representation of $\bm{E}(\bm{r})$: the local tangent vector aligns with $\bm{E}$, and field line flux density is proportional to $\norm{\bm{E}}$. Field lines originate strictly on positive charges (sources) and terminate on negative charges (sinks). Field lines cannot intersect in free space, guaranteeing uniqueness of the electrostatic vector field at every regular point.
+\end{remark}
+
+\subsection[Flux and Gauss's Law]{Flux and Gauss's Law}
+
+\begin{theorem}{Gauss's Flux Law}{thm:gauss_law_general}
+Let $S = \partial V$ be an arbitrary closed, orientable surface bounding volume $V$, with outward unit normal vector field $\hat{\bm{n}}$ and vector area element $\dd\bm{A} = \hat{\bm{n}}\,\dd A$. The net electric flux $\Phi_E$ through $S$ is strictly governed by the total enclosed charge $Q_{\text{enc}}$:
+\begin{equation}
+    \Phi_E \equiv \oint_S \bm{E} \cdot \dd\bm{A} = \frac{Q_{\text{enc}}}{\varepsilon_0} = \frac{1}{\varepsilon_0} \int_V \rho(\bm{r}') \, \dd V'.
+\end{equation}
+\end{theorem}
+
+\begin{proofbox}
+For an isolated point charge $Q$ situated at the origin, the Coulomb field over a concentric sphere $S_r$ of radius $r$ is $\bm{E} = \frac{Q}{4\pi\varepsilon_0 r^2} \hat{\bm{r}}$. The total flux through $S_r$ evaluates to:
+\begin{equation}
+    \Phi_E = \oint_{S_r} \bm{E} \cdot \dd\bm{A} = \frac{Q}{4\pi\varepsilon_0 r^2} \oint_{S_r} \dd A = \frac{Q}{4\pi\varepsilon_0 r^2} (4\pi r^2) = \frac{Q}{\varepsilon_0}.
+\end{equation}
+Because the solid angle subtended by any closed surface enclosing the origin is identically $4\pi$, deformation of $S_r$ into any arbitrary closed surface $S$ preserves the total flux. For an exterior charge ($Q \notin V$), every field line entering the closed volume must exit it, yielding zero net flux ($\oint \bm{E} \cdot \dd\bm{A} = 0$). Linearity extends the result to arbitrary charge configurations.
+\end{proofbox}
+
+\subsection{Formal Derivation of Gauss's Law}
+
+The physical content of Gauss's law is intimately connected to the inverse-square dependence of Coulomb's law and the geometric notion of the \emph{solid angle}. Consider a point charge $Q$ located at the coordinate origin.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.1]
+        % Coordinate origin
+        \coordinate (Q) at (0,0);
+        \filldraw[fill=black] (Q) circle (2.2pt) node[below=3pt] {$Q$};
+
+        % Dashed cone generators
+        \draw[dashed, thick, black!75] (0,0) -- (6.8, 3.4);
+        \draw[dashed, thick, black!75] (0,0) -- (7.2, 1.4);
+
+        % Spherical arcs
+        \draw[thin, black!60] (3.0,0) arc (0:50:3.0);
+        \draw[thin, black!60] (5.8,0) arc (0:45:5.8);
+
+        % Distance arrows r1 and r2
+        \draw[<->, black!70] (0,0) -- node[fill=white, inner sep=1pt, sloped, font=\small] {$r_1$} ({3.0*cos(42)}, {3.0*sin(42)});
+        \draw[<->, black!70] (0,0) -- node[fill=white, inner sep=1pt, sloped, font=\small] {$r_2$} ({5.8*cos(42)}, {5.8*sin(42)});
+
+        % Surface 1: Normal to radial line
+        \coordinate (C1) at ({3.0*cos(22)}, {3.0*sin(22)});
+        \draw[fill=SteelBlue3!45, draw=SteelBlue4, thick, rotate around={-20:(C1)}] 
+            (C1) ellipse (0.35 and 0.75);
+        \node[SteelBlue4, font=\small\bfseries, left=4pt] at (C1) {$\Delta\Omega$};
+
+        % Vectors at Surface 1
+        \draw[->, line width=1.1pt, ForestGreen] (C1) -- ++(22:1.35) node[below right=-1pt, font=\small] {$\vb*{E}_1$};
+        \draw[->, line width=1.1pt, black] (C1) -- ++(22:0.95) node[above left=-1pt, font=\small] {$\Delta\vb*{A}_1$};
+
+        % Surface 2: Tilted
+        \coordinate (C2) at ({5.8*cos(22)}, {5.8*sin(22)});
+        \draw[fill=IndianRed2!45, draw=IndianRed4, thick, rotate around={20:(C2)}] 
+            (C2) ellipse (0.55 and 1.35);
+
+        % Radial direction from Surface 2
+        \draw[->, line width=1.1pt, ForestGreen] (C2) -- ++(22:1.45) node[below right=-1pt, font=\small] {$\vb*{E}_2$};
+        % Surface normal
+        \draw[->, line width=1.1pt, black] (C2) -- ++(62:1.35) node[above, font=\small] {$\Delta\vb*{A}_2$};
+        
+        % Angle arc theta
+        \draw[thin] ($(C2)+(22:0.65)$) arc (22:62:0.65) node[midway, above right=-1pt, font=\footnotesize] {$\theta$};
+    \end{tikzpicture}
+    \caption{Geometric configuration for the solid angle flux invariance through two arbitrary differential surfaces.}
+    \label{fig:gauss_formal}
+\end{figure}
+
+Let $\Delta A_1$ be a surface element strictly normal to the radial vector $\hat{\vb*{r}}$ at distance $r_1$. The solid angle subtended by $\Delta A_1$ is defined as:
+\begin{equation}
+    \Delta\Omega \equiv \frac{\Delta A_1}{r_1^2}.
+\end{equation}
+Now consider a second surface element $\Delta A_2$ at distance $r_2$, whose outward normal vector $\Delta \vb*{A}_2$ forms an angle $\theta$ with respect to the radial direction $\hat{\vb*{r}}$. The projected area normal to the rays is $\Delta A_2 \cos\theta$. Hence:
+\begin{equation}
+    \Delta\Omega = \frac{\Delta\vb*{A}_2 \cdot \hat{\vb*{r}}}{r_2^2} = \frac{\Delta A_2 \cos\theta}{r_2^2}.
+\end{equation}
+Equating the two solid angle expressions yields:
+\begin{equation}
+    \Delta A_2 \cos\theta = \Delta A_1 \left(\frac{r_2^2}{r_1^2}\right).
+    \label{eq:area_ratio}
+\end{equation}
+
+By Coulomb's law, the electric field strength at distance $r_i$ from $Q$ is:
+\begin{equation}
+    E_i = \frac{1}{4\pi\epsilon_0}\frac{Q}{r_i^2} \implies \frac{E_2}{E_1} = \frac{r_1^2}{r_2^2} \iff E_2 = E_1\left(\frac{r_1^2}{r_2^2}\right).
+    \label{eq:field_ratio}
+\end{equation}
+The electric flux through each respective area element is given by:
+\begin{align}
+    \Delta\Phi_1 &= \vb*{E}_1 \cdot \Delta\vb*{A}_1 = E_1 \Delta A_1, \\
+    \Delta\Phi_2 &= \vb*{E}_2 \cdot \Delta\vb*{A}_2 = E_2 \Delta A_2 \cos\theta.
+\end{align}
+Substituting equations \eqref{eq:area_ratio} and \eqref{eq:field_ratio} into the expression for $\Delta\Phi_2$:
+\begin{equation}
+    \Delta\Phi_2 = \left( E_1 \frac{r_1^2}{r_2^2} \right) \left( \Delta A_1 \frac{r_2^2}{r_1^2} \right) = E_1 \Delta A_1 = \Delta\Phi_1.
+\end{equation}
+
+\begin{theorem}{Flux Invariance Over Equal Solid Angles}{flux_invariance}
+The electric flux produced by a point source through an arbitrary surface patch subtending a fixed solid angle $\Delta\Omega$ is strictly independent of distance, shape, or tilt:
+\begin{equation}
+    \Delta\Phi = \frac{Q}{4\pi\epsilon_0}\Delta\Omega.
+\end{equation}
+Integrating over any closed surface enclosing $Q$ gives $\oint \dd{\Omega} = 4\pi$, recovering Gauss's law $\Phi_E = Q/\epsilon_0$.
+\end{theorem}
+
+% -------------------------------------------------------------------------
+\subsection{Systematic Recipe for Applying Gauss's Law}
+
+Gauss's law is analytically practical when the symmetry of the source restricts the functional form of $\vb*{E}(\vb*{r})$:
+\begin{enumerate}\itemsep2pt
+    \item \textbf{Identify symmetry:} Cylindrical, planar, or spherical symmetry.
+    \item \textbf{Construct Gaussian surface $\mathcal{S}$:} Choose $\mathcal{S}$ such that $|\vb*{E}|$ is constant across boundary sections and parallel to $\dd\vb*{A}$, while $\vb*{E} \cdot \dd\vb*{A} = 0$ over the remaining portions.
+    \item \textbf{Region-wise partitioning:} Partition space into regions dictated by discontinuities in the charge density $\rho(\vb*{r})$ and compute $Q_{\text{enc}} = \int_{\mathcal{V}} \rho \dd{V}$.
+    \item \textbf{Compute flux:} Evaluate $\Phi_E = \oint_{\mathcal{S}} \vb*{E} \cdot \dd{\vb*{A}}$.
+    \item \textbf{Equate and extract $\vb*{E}$:} Solve $\Phi_E = Q_{\text{enc}}/\epsilon_0$.
+\end{enumerate}
+
+% -------------------------------------------------------------------------
+\begin{example}[Infinite Charged Plane]
+Consider an infinite planar sheet lying in the $xy$-plane with uniform surface charge density $\sigma$.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, scale=1.0]
+    % Infinite sheet
+    \fill[gray!20, draw=gray!70, thick] (-3.5,-0.7) -- (1.5,-0.7) -- (3.5,0.7) -- (-1.5,0.7) -- cycle;
+    \node[black!80, font=\large] at (-2.6,-0.35) {$\sigma$};
+
+    % Cylinder behind the plane
+    \draw[dashed, line width=0.8pt] (-0.85,-2.0) -- (-0.85,0);
+    \draw[dashed, line width=0.8pt] (0.85,-2.0) -- (0.85,0);
+    \draw[dashed, line width=0.8pt] (0,-2.0) ellipse (0.85 and 0.35);
+    \draw[dashed, line width=0.8pt] (0,0) ellipse (0.85 and 0.35);
+
+    % Cylinder in front of the plane
+    \draw[line width=0.9pt] (-0.85,0) -- (-0.85,2.0);
+    \draw[line width=0.9pt] (0.85,0) -- (0.85,2.0);
+    \draw[line width=0.9pt] (0,2.0) ellipse (0.85 and 0.35);
+
+    % Axes
+    \draw[->, thick, RedOrange] (0,-2.6) -- (0,2.8) node[above] {$z$};
+    \draw[->, thin, black!60] (0,0) -- (3.2,0) node[right] {$y$};
+    \draw[->, thin, black!60] (0,0) -- (-1.2,-1.2) node[below left] {$x$};
+
+    % Flux and fields
+    \draw[->, very thick, ForestGreen] (0,2.0) -- (0,3.1) node[right] {$\vb*{E}_1$};
+    \draw[->, very thick, ForestGreen] (0,-2.0) -- (0,-3.1) node[right] {$\vb*{E}_2$};
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}\itemsep2pt
+    \item \textbf{Symmetry:} Planar symmetry implies $\vb*{E} = E(z)\,\hat{\vb*{z}}$ with $E(-z) = -E(z)$.
+    \item \textbf{Pillbox surface:} A right cylinder of base area $A$ extending from $-z$ to $+z$.
+    \item \textbf{Charge enclosed:} $Q_{\text{enc}} = \sigma A$.
+    \item \textbf{Flux evaluation:}
+    \begin{equation}
+        \Phi_E = \int_{\text{top}} \vb*{E} \cdot \dd{\vb*{A}} + \int_{\text{bottom}} \vb*{E} \cdot \dd{\vb*{A}} + \int_{\text{side}} \vb*{E} \cdot \dd{\vb*{A}} = EA + EA + 0 = 2EA.
+    \end{equation}
+    \item \textbf{Equating:}
+    \begin{equation}
+        2EA = \frac{\sigma A}{\epsilon_0} \implies \vb*{E}(z) = \operatorname{sgn}(z)\frac{\sigma}{2\epsilon_0}\hat{\vb*{z}} = 
+        \begin{cases}
+            +\dfrac{\sigma}{2\epsilon_0}\hat{\vb*{z}}, & z > 0, \\[0.7em]
+            -\dfrac{\sigma}{2\epsilon_0}\hat{\vb*{z}}, & z < 0.
+        \end{cases}
+    \end{equation}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, scale=0.85]
+    \draw[->, thick] (-3.5,0) -- (3.5,0) node[right] {$z$};
+    \draw[->, thick] (0,-1.8) -- (0,1.8) node[above] {$E_z$};
+    \draw[very thick, ForestGreen] (-3.0,-1.1) -- (0,-1.1);
+    \draw[very thick, ForestGreen] (0,1.1) -- (3.0,1.1);
+    \draw[dashed, black!50] (-0.1,1.1) -- (0.1,1.1) node[left=6pt] {$\frac{\sigma}{2\epsilon_0}$};
+    \draw[dashed, black!50] (-0.1,-1.1) -- (0.1,-1.1) node[right=6pt] {$-\frac{\sigma}{2\epsilon_0}$};
+    \draw[fill=white, draw=ForestGreen, thick] (0,1.1) circle (2pt);
+    \draw[fill=white, draw=ForestGreen, thick] (0,-1.1) circle (2pt);
+\end{tikzpicture}
+\end{center}
+The electric field exhibits a jump discontinuity across the charged boundary: $\Delta E_z = \frac{\sigma}{\epsilon_0}$.
+\end{example}
+
+% -------------------------------------------------------------------------
+\begin{example}[Superposition: Parallel Plate Capacitor]
+Consider two infinite parallel planes positioned along the $x$-axis carrying uniform surface charges $+\sigma$ and $-\sigma$.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    % Plane 1 (+sigma)
+    \draw[thick, fill=gray!15] (0,0) -- (1,1.5) -- (1,3.8) -- (0,2.3) -- cycle;
+    \node[below] at (0.5,0) {$+\sigma$};
+
+    % Plane 2 (-sigma)
+    \draw[thick, fill=gray!15] (3,0) -- (4,1.5) -- (4,3.8) -- (3,2.3) -- cycle;
+    \node[below] at (3.5,0) {$-\sigma$};
+
+    % Region indicators
+    \node at (-1.5, 3.2) {\textbf{(i)}};
+    \node at (2.0, 3.2) {\textbf{(ii)}};
+    \node at (5.5, 3.2) {\textbf{(iii)}};
+
+    % Field from +sigma (Red/Orange)
+    \draw[->, thick, RedOrange] (-0.3, 2.5) -- (-1.5, 2.5) node[midway, above] {$\vb*{E}_+$};
+    \draw[->, thick, RedOrange] (1.3, 2.5) -- (2.7, 2.5) node[midway, above] {$\vb*{E}_+$};
+    \draw[->, thick, RedOrange] (4.3, 2.5) -- (5.5, 2.5) node[midway, above] {$\vb*{E}_+$};
+
+    % Field from -sigma (ForestGreen)
+    \draw[->, thick, ForestGreen] (-1.5, 1.0) -- (-0.3, 1.0) node[midway, below] {$\vb*{E}_-$};
+    \draw[->, thick, ForestGreen] (1.3, 1.0) -- (2.7, 1.0) node[midway, below] {$\vb*{E}_-$};
+    \draw[->, thick, ForestGreen] (5.5, 1.0) -- (4.3, 1.0) node[midway, below] {$\vb*{E}_-$};
+\end{tikzpicture}
+\end{center}
+
+Applying linear superposition of fields:
+\begin{align}
+    \text{Region (i)} \quad (x < 0): & \quad \vb*{E} = \vb*{E}_+ + \vb*{E}_- = -\frac{\sigma}{2\epsilon_0}\hat{\vb*{x}} + \frac{\sigma}{2\epsilon_0}\hat{\vb*{x}} = \vb*{0}, \\
+    \text{Region (ii)} \quad (0 < x < d): & \quad \vb*{E} = \vb*{E}_+ + \vb*{E}_- = +\frac{\sigma}{2\epsilon_0}\hat{\vb*{x}} + \frac{\sigma}{2\epsilon_0}\hat{\vb*{x}} = \frac{\sigma}{\epsilon_0}\hat{\vb*{x}}, \\
+    \text{Region (iii)} \quad (x > d): & \quad \vb*{E} = \vb*{E}_+ + \vb*{E}_- = +\frac{\sigma}{2\epsilon_0}\hat{\vb*{x}} - \frac{\sigma}{2\epsilon_0}\hat{\vb*{x}} = \vb*{0}.
+\end{align}
+\end{example}
+
+% =========================================================================
+\subsection{Differential Formulation of Gauss's Law}
+
+\begin{theorem}{Divergence Theorem (Ostrogradsky-Gauss)}{divergence_theorem}
+Let $\mathcal{V} \subset \R^3$ be a compact volume bounded by a closed, piecewise smooth orientable boundary surface $\mathcal{S} = \partial\mathcal{V}$, endowed with outward unit normal $\hat{\vb*{n}}$. For any continuously differentiable vector field $\vb*{F}$:
+\begin{equation}
+    \oint_{\partial\mathcal{V}} \vb*{F} \cdot \dd{\vb*{A}} = \int_{\mathcal{V}} (\div{\vb*{F}}) \dd{V}.
+\end{equation}
+\end{theorem}
+
+\begin{remark}[Fluid Flow Analogy]
+Divergence quantifies the volumetric source density at a point. If $\vb*{F}$ describes the velocity field of an incompressible fluid:
+\begin{equation}
+    \sum (\text{sources within volume}) = \oint_{\mathcal{S}} (\text{net volumetric flux through boundary}).
+\end{equation}
+\end{remark}
+
+\begin{proofbox}[Derivation of Maxwell's First Equation]
+Gauss's law in integral form equates the flux over $\partial\mathcal{V}$ to the total charge:
+\begin{equation}
+    \oint_{\partial\mathcal{V}} \vb*{E} \cdot \dd{\vb*{A}} = \frac{Q_{\text{enc}}}{\epsilon_0} = \frac{1}{\epsilon_0}\int_{\mathcal{V}} \rho(\vb*{r}) \dd{V}.
+\end{equation}
+Transforming the left-hand boundary integral into a volume integral:
+\begin{equation}
+    \int_{\mathcal{V}} (\div{\vb*{E}}) \dd{V} = \int_{\mathcal{V}} \frac{\rho(\vb*{r})}{\epsilon_0} \dd{V} \iff \int_{\mathcal{V}} \left( \div{\vb*{E}} - \frac{\rho}{\epsilon_0} \right) \dd{V} = 0.
+\end{equation}
+Because this relation must hold for \emph{any} arbitrary sub-volume $\mathcal{V} \subset \R^3$, the integrand must vanish identically:
+\begin{equation}
+    \div{\vb*{E}} = \frac{\rho}{\epsilon_0}.
+\end{equation}
+\end{proofbox}
+
+% =========================================================================
+\subsection{Electric Potential}
+
+\subsubsection{Definition and Properties}
+
+Because the electrostatic force is conservative ($\curl{\vb*{E}} = \vb*{0}$ in electrostatics), the mechanical work required to displace a test charge $q_0$ between two points $P_1 \to P_2$ along path $\mathcal{C}$ is independent of the trajectory:
+\begin{equation}
+    W_{1 \to 2} = \int_{P_1}^{P_2} \vb*{F}_{\text{ext}} \cdot \dd{\vb*{s}} = - q_0 \int_{P_1}^{P_2} \vb*{E} \cdot \dd{\vb*{s}}.
+\end{equation}
+
+\begin{definition}{Electric Potential Difference}{potential_diff}
+The potential difference $\Delta\varphi = \varphi(P_2) - \varphi(P_1)$ is the external work per unit charge required to transport a test charge from $P_1$ to $P_2$:
+\begin{equation}
+    \Delta\varphi \equiv \varphi(P_2) - \varphi(P_1) = -\int_{P_1}^{P_2} \vb*{E} \cdot \dd{\vb*{s}}.
+\end{equation}
+The SI unit is the \textbf{Volt}: $[1\text{ V}] = [1\text{ J}\cdot\text{C}^{-1}]$.
+\end{definition}
+
+Setting the reference point at spatial infinity ($\lim_{|\vb*{r}| \to \infty} \varphi(\vb*{r}) = 0$) for localized charge configurations defines the absolute electric potential:
+\begin{equation}
+    \varphi(\vb*{r}) = -\int_{\infty}^{\vb*{r}} \vb*{E} \cdot \dd{\vb*{s}}.
+\end{equation}
+The potential energy $U$ of a localized point charge $q$ is related to $\varphi$ by $U = q\varphi$.
+
+% -------------------------------------------------------------------------
+\subsubsection{Potentials of Continuous Charge Configurations}
+
+By linearity, $\varphi$ satisfies the scalar principle of superposition:
+\begin{equation}
+    \varphi(\vb*{r}) = \frac{1}{4\pi\epsilon_0} \sum_{i=1}^N \frac{q_i}{|\vb*{r} - \vb*{r}_i|}.
+\end{equation}
+
+\begin{table}[htbp]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|c|l|}
+    \hline
+    \textbf{Distribution Type} & \textbf{Differential Source Element} $\dd{q}$ & \textbf{Scalar Potential} $\varphi(\vb*{r})$ \\
+    \hline
+    \textbf{Point Charge} & $q$ & $\varphi(\vb*{r}) = \dfrac{1}{4\pi\epsilon_0}\dfrac{q}{r}$ \\
+    \textbf{Line Charge} & $\lambda(\vb*{r}') \dd{l}'$ & $\varphi(\vb*{r}) = \dfrac{1}{4\pi\epsilon_0} \displaystyle\int_{\mathcal{L}} \dfrac{\lambda(\vb*{r}')}{\norm{\vb*{r}-\vb*{r}'}} \dd{l}'$ \\
+    \textbf{Surface Charge} & $\sigma(\vb*{r}') \dd{A}'$ & $\varphi(\vb*{r}) = \dfrac{1}{4\pi\epsilon_0} \displaystyle\int_{\mathcal{S}} \dfrac{\sigma(\vb*{r}')}{\norm{\vb*{r}-\vb*{r}'}} \dd{A}'$ \\
+    \textbf{Volume Charge} & $\rho(\vb*{r}') \dd{V}'$ & $\varphi(\vb*{r}) = \dfrac{1}{4\pi\epsilon_0} \displaystyle\int_{\mathcal{V}} \dfrac{\rho(\vb*{r}')}{\norm{\vb*{r}-\vb*{r}'}} \dd{V}'$ \\
+    \hline
+\end{tabular}
+\caption{Continuous charge distributions and their integral potential representations.}
+\end{table}
+
+% -------------------------------------------------------------------------
+\subsubsection{Derivation of the Electric Field from the Potential}
+
+For an infinitesimal displacement $\dd{\vb*{r}} = (\dd{x}, \dd{y}, \dd{z})$, the fundamental theorem for gradients yields:
+\begin{equation}
+    \dd{\varphi} = \pdv{\varphi}{x}\dd{x} + \pdv{\varphi}{y}\dd{y} + \pdv{\varphi}{z}\dd{z} = \grad{\varphi} \cdot \dd{\vb*{r}}.
+\end{equation}
+Comparing this expansion with the integral definition over an infinitesimal segment:
+\begin{equation}
+    \dd{\varphi} = -\vb*{E} \cdot \dd{\vb*{r}} \implies (\vb*{E} + \grad{\varphi}) \cdot \dd{\vb*{r}} = 0 \quad \forall\, \dd{\vb*{r}}.
+\end{equation}
+
+\begin{proposition}{Field-Potential Differential Relationship}{field_grad}
+The electrostatic field $\vb*{E}$ is the negative gradient of the scalar potential:
+\begin{equation}
+    \vb*{E} = -\grad{\varphi}.
+\end{equation}
+\end{proposition}
+
+The negative sign indicates that $\vb*{E}$ points in the direction of steepest descent of $\varphi$, analogous to the gravitational force acting down the gradient of gravitational potential.
+
+% -------------------------------------------------------------------------
+\subsubsection{Equipotential Surfaces}
+
+\begin{definition}{Equipotential Surface}{equipotential}
+An equipotential surface $\mathcal{S}_{\varphi_0}$ is the locus of all spatial coordinates satisfying:
+\begin{equation}
+    \varphi(\vb*{r}) = \varphi_0 = \text{constant}.
+\end{equation}
+\end{definition}
+
+For any displacement $\dd{\vb*{r}}$ tangential to $\mathcal{S}_{\varphi_0}$:
+\begin{equation}
+    \dd{\varphi} = \grad{\varphi} \cdot \dd{\vb*{r}} = -\vb*{E} \cdot \dd{\vb*{r}} = 0.
+\end{equation}
+Thus, \textbf{electric field lines are everywhere perpendicular to equipotential surfaces}. Furthermore, moving an electric charge along an equipotential path requires zero external work:
+\begin{equation}
+    W = -q \int_{A}^{B} \vb*{E} \cdot \dd{\vb*{s}} = q \left(\varphi(B) - \varphi(A)\right) = 0.
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, scale=1.0]
+    % Point Charge Equipotentials
+    \draw[SteelBlue4, thick] (0,0) circle (0.7);
+    \draw[SteelBlue4, thick] (0,0) circle (1.3);
+    \draw[SteelBlue4, thick] (0,0) circle (2.0);
+    \draw[fill=Goldenrod, draw=black] (0,0) circle (4pt) node[below=6pt] {$+Q$};
+
+    % Radial Field Lines
+    \foreach \ang in {0, 45, 90, 135, 180, 225, 270, 315} {
+        \draw[->, ForestGreen, thick] ({\ang}:0.2) -- ({\ang}:2.5);
+    }
+    \node[ForestGreen, font=\small] at (2.4,1.8) {$\vb*{E}$};
+    \node[SteelBlue4, font=\small] at (1.6,-1.6) {$\varphi = \text{const}$};
+\end{tikzpicture}
+\end{center}
+
+% =========================================================================
+\subsection{Worked Exercises}
+
+\begin{example}[Uniformly Charged Ring on the Axis of Symmetry]
+A thin circular ring of radius $R$ carries a uniform linear charge density $\lambda$, yielding total charge $Q = 2\pi R \lambda$. We evaluate $\varphi(z)$ and $\vb*{E}(z)$ along the $z$-axis.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, scale=1.1]
+    % Ring in xy plane
+    \draw[line width=1.4pt, SteelBlue4] (0,0) ellipse (2.2 and 0.85);
+
+    % Axes
+    \draw[->, thick] (0,0) -- (0,3.6) node[above] {$z$};
+    \draw[->, thin, black!60] (0,0) -- (3.2,0) node[right] {$y$};
+    \draw[->, thin, black!60] (0,0) -- (-1.5,-1.3) node[below left] {$x$};
+
+    % Observation point P
+    \coordinate (P) at (0, 2.7);
+    \filldraw (P) circle (2pt) node[right=3pt] {$P(0,0,z)$};
+
+    % Element dq
+    \coordinate (dq) at ({2.2*cos(-50)}, {0.85*sin(-50)});
+    \filldraw[IndianRed3] (dq) circle (2.5pt) node[below right] {$\dd{q} = \lambda R \dd{\theta}$};
+
+    % Distances
+    \draw[dashed, thick, black!70] (0,0) -- (dq) node[midway, above] {$R$};
+    \draw[thick, ForestGreen] (dq) -- (P) node[midway, right=2pt] {$r = \sqrt{R^2 + z^2}$};
+    \draw[thick, Orchid] (0,0) -- (P) node[midway, left] {$z$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{1. Differential potential contribution:}
+Every element $\dd{q}$ is at an equal distance $r = \sqrt{R^2 + z^2}$ from point $P$:
+\begin{equation}
+    \dd{\varphi} = \frac{1}{4\pi\epsilon_0} \frac{\dd{q}}{\sqrt{R^2+z^2}} = \frac{1}{4\pi\epsilon_0} \frac{\lambda R \dd{\theta}}{\sqrt{R^2+z^2}}.
+\end{equation}
+
+\textbf{2. Integration:}
+\begin{equation}
+    \varphi(z) = \frac{\lambda R}{4\pi\epsilon_0 \sqrt{R^2+z^2}} \int_0^{2\pi} \dd{\theta} = \frac{2\pi R \lambda}{4\pi\epsilon_0 \sqrt{R^2+z^2}} = \frac{1}{4\pi\epsilon_0} \frac{Q}{\sqrt{R^2+z^2}}.
+\end{equation}
+
+\textbf{3. Determination of $\vb*{E}$:}
+By rotational symmetry, off-axis components vanish on the $z$-axis ($E_x = E_y = 0$). Computing the directional derivative:
+\begin{equation}
+    E_z(z) = -\pdv{\varphi}{z} = -\frac{Q}{4\pi\epsilon_0} \pdv{z}\left( (R^2+z^2)^{-1/2} \right) = \frac{1}{4\pi\epsilon_0} \frac{Q z}{(R^2+z^2)^{3/2}}.
+\end{equation}
+\textbf{Asymptotic check:} For $z \gg R$, $(R^2+z^2)^{-3/2} \approx z^{-3}$, giving $E_z \approx \frac{Q}{4\pi\epsilon_0 z^2}$, which recovers Coulomb's law for a point source.
+\end{example}
+
+\begin{example}[Computing the Field from an Analytic Potential]
+Consider the scalar potential given by:
+\begin{equation}
+    \varphi(x,y,z) = A x^2 y^2 + B x y z, \quad A, B \in \R.
+\end{equation}
+Applying $\vb*{E} = -\grad{\varphi} = -\left( \pdv{\varphi}{x}\hat{\vb*{x}} + \pdv{\varphi}{y}\hat{\vb*{y}} + \pdv{\varphi}{z}\hat{\vb*{z}} \right)$:
+\begin{align}
+    E_x &= -\pdv{\varphi}{x} = -\left( 2A x y^2 + B y z \right), \\
+    E_y &= -\pdv{\varphi}{y} = -\left( 2A x^2 y + B x z \right), \\
+    E_z &= -\pdv{\varphi}{z} = -B x y.
+\end{align}
+The resulting electrostatic field is:
+\begin{equation}
+    \vb*{E}(x,y,z) = -(2A x y^2 + B y z)\,\hat{\vb*{x}} - (2A x^2 y + B x z)\,\hat{\vb*{y}} - (B x y)\,\hat{\vb*{z}}.
+\end{equation}
+\end{example}

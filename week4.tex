@@ -1,0 +1,878 @@
+\section{Week 4 - Conductors, Capacitors, and Electrostatic Energy}
+
+\subsection{Basic Properties of Conductors}
+
+\subsubsection{Classification of Materials}
+
+In electrostatics, condensed matter is classified by the mobility of its internal charge carriers under applied macroscopic electric fields:
+
+\begin{definition}{Conductor vs. Insulator}{cond_ins}
+    \begin{itemize}
+        \item \textbf{Conductor:} A material containing an abundant supply of free charge carriers that can move throughout the volume of the medium.
+        \begin{itemize}
+            \item \emph{Metals} (e.g., \(\mathrm{Au}\), \(\mathrm{Ag}\), \(\mathrm{Cu}\)): Conduction occurs via delocalized valence electrons.
+            \item \emph{Ionic solutions} (e.g., aqueous \(\mathrm{NaCl}\)): Conduction proceeds through solvated mobile ions.
+        \end{itemize}
+        \item \textbf{Insulator:} A material lacking free charge carriers, where electrons remain tightly bound to localized atomic or molecular sites.
+        \begin{itemize}
+            \item \emph{Organic materials:} Rubber, plastic.
+            \item \emph{Inorganic materials:} Quartz, glass.
+        \end{itemize}
+    \end{itemize}
+\end{definition}
+
+\begin{remark}[Demonstration 418: Are You a Conductor?]
+    A volunteer sits on an insulating chair and is brought to a high voltage. As the potential rises, the individual's hair stands up and repels apart. This demonstrates that:
+    \begin{enumerate}
+        \item The human body functions macroscopically as a volume conductor.
+        \item Excess electrostatic charge migrates exclusively to outer boundaries, where like charges repel.
+    \end{enumerate}
+\end{remark}
+
+\subsubsection{Five Fundamental Properties in Electrostatic Equilibrium}
+
+Electrostatic equilibrium is reached when all macroscopic motion of charges ceases (\(\bm{j} = \bm{0}\)). Under this condition, ideal conductors satisfy five fundamental properties:
+
+\begin{proposition}{Fundamental Properties of Conductors in Equilibrium}{fund_props}
+    Let \(\Omega \subset \R^3\) denote the volume of a conductor with boundary surface \(\partial\Omega\) and outward unit normal \(\hat{\bm{n}}\).
+    \begin{enumerate}
+        \item \textbf{The electric field inside a conductor is zero:}
+        \begin{equation}
+            \bm{E}(\gr) = \bm{0}, \quad \forall\, \gr \in \mathrm{int}(\Omega).
+        \end{equation}
+        \item \textbf{The volume net charge density inside a conductor is zero:}
+        \begin{equation}
+            \rho(\gr) = 0, \quad \forall\, \gr \in \mathrm{int}(\Omega).
+        \end{equation}
+        \item \textbf{Any net charge resides exclusively on the surface:}
+        \begin{equation}
+            Q_{\text{net}} = \oint_{\partial\Omega} \sigma(\gr) \, \dd a.
+        \end{equation}
+        \item \textbf{The electric field just outside the surface is normal to the boundary:}
+        \begin{equation}
+            \bm{E}(\gr) = \frac{\sigma(\gr)}{\epsilon_0}\,\hat{\bm{n}}, \quad \forall\, \gr \in \partial\Omega^+.
+        \end{equation}
+        \item \textbf{A conductor is an equipotential volume:}
+        \begin{equation}
+            \phi(\gr_1) = \phi(\gr_2) = \phi_0, \quad \forall\, \gr_1, \gr_2 \in \Omega.
+        \end{equation}
+    \end{enumerate}
+\end{proposition}
+
+\begin{proofbox}[Derivation of Equilibrium Properties]
+    \begin{itemize}
+        \item \textbf{Property (1):} When an external field \(\bm{E}_0\) is applied, mobile charges experience a Lorentz force, with positive charges driven along \(\bm{E}_0\) and electrons opposing it. Charges accumulate on opposite surface boundaries, producing an induced field \(\bm{E}_1\). Charge transport continues until the internal fields cancel completely:
+        \begin{equation}
+            \bm{E}_1 + \bm{E}_0 = \bm{0} \quad \text{inside } \Omega.
+        \end{equation}
+        Outside the conductor, \(\bm{E}_1\) does not generally cancel \(\bm{E}_0\).
+        
+        \item \textbf{Property (2):} Applying Gauss's law in differential form within the bulk conductor:
+        \begin{equation}
+            \div{\bm{E}} = \frac{\rho}{\epsilon_0}.
+        \end{equation}
+        Because \(\bm{E} \equiv \bm{0}\) identically, \(\div{\bm{E}} = 0\), requiring \(\rho = 0\) everywhere inside. This indicates that positive and negative microscopic charges cancel locally.
+        
+        \item \textbf{Property (3):} Applying Gauss's law in integral form over an arbitrary interior closed Gaussian surface \(S \subset \mathrm{int}(\Omega)\):
+        \begin{equation}
+            Q_{\text{enc}} = \epsilon_0 \oint_S \bm{E}\cdot\dd\bm{a} = 0.
+        \end{equation}
+        Since no net charge can reside in any arbitrary subvolume of \(\mathrm{int}(\Omega)\), all excess charge is confined to the outer boundary \(\partial\Omega\).
+        
+        \item \textbf{Property (4):} If a non-zero tangential component \(E_\parallel\) existed along the surface, mobile surface carriers would accelerate along the boundary. Charge rearrangement continues until \(E_\parallel = 0\) everywhere along \(\partial\Omega\).
+        
+        To find the normal component \(E_n = \bm{E}\cdot\hat{\bm{n}}\), construct a small cylindrical Gaussian pillbox of cross-sectional area \(A\) across \(\partial\Omega\):
+        \begin{equation}
+            \Phi_E = \Phi_{\text{top}} + \Phi_{\text{bottom}} + \Phi_{\text{lateral}}.
+        \end{equation}
+        Because \(\bm{E} = \bm{0}\) inside the conductor, \(\Phi_{\text{bottom}} = 0\). As pillbox height tends to zero, the lateral flux vanishes. The flux through the exterior cap is \(\Phi_E = E_n A\). Applying Gauss's law:
+        \begin{equation}
+            E_n A = \frac{Q_{\text{enc}}}{\epsilon_0} = \frac{\sigma A}{\epsilon_0} \implies E_n = \frac{\sigma}{\epsilon_0} \implies \bm{E} = \frac{\sigma}{\epsilon_0}\hat{\bm{n}}.
+        \end{equation}
+
+        \item \textbf{Property (5):} For any two interior or boundary points \(a\) and \(b\), the line integral across a path inside the conductor gives:
+        \begin{equation}
+            \phi(b) - \phi(a) = -\int_a^b \bm{E}\cdot\dd\bm{s} = -\int_a^b \bm{0}\cdot\dd\bm{s} = 0 \implies \phi(a) = \phi(b).
+        \end{equation}
+        Because \(\bm{E}\) is everywhere perpendicular to the boundary, no potential gradient exists along the surface.
+    \end{itemize}
+\end{proofbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+    % Conductor body
+    \draw[thick, fill=gray!15] plot [smooth cycle, tension=0.8] coordinates {(-2.5,0) (-1,1.8) (2,1.2) (3,-0.5) (1,-1.8) (-1.5,-1.2)};
+    \node at (0,0) {\large \textbf{Conductor}};
+    \node[below=3pt] at (0,0) {\(\bm{E} = \bm{0}, \; \rho = 0, \; \phi = \text{const}\)};
+    
+    % Surface normal vectors E
+    \foreach \ang in {20, 60, 100, 140, 180, 220, 260, 300, 340} {
+        \draw[thick, ->, ThmColor] ({2.2*cos(\ang)}, {1.4*sin(\ang)}) -- ++({0.75*cos(\ang)}, {0.75*sin(\ang)});
+    }
+    \node[ThmColor, above right] at (2.2, 1.2) {\(\bm{E} = \frac{\sigma}{\epsilon_0}\hat{\bm{n}}\)};
+
+    % Gaussian Pillbox Zoom
+    \begin{scope}[shift={(5.5, 0)}]
+        \draw[thick, fill=gray!15] (-2,-2) rectangle (0,2);
+        \node at (-1, 0) {Conductor};
+        \node at (-1, -0.5) {\(\bm{E} = \bm{0}\)};
+        \draw[thick] (0,-2) -- (0,2) node[above] {\(\partial\Omega\)};
+        \node at (1.2, 1.5) {Vacuum};
+        
+        % Pillbox cylinder
+        \draw[thick, fill=PropColor!20, fill opacity=0.7] (-0.8, -0.6) rectangle (0.8, 0.6);
+        \draw[thick, ->, PropColor] (0.8, 0) -- (1.8, 0) node[right] {\(\bm{E} = E_n \hat{\bm{n}}\)};
+        \draw[thick, ->] (0.8, 0.3) -- (1.3, 0.3) node[above, font=\scriptsize] {\(\dd\bm{a}\)};
+        
+        % Surface charges
+        \foreach \y in {-0.4, -0.2, 0, 0.2, 0.4} {
+            \node[font=\footnotesize, text=red] at (0.1, \y) {\(+\)};
+        }
+        \node[below, font=\scriptsize] at (0, -0.7) {\(\dd Q = \sigma A\)};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsubsection{Cavities, Electrostatic Shielding, and Induced Charges}
+
+When internal cavities are present, conductors exhibit screening properties that isolate internal volumes from external fields.
+
+\begin{theorem}{Electrostatic Shielding (Faraday Cage)}{shielding}
+    In an empty hollow region \(\mathcal{V}_{\text{cav}}\) enclosed by a conductor (\(\rho \equiv 0\) in \(\mathcal{V}_{\text{cav}}\)):
+    \begin{equation}
+        \phi(\gr) = \phi_0 = \text{const} \quad \text{and} \quad \bm{E}(\gr) = \bm{0}, \quad \forall\, \gr \in \mathcal{V}_{\text{cav}},
+    \end{equation}
+    irrespective of any external electrostatic field or charge distribution on the outer boundary.
+\end{theorem}
+
+\begin{proofbox}[Shielding via Laplace's Equation]
+    Inside the charge-free cavity, the electrostatic potential satisfies Laplace's equation:
+    \begin{equation}
+        \nabla^2 \phi = 0 \quad \text{in } \mathcal{V}_{\text{cav}}.
+    \end{equation}
+    The cavity boundary is the inner conducting wall \(S_{\text{int}}\), which forms an equipotential surface at \(\phi = \phi_0\). A trial solution satisfying this boundary condition is \(\phi(\gr) = \phi_0\) everywhere inside \(\mathcal{V}_{\text{cav}}\).
+    
+    By the First Uniqueness Theorem, this constant solution is the unique mathematical solution in the cavity. Consequently:
+    \begin{equation}
+        \bm{E}(\gr) = -\grad\phi = -\grad\phi_0 = \bm{0}, \quad \forall\, \gr \in \mathcal{V}_{\text{cav}}.
+    \end{equation}
+\end{proofbox}
+
+\begin{proposition}{Induced Charges in Cavities}{induced_charges}
+    A charge \(+Q\) placed within a cavity of a conductor induces a total charge of \(-Q\) on the interior cavity wall and a charge of \(+Q\) on the outer surface of an initially neutral conductor.
+\end{proposition}
+
+\begin{proofbox}
+    Let \(S_G\) be a closed Gaussian surface contained entirely within the bulk conducting material enclosing the cavity. Since \(\bm{E} = \bm{0}\) inside the conductor:
+    \begin{equation}
+        \oint_{S_G} \bm{E}\cdot\dd\bm{a} = 0.
+    \end{equation}
+    By Gauss's law, the net enclosed charge must vanish:
+    \begin{equation}
+        Q_{\text{enc}} = +Q + q_{\text{ind}} = 0 \implies q_{\text{ind}} = -Q.
+    \end{equation}
+    For an electrically neutral conductor, global charge conservation requires:
+    \begin{equation}
+        Q_{\text{conductor}} = q_{\text{ind}} + q_{\text{outer}} = 0 \implies q_{\text{outer}} = -q_{\text{ind}} = +Q.
+    \end{equation}
+\end{proofbox}
+
+\begin{remark}[Demonstrations 414 and 525]
+    \begin{itemize}
+        \item \textbf{Demo 414 (Electrostatic Phenomena with Conductors):} Illustrates charge transfer by contact, electrostatic induction, geometric point effects, and hollow conductors (Faraday cages) using charged spheres, plates, and electrometers.
+        \item \textbf{Demo 525 (Potential Around a Conducting Sphere):} A gas-flame probe measures the potential \(\phi(r) \propto 1/r\) created by a charged sphere. When the probe is placed inside a wire-mesh Faraday cage, the measured potential drops to zero, verifying electrostatic screening.
+    \end{itemize}
+\end{remark}
+
+\subsubsection{Examples of Conducting Geometries}
+
+\begin{example}[Charge Centered vs. Off-Center in a Spherical Shell Cavity]
+    Consider a point charge \(q\) enclosed inside a cavity within a spherical conductor:
+    \begin{enumerate}
+        \item \textbf{Charge at the geometric center:} Induced surface charges \(-q\) are distributed uniformly across the cavity wall. The outer surface carries a uniform distribution \(+q\), producing a purely radial field outside:
+        \begin{equation}
+            \bm{E}(r) = \frac{1}{4\pi\epsilon_0}\frac{q}{r^2}\hat{\bm{r}}.
+        \end{equation}
+        \item \textbf{Charge off-center:} The charge distribution on the cavity wall becomes non-uniform to ensure \(\bm{E} = \bm{0}\) in the bulk. However, because the outer surface is an equipotential sphere decoupled from the cavity's interior, charges on the outer boundary redistribute uniformly. The external electric field remains purely radial:
+        \begin{equation}
+            \bm{E}(r) = \frac{1}{4\pi\epsilon_0}\frac{q}{r^2}\hat{\bm{r}}.
+        \end{equation}
+    \end{enumerate}
+\end{example}
+
+\begin{example}[Solid Conducting Sphere of Radius \(R\) Carrying Charge \(Q\)]
+    Determining the electric field everywhere:
+    \begin{itemize}
+        \item For \(r < R\): Applying Gauss's law over a concentric surface \(S_1\) inside the sphere gives \(\oint_{S_1} \bm{E}\cdot\dd\bm{A} = 0 \implies \bm{E} = \bm{0}\).
+        \item For \(r > R\): Applying Gauss's law over an exterior concentric surface \(S_2\):
+        \begin{equation}
+            \oint_{S_2} \bm{E}\cdot\dd\bm{A} = E(4\pi r^2) = \frac{Q}{\epsilon_0} \implies E(r) = \frac{Q}{4\pi\epsilon_0 r^2}.
+        \end{equation}
+    \end{itemize}
+    The field exhibits a finite step discontinuity at the boundary \(r = R\) equal to \(\Delta E = \sigma / \epsilon_0\).
+\end{example}
+
+\begin{example}[Conductor with an Empty Cavity]
+    If a solid conductor has an empty hole drilled inside it, the electric field outside the conductor remains identical to that of the solid conductor.
+\end{example}
+
+\begin{example}[Hollow Cylindrical Conductor with Multi-Surface Distribution]
+    A long hollow cylindrical conductor has an inner boundary at \(r = b\) and outer boundary at \(r = c\). An isolated inner line charge \(+2q\) lies along the axis, and the conductor carries a total charge of \(-3q\):
+    \begin{itemize}
+        \item For \(r < b\): The enclosed charge is \(+2q\).
+        \item At the inner surface \(r = b\): Since \(\bm{E} = \bm{0}\) inside the conducting wall (\(b < r < c\)), a Gaussian surface at radius \(r \in (b, c)\) must enclose zero net charge:
+        \begin{equation}
+            Q_{\text{enc}} = +2q + q_b = 0 \implies q_b = -2q.
+        \end{equation}
+        \item At the outer surface \(r = c\): The total net charge of the conductor is \(-3q\):
+        \begin{equation}
+            q_c = Q_{\text{total}} - q_b = -3q - (-2q) = -q.
+        \end{equation}
+    \end{itemize}
+\end{example}
+
+\subsubsection{Charge Distribution and Geometric Point Effects}
+
+On irregularly shaped conductors, excess charge does not distribute uniformly.
+
+\begin{example}[Teardrop-Shaped Conductor]
+    On a teardrop-shaped conductor in equilibrium, the local surface charge density is significantly higher at the sharp tip than on flatter regions:
+    \begin{equation}
+        \sigma_{\text{tip}} \gg \sigma_{\text{flat}} \implies E_{\text{tip}} \gg E_{\text{flat}}.
+    \end{equation}
+    Even though \(\sigma\) varies locally, the entire surface remains an equipotential.
+\end{example}
+
+\begin{example}[Two Connected Spheres Model]
+    Two distant conducting spheres of radii \(r_1\) and \(r_2\) (\(r_1 \gg r_2\)) are joined by a long, thin conducting wire. Charge transfers until an equipotential is established (\(V_1 = V_2\)):
+    \begin{equation}
+        \frac{1}{4\pi\epsilon_0}\frac{q_1}{r_1} = \frac{1}{4\pi\epsilon_0}\frac{q_2}{r_2} \implies \frac{q_1}{r_1} = \frac{q_2}{r_2}.
+    \end{equation}
+    Assuming the spheres are far enough apart that their charges remain roughly uniform:
+    \begin{equation}
+        E_1 = \frac{\sigma_1}{\epsilon_0} = \frac{q_1}{4\pi\epsilon_0 r_1^2}, \quad E_2 = \frac{\sigma_2}{\epsilon_0} = \frac{q_2}{4\pi\epsilon_0 r_2^2}.
+    \end{equation}
+    Taking the ratio of the surface fields and charge densities:
+    \begin{equation}
+        \frac{E_1}{E_2} = \frac{\sigma_1}{\sigma_2} = \left(\frac{q_1}{q_2}\right)\left(\frac{r_2}{r_1}\right)^2 = \left(\frac{r_1}{r_2}\right)\left(\frac{r_2}{r_1}\right)^2 = \frac{r_2}{r_1}.
+    \end{equation}
+    This establishes the inverse scaling relation with the local radius of curvature:
+    \begin{equation}
+        \sigma \propto \frac{1}{r}, \quad E \propto \frac{1}{r}.
+    \end{equation}
+    Regions with smaller radii of curvature support higher surface charge densities and stronger electric fields.
+\end{example}
+
+\begin{remark}[Demonstration 484: Point Effect and Lightning Rods]
+    Near a sharp conducting tip, the intensified local electric field can ionize surrounding air molecules. The resulting stream of accelerated ions creates an ``ionic wind'' strong enough to deflect or blow out a candle flame. This point effect governs the operation of lightning rods.
+\end{remark}
+
+\subsection{Uniqueness Theorems for Electrostatic Systems}
+
+\subsubsection{First and Second Uniqueness Theorems}
+
+\begin{theorem}{First Uniqueness Theorem}{first_uniq}
+    The solution to Poisson's equation \(\nabla^2 \phi = -\rho / \epsilon_0\) in a volume \(V\) is uniquely determined if the potential \(\phi\) is specified on the complete boundary \(\partial V\) (Dirichlet boundary conditions).
+\end{theorem}
+
+In many practical setups with conductors, the potential on each conductor is not known a priori; rather, the total charge \(Q_i\) deposited on each body is known.
+
+\begin{theorem}{Second Uniqueness Theorem for Conductors}{second_uniq}
+    In a volume \(V\) bounded by conducting surfaces and containing a specified charge density \(\rho\), the electric field \(\bm{E} = -\grad\phi\) is uniquely determined if the total charge \(Q_i\) on each conductor is given.
+\end{theorem}
+
+\begin{proofbox}[Proof of the Second Uniqueness Theorem]
+    Suppose there exist two distinct fields \(\bm{E}_1 = -\grad\phi_1\) and \(\bm{E}_2 = -\grad\phi_2\) satisfying \(\div{\bm{E}_1} = \rho / \epsilon_0\) and \(\div{\bm{E}_2} = \rho / \epsilon_0\) within \(V\), along with:
+    \begin{equation}
+        \oint_{\partial\Omega_i} \bm{E}_1 \cdot \dd\bm{a} = \frac{Q_i}{\epsilon_0}, \quad \oint_{\partial\Omega_i} \bm{E}_2 \cdot \dd\bm{a} = \frac{Q_i}{\epsilon_0}
+    \end{equation}
+    on each conducting boundary \(\partial\Omega_i\). Define the difference potential \(\phi_3 = \phi_1 - \phi_2\) and difference field \(\bm{E}_3 = \bm{E}_1 - \bm{E}_2 = -\grad\phi_3\). Within \(V\):
+    \begin{equation}
+        \div{\bm{E}_3} = 0 \implies \nabla^2 \phi_3 = 0.
+    \end{equation}
+    Using the identity \(\div(\phi_3 \bm{E}_3) = \phi_3 \div{\bm{E}_3} + \bm{E}_3 \cdot \grad\phi_3 = -E_3^2\), integrate over \(V\):
+    \begin{equation}
+        \int_V \div(\phi_3 \bm{E}_3) \, \dd\tau = \oint_{\partial V} \phi_3 \bm{E}_3 \cdot \dd\bm{a} = -\int_V E_3^2 \, \dd\tau.
+    \end{equation}
+    On each conductor surface \(\partial\Omega_i\), \(\phi_3\) is a constant value \(\phi_{3, i}\):
+    \begin{equation}
+        \oint_{\partial\Omega_i} \phi_3 \bm{E}_3 \cdot \dd\bm{a} = \phi_{3, i} \oint_{\partial\Omega_i} (\bm{E}_1 - \bm{E}_2) \cdot \dd\bm{a} = \phi_{3, i} \left( \frac{Q_i}{\epsilon_0} - \frac{Q_i}{\epsilon_0} \right) = 0.
+    \end{equation}
+    At infinity, the potential satisfies regular decay conditions, so the boundary integral over the entire surface vanishes:
+    \begin{equation}
+        \int_V E_3^2 \, \dd\tau = 0 \implies E_3 = 0 \implies \bm{E}_1 = \bm{E}_2 \quad \text{everywhere in } V.
+    \end{equation}
+\end{proofbox}
+
+\subsubsection{Implications for Charge Redistribution}
+
+Consider four conductors carrying initial charges \(+Q\), \(-Q\), \(-Q\), and \(+Q\). If these conductors are connected by conducting wires, they merge into a single conducting body. In electrostatic equilibrium, charges redistribute across the combined outer boundary. The Second Uniqueness Theorem guarantees that this final charge configuration is unique for the given geometry and total net charge.
+
+\subsection{The Method of Images}
+
+The method of images replaces boundary conductors with fictitious image charges placed outside the region of interest, configured to reproduce the required equipotential boundary conditions. By the First Uniqueness Theorem, any potential satisfying Poisson's equation and matching the boundary conditions is the unique physical potential.
+
+\subsubsection{Point Charge Above an Infinite Grounded Conducting Plane}
+
+Consider a point charge \(+q\) located at position \((0, 0, d)\) on the \(z\)-axis above a grounded conducting plane situated at \(z = 0\).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+    % Grounded Plane at z=0
+    \draw[thick, fill=gray!20] (-3.5, 0) -- (3.5, 0);
+    \foreach \x in {-3.2, -2.8, ..., 3.2} {
+        \draw (\x, 0) -- (\x-0.2, -0.3);
+    }
+    \node[right] at (3.5, 0) {\(z = 0 \; (\phi = 0)\)};
+    
+    % Real Charge +q
+    \fill[red] (0, 2) circle (3pt) node[right=4pt] {\(+q \; (0,0,d)\)};
+    \draw[dashed] (0, 0) -- (0, 2);
+    \node[left] at (0, 1) {\(d\)};
+    
+    % Field Lines (upper half)
+    \draw[thick, ->, ThmColor] (0,2) to[out=-30, in=120] (1.5, 0);
+    \draw[thick, ->, ThmColor] (0,2) to[out=-60, in=105] (0.8, 0);
+    \draw[thick, ->, ThmColor] (0,2) to[out=-150, in=60] (-1.5, 0);
+    \draw[thick, ->, ThmColor] (0,2) to[out=-120, in=75] (-0.8, 0);
+    \draw[thick, ->, ThmColor] (0,2) -- (0, 0.05);
+
+    % Induced charges
+    \foreach \x in {-2.5, -1.8, -1.1, -0.5, 0, 0.5, 1.1, 1.8, 2.5} {
+        \node[blue, font=\tiny] at (\x, 0.15) {\(-\)};
+    }
+
+    % Equivalent image system
+    \begin{scope}[shift={(6.5, 0)}]
+        \draw[thick, dashed] (-3.5, 0) -- (3.5, 0) node[right] {\(z = 0 \; (\phi = 0)\)};
+        \fill[red] (0, 2) circle (3pt) node[right=4pt] {\(+q \; (0,0,d)\)};
+        \fill[blue] (0, -2) circle (3pt) node[right=4pt] {\(-q \; (0,0,-d)\)};
+        \draw[dashed] (0, -2) -- (0, 2);
+        \node[left] at (0, 1) {\(d\)};
+        \node[left] at (0, -1) {\(d\)};
+        
+        \draw[thick, ->, ThmColor] (0,2) to[out=-30, in=30] (0,-2);
+        \draw[thick, ->, ThmColor] (0,2) to[out=-150, in=150] (0,-2);
+        \draw[thick, ->, ThmColor] (0,2) -- (0, -1.9);
+        \node[above, font=\small] at (0, 2.3) {\textbf{Equivalent Image System}};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+The potential in the upper half-space \(z > 0\) must satisfy:
+\begin{align}
+    \phi(x, y, 0) &= 0 \quad \text{(grounded conductor)}, \\
+    \phi(x, y, z) &\to 0 \quad \text{as } x^2 + y^2 + z^2 \to \infty.
+\end{align}
+We place an image charge \(q' = -q\) at the mirror coordinate \((0, 0, -d)\). The resulting potential for \(z \ge 0\) is:
+\begin{equation}
+    \phi(x, y, z) = \frac{1}{4\pi\epsilon_0} \left[ \frac{q}{\sqrt{x^2 + y^2 + (z - d)^2}} - \frac{q}{\sqrt{x^2 + y^2 + (z + d)^2}} \right].
+\end{equation}
+Evaluating this at \(z = 0\) yields \(\phi(x, y, 0) = 0\) identically. Because the image charge is located at \((0, 0, -d)\) outside the domain of interest \(z > 0\), Poisson's equation \(\nabla^2 \phi = -\frac{q}{\epsilon_0}\delta(x)\delta(y)\delta(z-d)\) holds throughout \(z > 0\), ensuring this is the unique electrostatic solution.
+
+\subsubsection{Induced Surface Charge Distribution}
+
+The surface charge density on the grounded conductor is determined from the normal derivative of the potential:
+\begin{equation}
+    \sigma(x, y) = -\epsilon_0 \left. \pdv{\phi}{z} \right|_{z=0}.
+\end{equation}
+Differentiating the potential:
+\begin{equation}
+    \pdv{\phi}{z} = \frac{1}{4\pi\epsilon_0} \left[ -\frac{q(z - d)}{\left(x^2 + y^2 + (z - d)^2\right)^{3/2}} + \frac{q(z + d)}{\left(x^2 + y^2 + (z + d)^2\right)^{3/2}} \right].
+\end{equation}
+Evaluating this derivative at \(z = 0\) gives:
+\begin{equation}
+    \sigma(x, y) = -\frac{qd}{2\pi \left(x^2 + y^2 + d^2\right)^{3/2}}.
+\end{equation}
+In cylindrical coordinates (\(r^2 = x^2 + y^2\)):
+\begin{equation}
+    \sigma(r) = -\frac{qd}{2\pi \left(r^2 + d^2\right)^{3/2}}.
+\end{equation}
+The induced charge density is negative across the plane, reaching its maximum magnitude directly beneath the source charge at \(r = 0\).
+
+\subsubsection{Total Induced Charge Calculation}
+
+Integrating the surface charge density across the entire infinite plane:
+\begin{equation}
+    Q_{\text{ind}} = \int \sigma \, \dd A = \int_0^{2\pi} \dd\varphi \int_0^\infty -\frac{qd}{2\pi \left(r^2 + d^2\right)^{3/2}} \, r \, \dd r.
+\end{equation}
+Evaluating the radial integral:
+\begin{equation}
+    Q_{\text{ind}} = -qd \int_0^\infty \frac{r \, \dd r}{\left(r^2 + d^2\right)^{3/2}} = -qd \left[ -\frac{1}{\sqrt{r^2 + d^2}} \right]_0^\infty = -qd \left( 0 - \left(-\frac{1}{d}\right) \right) = -q.
+\end{equation}
+The total induced charge on the grounded plane is therefore exactly \(-q\).
+
+\subsubsection{Point Charge Near a Grounded Conducting Sphere}
+
+Consider a grounded conducting sphere of radius \(R\) centered at the origin, with a point charge \(q\) positioned on the polar axis at distance \(a\) (\(a > R\)).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95, >=Stealth]
+    % Conducting Sphere
+    \draw[thick, fill=gray!20] (0,0) circle (1.8cm);
+    \node at (0, -0.4) {\(\phi = 0\)};
+    \node at (0, 0.4) {Sphere (\(R\))};
+    \draw[dashed] (0,0) -- (1.27, 1.27);
+    \node[above left] at (0.6, 0.6) {\(R\)};
+    
+    % Axis
+    \draw[thick, ->] (-2.5, 0) -- (5.5, 0) node[right] {\(z\)};
+    \fill (0,0) circle (2pt) node[below left] {\(O\)};
+    
+    % Image charge q'
+    \fill[blue] (0.8, 0) circle (2.5pt) node[below=2pt] {\(q'\)};
+    \node[above=2pt] at (0.8, 0) {\(b = \frac{R^2}{a}\)};
+    
+    % Real charge q
+    \fill[red] (4.0, 0) circle (2.5pt) node[below=2pt] {\(q\)};
+    \node[above=2pt] at (4.0, 0) {\(a\)};
+    
+    % Observation Point P
+    \coordinate (P) at (2.2, 2.5);
+    \fill (P) circle (2pt) node[above right] {\(P(r, \theta)\)};
+    
+    % Vectors
+    \draw[thick, ->, PropColor] (0,0) -- (P) node[midway, left] {\(\bm{r}\)};
+    \draw[thick, ->, red] (4.0, 0) -- (P) node[midway, above right] {\(s\)};
+    \draw[thick, ->, blue] (0.8, 0) -- (P) node[midway, left] {\(s'\)};
+    
+    % Angle theta
+    \draw (0.6, 0) arc (0:48:0.6);
+    \node at (0.8, 0.3) {\(\theta\)};
+\end{tikzpicture}
+\end{center}
+
+To satisfy \(\phi = 0\) along the boundary \(r = R\), we place a single image charge \(q'\) inside the sphere along the same axis at a distance \(b\) from the center (\(b < R\)):
+\begin{equation}
+    b = \frac{R^2}{a}, \quad q' = -\frac{R}{a}q.
+\end{equation}
+The potential at an observation point outside the sphere is:
+\begin{equation}
+    \phi(r, \theta) = \frac{1}{4\pi\epsilon_0} \left( \frac{q}{s} + \frac{q'}{s'} \right),
+\end{equation}
+where \(s\) and \(s'\) denote the distances from the observation point to \(q\) and \(q'\), respectively:
+\begin{equation}
+    s = \sqrt{r^2 + a^2 - 2ra\cos\theta}, \quad s' = \sqrt{r^2 + b^2 - 2rb\cos\theta}.
+\end{equation}
+Substituting \(q'\) and \(b\) gives the potential in spherical coordinates:
+\begin{equation}
+    \phi(r, \theta) = \frac{1}{4\pi\epsilon_0} \left[ \frac{q}{\sqrt{r^2 + a^2 - 2ra\cos\theta}} - \frac{(R/a)q}{\sqrt{r^2 + (R^2/a)^2 - 2r(R^2/a)\cos\theta}} \right].
+\end{equation}
+Evaluating this at \(r = R\) verifies that \(\phi(R, \theta) = 0\) for all \(\theta\), confirming the spherical equipotential boundary condition.
+
+% =========================================================================
+% CONTINUATION: CAPACITORS AND CAPACITANCE
+% =========================================================================
+\subsection{Capacitors and Capacitance}
+
+\subsubsection{General Definition and Principle of Linearity}
+
+Consider two isolated conductors of arbitrary shape fixed in space, carrying equal and opposite net charges \(+Q\) and \(-Q\).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85, >=Stealth]
+    % Conductor 1 (+Q)
+    \draw[thick, fill=teal!20] plot [smooth cycle, tension=0.7] coordinates {(-3,1.5) (-2,2.5) (-1.5,1) (-2,-1) (-3.2,-0.5)};
+    \node at (-2.3, 1) {\large \(+Q\)};
+    \node[font=\footnotesize, red] at (-2.7, 1.8) {\(+\)};
+    \node[font=\footnotesize, red] at (-1.8, 2.1) {\(+\)};
+    \node[font=\footnotesize, red] at (-1.9, 0.2) {\(+\)};
+    \node[font=\footnotesize, red] at (-2.4, -0.6) {\(+\)};
+    \node[above] at (-2, 2.5) {\(\phi = \phi_+\)};
+
+    % Conductor 2 (-Q)
+    \draw[thick, fill=teal!20] plot [smooth cycle, tension=0.7] coordinates {(1.5,1.2) (2.5,2.2) (3.2,0.5) (2.8,-1.2) (1.8,-0.8)};
+    \node at (2.4, 0.8) {\large \(-Q\)};
+    \node[font=\footnotesize, blue] at (2.2, 1.7) {\(-\)};
+    \node[font=\footnotesize, blue] at (2.9, 0.9) {\(-\)};
+    \node[font=\footnotesize, blue] at (2.2, -0.2) {\(-\)};
+    \node[font=\footnotesize, blue] at (2.5, -0.8) {\(-\)};
+    \node[above] at (2.5, 2.2) {\(\phi = \phi_-\)};
+
+    % Potential difference arrow
+    \draw[thick, dashed, ->] (1.8, 0.2) to[out=160, in=20] (-1.6, 0.4);
+    \node[above] at (0.1, 0.8) {\(V = \phi_+ - \phi_-\)};
+\end{tikzpicture}
+\end{center}
+
+Because each conductor constitutes an equipotential volume, the potential on the positively charged body is uniform at \(\phi = \phi_+\), and on the negatively charged body it is \(\phi = \phi_-\). The potential difference (voltage) between them is defined as:
+\begin{equation}
+    V \equiv \phi_+ - \phi_- = -\int_{(- chief)}^{(+)} \bm{E} \cdot \dd\bm{s}.
+\end{equation}
+
+Although the exact surface charge distribution \(\sigma(\gr)\) on complex geometries is generally unknown, Coulomb's law and the superposition principle ensure that the electric field at every spatial location depends linearly on the charge density:
+\begin{equation}
+    \bm{E}(\gr) = \frac{1}{4\pi\epsilon_0} \int \frac{\rho(\gr')}{|\gr - \gr'|^2} \hat{\bm{\gr}}\, \dd\tau' \implies \bm{E} \propto Q.
+\end{equation}
+By the Second Uniqueness Theorem, specifying the total charge on each conductor uniquely fixes \(\bm{E}(\gr)\) throughout space. Consequently, doubling \(Q\) doubles \(\bm{E}(\gr)\) everywhere and doubles the resulting potential difference \(V\). This linear relationship defines capacitance:
+
+\begin{definition}{Capacitance}{capacitance_def}
+    The capacitance \(C\) of a two-conductor arrangement is the constant ratio of the stored magnitude of charge \(Q\) on either conductor to the electrostatic potential difference \(V\) between them:
+    \begin{equation}
+        Q = C V \iff C = \frac{Q}{V}.
+    \end{equation}
+    Capacitance is an intrinsically positive quantity that depends strictly on the geometry of the system (sizes, shapes, and mutual spatial separation of the conductors) and the permittivity of the surrounding medium.
+\end{definition}
+
+\subsubsection{Units and Capacitance of an Isolated Conductor}
+
+In the SI system, capacitance is expressed in coulombs per volt, termed the \textbf{farad} (\(\mathrm{F}\)):
+\begin{equation}
+    [C] = \frac{1\text{ Coulomb}}{1\text{ Volt}} = 1\text{ Farad (F)}.
+\end{equation}
+One farad represents an exceptionally large capacitance for compact laboratory apparatus; typical practical circuit components exhibit values in the picofarad to microfarad range (\(1\text{ pF} = 10^{-12}\text{ F}\) to \(1\ \mu\text{F} = 10^{-6}\text{ F}\)).
+
+The capacitance of an individual isolated conductor is determined by taking the reference counter-conductor (carrying \(-Q\)) as an imaginary concentric boundary at infinity, where \(\phi_\infty = 0\):
+\begin{equation}
+    C = \frac{Q}{V}, \quad V = \phi - \phi_\infty = \phi.
+\end{equation}
+
+\begin{example}[Isolated Conducting Sphere]
+    Consider an isolated conducting sphere of radius \(R\) carrying charge \(Q\). By Gauss's law over a concentric sphere of radius \(r \ge R\):
+    \begin{equation}
+        \oint \bm{E}\cdot\dd\bm{a} = E_r(4\pi r^2) = \frac{Q}{\epsilon_0} \implies E_r = \frac{Q}{4\pi\epsilon_0 r^2}.
+    \end{equation}
+    Integrating the radial electric field from infinity to the surface of the sphere:
+    \begin{equation}
+        V = \phi(R) - \phi(\infty) = -\int_\infty^R \frac{Q}{4\pi\epsilon_0 r^2}\,\dd r = \frac{Q}{4\pi\epsilon_0 R}.
+    \end{equation}
+    The self-capacitance of the isolated sphere is therefore:
+    \begin{equation}
+        C_{\text{sphere}} = \frac{Q}{V} = 4\pi\epsilon_0 R.
+    \end{equation}
+\end{example}
+
+\subsubsection{Standard Capacitor Geometries}
+
+\begin{example}[Parallel-Plate Capacitor]
+    Two parallel planar conductors of area \(A\) are held at a separation distance \(d\), where \(A \gg d^2\) so that fringe fields at the edges can be neglected. The plates carry charges \(+Q\) and \(-Q\), corresponding to a uniform surface charge density \(\sigma = Q/A\).
+    
+    Using a cylindrical Gaussian pillbox spanning the interior face of the positive plate, the field in the gap is:
+    \begin{equation}
+        E A' = \frac{\sigma A'}{\epsilon_0} \implies E = \frac{\sigma}{\epsilon_0} = \frac{Q}{\epsilon_0 A}.
+    \end{equation}
+    The potential difference between the plates is:
+    \begin{equation}
+        V = \phi_+ - \phi_- = -\int_{(- chief)}^{(+)} \bm{E}\cdot\dd\bm{s} = E d = \frac{Q d}{\epsilon_0 A}.
+    \end{equation}
+    Hence, the capacitance is:
+    \begin{equation}
+        C = \frac{Q}{V} = \frac{\epsilon_0 A}{d}.
+    \end{equation}
+    The capacitance scales linearly with the surface area \(A\) and inversely with the separation \(d\). Outside the ideal gap region, the field vanishes.
+\end{example}
+
+\begin{example}[Cylindrical Capacitor]
+    Consider a coaxial arrangement consisting of an inner solid conductor of radius \(a\) and an outer concentric thin cylindrical shell of radius \(b\), both having length \(L \gg (b - a)\). The inner cylinder carries total charge \(+Q\) and the outer shell carries \(-Q\). Let \(\lambda = Q/L\) represent the linear charge density.
+    
+    Applying Gauss's law over a concentric cylindrical surface of radius \(r \in (a, b)\) and length \(L\):
+    \begin{equation}
+        \oint \bm{E}\cdot\dd\bm{a} = E(r)(2\pi r L) = \frac{\lambda L}{\epsilon_0} \implies E(r) = \frac{\lambda}{2\pi\epsilon_0 r} = \frac{Q}{2\pi\epsilon_0 L r}.
+    \end{equation}
+    For \(r < a\), \(Q_{\text{enc}} = 0 \implies E = 0\); for \(r > b\), \(Q_{\text{enc}} = +Q - Q = 0 \implies E = 0\).
+    
+    The potential difference between the coaxial conductors is:
+    \begin{equation}
+        V = \phi_a - \phi_b = -\int_b^a E(r)\,\dd r = \frac{\lambda}{2\pi\epsilon_0} \int_a^b \frac{\dd r}{r} = \frac{\lambda}{2\pi\epsilon_0}\ln\left(\frac{b}{a}\right).
+    \end{equation}
+    The resulting capacitance is:
+    \begin{equation}
+        C = \frac{Q}{V} = \frac{\lambda L}{\frac{\lambda}{2\pi\epsilon_0}\ln\left(\frac{b}{a}\right)} = \frac{2\pi\epsilon_0 L}{\ln(b/a)}.
+    \end{equation}
+\end{example}
+
+\begin{example}[Spherical Capacitor]
+    A spherical capacitor consists of two concentric spherical conducting shells of radii \(a\) and \(b\) (\(a < b\)), carrying charges \(+Q\) and \(-Q\) respectively.
+    
+    In the intermediate region \(a < r < b\), Gauss's law gives:
+    \begin{equation}
+        E(4\pi r^2) = \frac{Q}{\epsilon_0} \implies E(r) = \frac{Q}{4\pi\epsilon_0 r^2}.
+    \end{equation}
+    The potential difference across the spherical gap is:
+    \begin{equation}
+        V = \phi_a - \phi_b = -\int_b^a E(r)\,\dd r = \frac{Q}{4\pi\epsilon_0}\int_a^b \frac{\dd r}{r^2} = \frac{Q}{4\pi\epsilon_0}\left(\frac{1}{a} - \frac{1}{b}\right) = \frac{Q}{4\pi\epsilon_0}\left(\frac{b - a}{ab}\right).
+    \end{equation}
+    The capacitance is therefore:
+    \begin{equation}
+        C = \frac{Q}{V} = 4\pi\epsilon_0 \frac{ab}{b - a}.
+    \end{equation}
+    In the asymptotic limit where the outer radius tends to infinity (\(b \to \infty\)):
+    \begin{equation}
+        C = \lim_{b\to\infty} 4\pi\epsilon_0 \frac{a}{1 - a/b} = 4\pi\epsilon_0 a,
+    \end{equation}
+    recovering the self-capacitance of an isolated sphere of radius \(a\).
+\end{example}
+
+% =========================================================================
+\subsection{Electrostatic Energy Stored in Capacitors}
+
+\subsubsection{Work Required to Charge a Capacitor}
+
+Charging a capacitor involves transferring microscopic charge increments \(\dd q\) against an opposing electrostatic potential difference.
+
+\begin{proposition}{Stored Electrostatic Energy}{stored_energy}
+    The electrostatic potential energy \(U\) stored in a capacitor of capacitance \(C\) carrying charge \(Q\) at potential difference \(V\) is given by:
+    \begin{equation}
+        U = \frac{1}{2}\frac{Q^2}{C} = \frac{1}{2}QV = \frac{1}{2}CV^2.
+    \end{equation}
+\end{proposition}
+
+\begin{proofbox}
+    Suppose that at an intermediate stage of charging, the conductor holds instantaneous charge \(q\), creating a potential difference \(V(q) = q/C\). The work \(\dd W\) required by an external agent to transfer an additional incremental charge \(\dd q\) from the negative to the positive plate is:
+    \begin{equation}
+        \dd W = V(q)\,\dd q = \frac{q}{C}\,\dd q.
+    \end{equation}
+    Integrating from an uncharged state (\(q = 0\)) to final charge (\(q = Q\)):
+    \begin{equation}
+        W = \int_0^Q \frac{q}{C}\,\dd q = \frac{1}{2}\frac{Q^2}{C}.
+    \end{equation}
+    Since this conservative work is stored as electrostatic potential energy \(U = W\), substituting \(Q = CV\) yields the equivalent formulations \(U = \frac{1}{2}QV = \frac{1}{2}CV^2\).
+\end{proofbox}
+
+\subsubsection{Energy Density of the Electrostatic Field}
+
+The potential energy can also be viewed as stored throughout space within the electric field itself.
+
+\begin{theorem}{Electric Field Energy Density}{energy_density}
+    In any electrostatic field configuration \(\bm{E}(\gr)\), the local electrostatic energy density \(u_E\) (energy per unit volume) stored in vacuum is:
+    \begin{equation}
+        u_E = \frac{1}{2}\epsilon_0 E^2.
+    \end{equation}
+    The total electrostatic energy contained within a spatial volume \(\mathcal{V}\) is:
+    \begin{equation}
+        U = \int_{\mathcal{V}} u_E\,\dd\tau = \frac{\epsilon_0}{2}\int_{\mathcal{V}} E^2\,\dd\tau.
+    \end{equation}
+\end{theorem}
+
+\begin{proofbox}[Derivation via Parallel-Plate Capacitor]
+    For an ideal parallel-plate capacitor, the total volume between the plates is \(\mathcal{V} = A d\). Expressing total energy in terms of field magnitude \(E = V/d\) and capacitance \(C = \epsilon_0 A/d\):
+    \begin{equation}
+        U = \frac{1}{2}CV^2 = \frac{1}{2}\left(\frac{\epsilon_0 A}{d}\right)(Ed)^2 = \frac{1}{2}\epsilon_0 E^2(Ad).
+    \end{equation}
+    Dividing by the enclosed dielectric volume \(\mathcal{V} = Ad\) yields the local volumetric energy density:
+    \begin{equation}
+        u_E = \frac{U}{\mathcal{V}} = \frac{1}{2}\epsilon_0 E^2.
+    \end{equation}
+\end{proofbox}
+
+\subsubsection{Alternative Derivation: Electrostatic Pressure and Surface Forces}
+
+Electrostatic energy can be derived from the mechanical work required to displace opposing charged boundaries against mutual attraction.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+    % Conducting patch plane
+    \draw[thick, fill=gray!10] (-2.5, -1) -- (1.5, -1) -- (2.5, 1) -- (-1.5, 1) -- cycle;
+    % Patch
+    \draw[thick, fill=magenta!30] (0,0) ellipse (0.8 and 0.5);
+    \node at (0, -0.1) {\footnotesize Patch};
+    % Outward normal k
+    \draw[thick, ->] (0, 0.5) -- (0, 1.8) node[right] {\(\hat{\bm{k}}\)};
+    \draw[thick, ->, red] (0, 0) -- (0, 1.1) node[left] {\(\bm{E}_{\text{patch}}\)};
+\end{tikzpicture}
+\end{center}
+
+To determine the net force acting on a surface charge element without self-interaction singularities, partition the local electric field near the surface into two components:
+\begin{equation}
+    \bm{E} = \bm{E}_{\text{patch}} + \bm{E}',
+\end{equation}
+where \(\bm{E}_{\text{patch}}\) is the field produced by an infinitesimal patch carrying charge \(\dd q = \sigma\,\dd A\), and \(\bm{E}'\) is the field produced by all other charges in the system. By Newton's third law, the patch exerts no net force on itself; the mechanical force on the patch arises solely from \(\bm{E}'\):
+\begin{equation}
+    \dd\bm{F} = \dd q\,\bm{E}' = \sigma\,\dd A\,\bm{E}'.
+\end{equation}
+
+For a planar sheet with surface charge density \(\sigma\), the patch creates a symmetric step discontinuity across its plane:
+\begin{equation}
+    \bm{E}_{\text{patch}} = \begin{cases} +\frac{\sigma}{2\epsilon_0}\hat{\bm{k}}, & z > 0 \\ -\frac{\sigma}{2\epsilon_0}\hat{\bm{k}}, & z < 0 \end{cases}.
+\end{equation}
+The total fields directly above and below the surface are:
+\begin{equation}
+    \bm{E}_{\text{above}} = \bm{E}' + \frac{\sigma}{2\epsilon_0}\hat{\bm{k}}, \quad \bm{E}_{\text{below}} = \bm{E}' - \frac{\sigma}{2\epsilon_0}\hat{\bm{k}}.
+\end{equation}
+Adding these expressions yields the non-self-interaction field \(\bm{E}'\):
+\begin{equation}
+    \bm{E}' = \frac{1}{2}\left(\bm{E}_{\text{above}} + \bm{E}_{\text{below}}\right).
+\end{equation}
+For an ideal conductor, \(\bm{E}_{\text{below}} = \bm{0}\) and \(\bm{E}_{\text{above}} = \frac{\sigma}{\epsilon_0}\hat{\bm{k}}\). Thus:
+\begin{equation}
+    \bm{E}' = \frac{\sigma}{2\epsilon_0}\hat{\bm{k}}.
+\end{equation}
+The attractive force acting on an entire plate of area \(A\) with \(\sigma = Q/A\) is:
+\begin{equation}
+    F_{\text{ext}} = Q E' = (\sigma A)\left(\frac{\sigma}{2\epsilon_0}\right) = \frac{\sigma^2 A}{2\epsilon_0} = \frac{\epsilon_0}{2}E^2 A.
+\end{equation}
+The mechanical work required by an external agent to pull the plates apart from zero separation to distance \(d\) against this force is:
+\begin{equation}
+    W_{\text{ext}} = \int_0^d F_{\text{ext}}\,\dd s = F_{\text{ext}} d = \frac{\epsilon_0}{2}E^2 A d.
+\end{equation}
+Equating this work to the electrostatic energy \(U_e = W_{\text{ext}}\) gives the energy density:
+\begin{equation}
+    u_E = \frac{W_{\text{ext}}}{A d} = \frac{1}{2}\epsilon_0 E^2.
+\end{equation}
+
+\begin{example}[Energy of a Charged Spherical Shell]
+    Find the total electrostatic energy stored by a thin conducting spherical shell of radius \(a\) carrying net charge \(Q\).
+    
+    The field configuration is \(\bm{E} = \bm{0}\) for \(r < a\) and \(\bm{E}(\gr) = \frac{Q}{4\pi\epsilon_0 r^2}\hat{\bm{r}}\) for $r > a$. The electric field energy density in the exterior vacuum is:
+    \begin{equation}
+        u_E(r) = \frac{1}{2}\epsilon_0 E^2 = \frac{1}{2}\epsilon_0 \left(\frac{Q}{4\pi\epsilon_0 r^2}\right)^2 = \frac{Q^2}{32\pi^2\epsilon_0 r^4}.
+    \end{equation}
+    Integrating over all space using spherical volume elements \(\dd\tau = 4\pi r^2\,\dd r\):
+    \begin{equation}
+        U = \int_a^\infty u_E(r)\,(4\pi r^2\,\dd r) = \frac{Q^2}{8\pi\epsilon_0} \int_a^\infty \frac{\dd r}{r^2} = \frac{Q^2}{8\pi\epsilon_0 a}.
+    \end{equation}
+    Since the surface potential is \(V = \frac{Q}{4\pi\epsilon_0 a}\), this matches \(U = \frac{1}{2}QV\).
+    
+    Alternatively, using the charging work integral:
+    \begin{equation}
+        W = \int_0^Q \phi(q)\,\dd q = \int_0^Q \left(\frac{q}{4\pi\epsilon_0 a}\right)\dd q = \frac{Q^2}{8\pi\epsilon_0 a},
+    \end{equation}
+    verifying equivalence with the field energy approach.
+\end{example}
+
+% =========================================================================
+\subsection{Capacitors in Electric Circuits}
+
+\begin{remark}[Demonstration 464: Addition of Capacitors]
+    Using precision capacitors (e.g., \(2\ \mu\mathrm{F}\) modules) and an oscilloscope, charge redistribution and equivalent capacitances are measured directly. Parallel configurations increase the total capacitance, whereas series arrangements reduce it.
+\end{remark}
+
+\subsubsection{Parallel Combinations}
+
+In a parallel network, the terminals of each capacitor are connected to the same common nodes, establishing an identical potential difference across every component:
+\begin{equation}
+    V_1 = V_2 = \cdots = V_N = V.
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85, >=Stealth]
+    % Parallel circuit
+    \draw[thick] (0, 1.5) -- (1.5, 1.5) -- (1.5, 2.3) -- (2.3, 2.3);
+    \draw[thick] (1.5, 1.5) -- (1.5, 0.7) -- (2.3, 0.7);
+    % Capacitor 1
+    \draw[thick] (2.3, 2.6) -- (2.3, 2.0);
+    \draw[thick] (2.7, 2.6) -- (2.7, 2.0);
+    \node[above] at (2.5, 2.6) {\(C_1\)};
+    \node[below, font=\scriptsize] at (2.5, 2.0) {\(Q_1\)};
+    % Capacitor 2
+    \draw[thick] (2.3, 1.0) -- (2.3, 0.4);
+    \draw[thick] (2.7, 1.0) -- (2.7, 0.4);
+    \node[above] at (2.5, 1.0) {\(C_2\)};
+    \node[below, font=\scriptsize] at (2.5, 0.4) {\(Q_2\)};
+    % Junction right
+    \draw[thick] (2.7, 2.3) -- (3.5, 2.3) -- (3.5, 1.5) -- (5.0, 1.5);
+    \draw[thick] (2.7, 0.7) -- (3.5, 0.7) -- (3.5, 1.5);
+    % Voltage source
+    \draw[thick] (0, 0) -- (5, 0);
+    \draw[thick] (0, 1.5) -- (0, 0.9);
+    \draw[thick] (0, 0) -- (0, 0.6);
+    \draw[thick] (-0.3, 0.9) -- (0.3, 0.9) node[left=6pt] {\(+\)};
+    \draw[thick] (-0.15, 0.6) -- (0.15, 0.6) node[left=6pt] {\(-\)};
+    \draw[thick] (5, 1.5) -- (5, 0);
+    \node[left] at (-0.4, 0.75) {\(V\)};
+    
+    % Equivalent
+    \node at (6.5, 1.0) {\large \(\equiv\)};
+    \begin{scope}[shift={(8, 0)}]
+        \draw[thick] (0, 1.5) -- (1.3, 1.5);
+        \draw[thick] (1.3, 1.8) -- (1.3, 1.2);
+        \draw[thick] (1.7, 1.8) -- (1.7, 1.2);
+        \node[above] at (1.5, 1.8) {\(C_{\text{eq}} = C_1 + C_2\)};
+        \draw[thick] (1.7, 1.5) -- (3.0, 1.5) -- (3.0, 0) -- (0, 0);
+        \draw[thick] (0, 1.5) -- (0, 0.9);
+        \draw[thick] (0, 0) -- (0, 0.6);
+        \draw[thick] (-0.3, 0.9) -- (0.3, 0.9);
+        \draw[thick] (-0.15, 0.6) -- (0.15, 0.6);
+        \node[left] at (-0.4, 0.75) {\(V\)};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+The total charge delivered by the source is the sum of charges stored on each capacitor:
+\begin{equation}
+    Q = \sum_{i=1}^N Q_i = \sum_{i=1}^N C_i V = \left(\sum_{i=1}^N C_i\right) V.
+\end{equation}
+The equivalent capacitance is therefore:
+\begin{equation}
+    C_{\text{eq}} = \frac{Q}{V} = \sum_{i=1}^N C_i.
+\end{equation}
+
+\subsubsection{Series Combinations}
+
+In a series network, capacitors are connected sequentially along a single branch, such that each capacitor acquires the same charge magnitude \(Q\) through electrostatic induction:
+\begin{equation}
+    Q_1 = Q_2 = \cdots = Q_N = Q.
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85, >=Stealth]
+    % Series circuit
+    \draw[thick] (0, 1.5) -- (1.0, 1.5);
+    % C1
+    \draw[thick] (1.0, 1.8) -- (1.0, 1.2);
+    \draw[thick] (1.4, 1.8) -- (1.4, 1.2);
+    \node[above] at (1.2, 1.8) {\(C_1\)};
+    \node[below, font=\scriptsize] at (0.8, 1.2) {\(+Q\)};
+    \node[below, font=\scriptsize] at (1.6, 1.2) {\(-Q\)};
+    % C2
+    \draw[thick] (1.4, 1.5) -- (2.6, 1.5);
+    \draw[thick] (2.6, 1.8) -- (2.6, 1.2);
+    \draw[thick] (3.0, 1.8) -- (3.0, 1.2);
+    \node[above] at (2.8, 1.8) {\(C_2\)};
+    \node[below, font=\scriptsize] at (2.4, 1.2) {\(+Q\)};
+    \node[below, font=\scriptsize] at (3.2, 1.2) {\(-Q\)};
+    \draw[thick] (3.0, 1.5) -- (4.0, 1.5) -- (4.0, 0) -- (0, 0);
+    % Battery
+    \draw[thick] (0, 1.5) -- (0, 0.9);
+    \draw[thick] (0, 0) -- (0, 0.6);
+    \draw[thick] (-0.3, 0.9) -- (0.3, 0.9) node[left=6pt] {\(+\)};
+    \draw[thick] (-0.15, 0.6) -- (0.15, 0.6) node[left=6pt] {\(-\)};
+    \node[left] at (-0.4, 0.75) {\(V\)};
+    
+    % Equivalent
+    \node at (5.5, 1.0) {\large \(\equiv\)};
+    \begin{scope}[shift={(7, 0)}]
+        \draw[thick] (0, 1.5) -- (1.3, 1.5);
+        \draw[thick] (1.3, 1.8) -- (1.3, 1.2);
+        \draw[thick] (1.7, 1.8) -- (1.7, 1.2);
+        \node[above] at (1.5, 1.8) {\(\frac{1}{C_{\text{eq}}} = \frac{1}{C_1} + \frac{1}{C_2}\)};
+        \draw[thick] (1.7, 1.5) -- (3.0, 1.5) -- (3.0, 0) -- (0, 0);
+        \draw[thick] (0, 1.5) -- (0, 0.9);
+        \draw[thick] (0, 0) -- (0, 0.6);
+        \draw[thick] (-0.3, 0.9) -- (0.3, 0.9);
+        \draw[thick] (-0.15, 0.6) -- (0.15, 0.6);
+        \node[left] at (-0.4, 0.75) {\(V\)};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+The total potential difference across the series combination is the sum of the individual potential drops:
+\begin{equation}
+    V = \sum_{i=1}^N V_i = \sum_{i=1}^N \frac{Q}{C_i} = Q \sum_{i=1}^N \frac{1}{C_i}.
+\end{equation}
+The equivalent series capacitance satisfies:
+\begin{equation}
+    \frac{1}{C_{\text{eq}}} = \frac{V}{Q} = \sum_{i=1}^N \frac{1}{C_i}.
+\end{equation}
+
+\subsubsection{Analysis of Mixed Networks}
+
+Complex capacitor circuits are analyzed by systematically reducing parallel subnetworks, then combining the resulting equivalent elements in series.
+
+\begin{example}[Mixed Series-Parallel Reduction]
+    Consider a network where two parallel capacitors \(C_1\) and \(C_2\) are connected in series with a third capacitor \(C_3\) across a supply voltage \(V\):
+    \begin{enumerate}
+        \item Combine the parallel pair \(C_1\) and \(C_2\) into an intermediate equivalent element:
+        \begin{equation}
+            C_{1,2} = C_1 + C_2.
+        \end{equation}
+        \item Combine \(C_{1,2}\) in series with \(C_3\):
+        \begin{equation}
+            \frac{1}{C_{\text{eq}}} = \frac{1}{C_{1,2}} + \frac{1}{C_3} = \frac{1}{C_1 + C_2} + \frac{1}{C_3}.
+        \end{equation}
+        \item Expressing the total equivalent capacitance as a single rational fraction:
+        \begin{equation}
+            C_{\text{eq}} = \frac{(C_1 + C_2)C_3}{C_1 + C_2 + C_3}.
+        \end{equation}
+    \end{enumerate}
+\end{example}

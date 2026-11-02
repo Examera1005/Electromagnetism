@@ -1,0 +1,1094 @@
+% =========================================================================
+% WEEK 7: LECTURES 11 & 12
+% Electric Currents, Ohm's Law, EMF, Circuits, and Kirchhoff's Rules
+% (To be included via \input{week7.tex} inside the main document)
+% =========================================================================
+
+\section{Week 7 - Electric Currents, Ohm's Law and EMF circuits}
+\subsection{Electric Currents}
+\begin{remark}[Recap from Previous Lecture]
+\begin{itemize}
+    \item \textbf{The Electric Displacement:} $\bm{D} = \varepsilon_0 \bm{E} + \bm{P}$, where $\bm{P}$ is the polarization field of a dielectric.
+    \item \textbf{Gauss's Law for Dielectrics:}
+    \begin{equation*}
+        \div{\bm{D}} = \rho_{\text{free}} \quad \text{(Differential form)}, \qquad \oint_S \bm{D} \cdot \dd{\bm{a}} = Q_{\text{free}} \quad \text{(Integral form)}.
+    \end{equation*}
+\end{itemize}
+\end{remark}
+
+\subsubsection{Electric Current and Current Density}
+
+Consider a region where charges flow (e.g., inside a conductor).
+
+\begin{definition}{Electric Current}{electric_current}
+The \textbf{electric current} $I$ is the rate at which electric charge flows across a cross-sectional area (flowing through a surface):
+\begin{equation}
+    I \equiv \dv{Q}{t} \quad \text{(charge per unit time)}.
+\end{equation}
+\begin{itemize}
+    \item \textbf{SI Units:} $[I] = \text{Ampere (A)} = \text{Coulomb / second (C/s)}$.
+    \item \textbf{Typical Orders of Magnitude:} Lightning $\sim \text{MA}$ ($10^6\text{ A}$); biological currents $\sim \text{nA}$ ($10^{-9}\text{ A}$).
+    \item \textbf{Sign Convention:} Flow has a direction. By convention:
+    \begin{itemize}
+        \item Direction of flow of \textbf{positive} ($+$) charges is the \textbf{same} as the direction of current.
+        \item Direction of flow of \textbf{negative} ($-$) charges is \textbf{opposite} to the direction of current.
+    \end{itemize}
+\end{itemize}
+\end{definition}
+
+To relate the macroscopic current $I$ to the microscopic movement of charges, we need to define a \textbf{current density}. What is the current passing through a small surface frame with area vector $\bm{a}$?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    % Coordinate definitions for slanted prism
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (0,2.5);
+    \coordinate (B) at (-1.2,3.3);
+    \coordinate (C) at (-1.2,0.8);
+    
+    \coordinate (shift) at (2.8,1.2);
+    \coordinate (O2) at ($(O)+(shift)$);
+    \coordinate (A2) at ($(A)+(shift)$);
+    \coordinate (B2) at ($(B)+(shift)$);
+    \coordinate (C2) at ($(C)+(shift)$);
+
+    % Projection for altitude
+    \coordinate (B_proj) at ($(B)+(2.8,0)$);
+    \coordinate (C_proj) at ($(C)+(2.8,0)$);
+
+    % Dashed lines for altitude box
+    \draw[dashed, PropColor!80!black, thick] (B) -- (B_proj) -- (A2);
+    \draw[dashed, PropColor!80!black, thick] (C) -- (C_proj) -- (O2);
+    \draw[dashed, PropColor!80!black, thick] (B_proj) -- (C_proj);
+
+    % Prism back edges
+    \draw[ExColor!90!black, thick, dashed] (C) -- (C2);
+    
+    % Prism main edges
+    \draw[ExColor!90!black, very thick, fill=ExColor!8, fill opacity=0.6] (O) -- (A) -- (B) -- (C) -- cycle;
+    \draw[ExColor!90!black, very thick] (O) -- (O2) -- (A2) -- (A);
+    \draw[ExColor!90!black, very thick] (A2) -- (B2) -- (B);
+    \draw[PropColor!70!black, very thick] (O2) -- (A2) -- (B2) -- (C2) -- cycle;
+
+    % Charges inside
+    \foreach \x/\y in {0.3/1.2, 0.8/2.1, 1.4/1.5, 1.9/2.4, 0.6/0.9, 1.8/1.1} {
+        \fill[ExColor] (\x,\y) circle (2pt);
+    }
+
+    % Velocity vector
+    \draw[->, ExColor, ultra thick] (1.2,1.6) -- ++(1.1,0.47) node[midway, below right] {$\bm{u}$};
+
+    % Area normal vector
+    \draw[->, PropColor!70!black, ultra thick] (2.8,2.4) -- ++(1.2,0) node[right] {$\bm{a}$};
+
+    % Dimension labels
+    \draw[<->, ExColor!90!black, thick] (0,-0.3) -- (2.8,0.9) node[midway, fill=white, inner sep=1.5pt] {$u\Delta t$};
+    \draw[<->, PropColor!70!black, thick] (-1.2,3.55) -- (1.6,3.55) node[midway, above] {$u\Delta t \cos\theta$};
+
+    % Angle theta
+    \draw[PropColor!70!black, thick] (-0.5,3.3) arc (0:23:0.7);
+    \node[PropColor!70!black] at (-0.15,3.42) {$\theta$};
+\end{tikzpicture}
+\end{center}
+
+If we look at a surface frame with vector area $\bm{a}$ (where $\norm{\bm{a}} = a$), the particles moving with velocity $\bm{u}$ that pass through it in a time interval $\Delta t$ are those contained in the slanted prism of base area $a$ and altitude $u \Delta t \cos\theta$, having volume $V = a u \Delta t \cos\theta = (\bm{u} \cdot \bm{a}) \Delta t$. Thus, if each particle carries charge $q$ and the number of charges per unit volume is $n = \Delta N / V$:
+\begin{equation}
+    I = \frac{\Delta Q}{\Delta t} = \frac{q \Delta N}{\Delta t} = \frac{q n V}{\Delta t} = \frac{q n (a \cos\theta \, u \Delta t)}{\Delta t} = q n \bm{u} \cdot \bm{a}.
+\end{equation}
+
+We are not done yet: we can have different species of particles $k$ with charges $q_k$, number densities $n_k$, and velocities $\bm{u}_k$ passing through the volume. Generalizing this sum over all species $k$:
+\begin{equation}
+    I = n_1 q_1 \bm{u}_1 \cdot \bm{a} + n_2 q_2 \bm{u}_2 \cdot \bm{a} + \dots = \bm{a} \cdot \sum_k n_k q_k \bm{u}_k.
+\end{equation}
+
+\begin{definition}{Current Density}{current_density}
+The \textbf{current density} $\bm{J}$ is defined microscopically as:
+\begin{equation}
+    \bm{J} = \sum_k n_k q_k \bm{u}_k \equiv \sum_k \rho_k \bm{u}_k,
+\end{equation}
+where $\rho_k = n_k q_k$ is the volume charge density of species $k$, and the SI units of $\bm{J}$ are $[\bm{J}] = \text{A/m}^2$.
+
+If not all charges of species $k$ have the exact same velocity, we take the \textbf{average (drift) velocity} of the $N_k$ particles of species $k$:
+\begin{equation}
+    \ev{\bm{u}_k} = \frac{1}{N_k} \sum_{i=1}^{N_k} (\bm{u}_k)_i \implies \bm{J} = \sum_k q_k n_k \ev{\bm{u}_k} = \sum_k \rho_k \ev{\bm{u}_k}.
+\end{equation}
+For an arbitrary macro-surface $S$, the total electric current flowing through $S$ is the flux of $\bm{J}$:
+\begin{equation}
+    I = \int_S \bm{J} \cdot \dd{\bm{a}}.
+\end{equation}
+\end{definition}
+
+\begin{remark}
+Typically we think of currents as electrons moving in a metallic conductor (e.g., a wire), but as long as we have moving charges of any kind, we have a current. For example, positive and negative ions moving in an aqueous solution also create an electric current.
+\end{remark}
+
+\subsubsection{The Continuity Equation}
+
+Suppose we have an arbitrary closed surface $S$ enclosing a volume $V$. Some charge enters $S$ and some charge exits $S$. What happens to the net charge inside? Either charges pile up inside the surface or net charge leaves the surface.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95, >=Stealth]
+    % Closed surface blob
+    \draw[DefColor, ultra thick, fill=DefColor!6] plot [smooth cycle, tension=0.8] coordinates {(0,0) (1.5,1.2) (3.5,1.0) (4.0,-0.5) (2.8,-1.8) (0.8,-1.5)};
+    \node[DefColor, font=\bfseries\large] at (2.2, 0.2) {$S$};
+    \node[DefColor!80!black] at (2.2, -0.5) {$V$};
+
+    % Incoming J vectors
+    \draw[->, ThmColor, very thick] (-0.6, 0.5) -- (0.8, 0.1) node[pos=0, left] {$\bm{J}$};
+    \draw[->, ThmColor, very thick] (0.5, 1.6) -- (1.4, 0.7) node[pos=0, above left] {$\bm{J}$};
+    \draw[->, ThmColor, very thick] (-0.2, -1.4) -- (0.9, -0.7) node[pos=0, below left] {$\bm{J}$};
+
+    % Outgoing J vectors
+    \draw[->, ThmColor, very thick] (3.3, 0.4) -- (4.8, 0.6) node[pos=1, right] {$\bm{J}$};
+    \draw[->, ThmColor, very thick] (3.1, -0.6) -- (4.5, -1.2) node[pos=1, right] {$\bm{J}$};
+    \draw[->, ThmColor, very thick] (2.1, -1.2) -- (3.0, -2.4) node[pos=1, below right] {$\bm{J}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}{Continuity Equation (Conservation of Charge)}{continuity_eq}
+The local conservation of electric charge is expressed by the \textbf{continuity equation}:
+\begin{equation}
+    \div{\bm{J}} + \pdv{\rho}{t} = 0.
+\end{equation}
+For \textbf{steady currents} (where charge density does not change in time, $\pdv*{\rho}{t} = 0$), there is no accumulation of charge inside any volume, and the current density is solenoidal (divergence-free):
+\begin{equation}
+    \div{\bm{J}} = 0 \quad \text{(for steady currents ONLY)}.
+\end{equation}
+\end{theorem}
+
+\begin{proofbox}[Derivation of the Continuity Equation]
+The rate at which charge leaves the volume $V$ (outward flux of $\bm{J}$ through the closed boundary surface $S = \partial V$) must equal the rate of decrease of the total charge $Q_{\text{inside}}$ contained within $V$:
+\begin{equation*}
+    \oint_S \bm{J} \cdot \dd{\bm{a}} = -\pdv{Q_{\text{inside}}}{t} = -\pdv{t} \int_V \rho \, \dd{V}.
+\end{equation*}
+Applying Gauss's Divergence Theorem to the left-hand side yields:
+\begin{equation*}
+    \oint_S \bm{J} \cdot \dd{\bm{a}} = \int_V \left(\div{\bm{J}}\right) \dd{V} \implies \int_V \left(\div{\bm{J}}\right) \dd{V} = -\pdv{t} \int_V \rho \, \dd{V}.
+\end{equation*}
+Bringing both terms under the same volume integral for a fixed volume $V$:
+\begin{equation*}
+    \int_V \left( \div{\bm{J}} + \pdv{\rho}{t} \right) \dd{V} = 0.
+\end{equation*}
+Since this relation must hold for \emph{any} arbitrary volume $V$, the integrand itself must vanish identically everywhere:
+\begin{equation*}
+    \div{\bm{J}} + \pdv{\rho}{t} = 0.
+\end{equation*}
+\end{proofbox}
+
+\subsubsection{Ohm's Law: Microscopic and Macroscopic Forms}
+
+We know that electric fields exert forces on charges and cause them to move.
+
+\begin{proposition}{Microscopic Ohm's Law}{micro_ohm}
+In most substances and over a wide range of electric field strengths, the current density $\bm{J}$ is linearly proportional to the local electric field $\bm{E}$:
+\begin{equation}
+    \bm{J} = \sigma \bm{E} = \frac{1}{\rho} \bm{E},
+\end{equation}
+where $\sigma$ is the \textbf{conductivity} of the material and $\rho \equiv \frac{1}{\sigma}$ is the \textbf{resistivity} of the material.
+\end{proposition}
+
+\begin{remark}[Physical Clarifications on Ohm's Law]
+\begin{enumerate}
+    \item \textbf{Wait, wasn't $\bm{E} = \bm{0}$ inside a conductor?} Yes, in \emph{electrostatics}, where we let mobile charges flow until they settle down into an equilibrium surface configuration that cancels the applied external field. Here, we are considering a dynamic steady-state situation where charges are continuously driven and do not pile up to cancel the internal field.
+    \item \textbf{Empirical Nature:} Ohm's law is an \emph{empirical (phenomenological) law}—a generalization derived from experiments, not a fundamental theorem of nature that must be universally obeyed. Materials that obey this linear relation are called \textbf{Ohmic}; those that do not are called \textbf{non-Ohmic}.
+    \item \textbf{Notation Warning:} By convention, $\rho$ is used for resistivity. Do not confuse it with volume charge density $\rho$! Resistivity describes how difficult it is for electrons to travel through a material and depends on the chemical composition and temperature $T$ of the material:
+    \begin{itemize}
+        \item \emph{At room temperature:} Resistivity is dominated by thermal collisions with lattice vibrations (phonons).
+        \item \emph{At very low temperatures:} The mean free path of electrons is dominated by scattering off impurities and defects in the material.
+    \end{itemize}
+\end{enumerate}
+\end{remark}
+
+Let us now derive the **macroscopic Ohm's law** for a uniform cylindrical conductor of cross-sectional area $A$ and length $L$ subjected to a uniform electric field $\bm{E}$ parallel to its axis.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Cylinder body
+    \draw[DefColor, very thick, fill=DefColor!5] (0,1.2) -- (4.5,1.2) arc (90:-90:0.45 and 1.2) -- (0,-1.2) -- cycle;
+    % Left ellipse (cross section A)
+    \draw[DefColor, very thick, fill=DefColor!15] (0,0) ellipse (0.45 and 1.2);
+    \node[DefColor, font=\bfseries] at (0,0) {$A$};
+
+    % Current density J inside
+    \draw[->, ThmColor, ultra thick] (1.6, 0.1) -- (3.0, 0.1) node[midway, above] {$\bm{J}$};
+
+    % Electric field E outside
+    \draw[->, DefColor!80!black, ultra thick] (5.4, 0.1) -- (6.6, 0.1) node[midway, above] {$\bm{E}$};
+
+    % Length markers and potentials
+    \draw[dashed, ThmColor, thick] (0,-1.35) -- (0,-2.4) node[below] {$a \ (V_a)$};
+    \draw[dashed, ThmColor, thick] (4.5,-1.35) -- (4.5,-2.4) node[below] {$b \ (V_b)$};
+    \draw[<->, ThmColor, very thick] (0,-1.8) -- (4.5,-1.8) node[midway, below] {$L$};
+\end{tikzpicture}
+\end{center}
+
+By definition, the potential drop (magnitude of potential difference) between ends $a$ and $b$ is:
+\begin{equation}
+    V = \abs{\Delta V} = \abs{V_b - V_a} = \abs{-\int_a^b \bm{E} \cdot \dd{\bm{s}}} = E L \implies E = \frac{V}{L}.
+\end{equation}
+Since the current density is uniform across the cross-section $A$, we have $J = \frac{I}{A}$. Substituting $J = \frac{I}{A}$ and $E = \frac{V}{L}$ into the microscopic Ohm's law $J = \sigma E$:
+\begin{equation}
+    \frac{I}{A} = \sigma \frac{V}{L} \implies V = \left( \frac{L}{\sigma A} \right) I = R I.
+\end{equation}
+
+\begin{definition}{Macroscopic Ohm's Law and Electrical Resistance}{macro_ohm}
+The macroscopic Ohm's law relates the voltage drop $V$ across a conductor to the current $I$ flowing through it:
+\begin{equation}
+    V = I R,
+\end{equation}
+where the proportionality constant $R$ is the \textbf{electrical resistance} of the conductor. For a uniform conductor of length $L$ and cross-sectional area $A$:
+\begin{equation}
+    R \equiv \frac{L}{\sigma A} \equiv \rho \frac{L}{A}.
+\end{equation}
+\begin{itemize}
+    \item \textbf{SI Units:} $[R] = \text{Ohm }(\Omega) = \text{Volt / Ampere (V/A)}$, and $[\rho] = \Omega \cdot \text{m}$, $[\sigma] = (\Omega \cdot \text{m})^{-1}$.
+    \item \textbf{Dependencies:} $R$ depends on both the \emph{geometry} of the conductor (proportional to $L$, inversely proportional to $A$) and the \emph{material properties} (proportional to resistivity $\rho = 1/\sigma$).
+\end{itemize}
+\end{definition}
+
+\begin{example}[Resistance of a Concentric Spherical Shell]
+We have two concentric conducting spherical shells of radii $a$ and $b$ ($a < b$), with the space between them filled with a material of conductivity $\sigma$. The inner sphere ($r=a$) is held at a potential $V$ ($\varphi_{\text{inner}} = V$), and the outer sphere ($r=b$) is grounded ($\varphi_{\text{outer}} = 0$). Because there is a potential difference, a steady radial current flows between the spheres. \textbf{What is the total resistance $R$ between the shells?}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Outer sphere
+    \draw[DefColor, very thick, fill=DefColor!8] (0,0) circle (2.0);
+    % Inner sphere
+    \draw[DefColor, very thick, fill=white] (0,0) circle (1.1);
+    % Center dot
+    \fill[black] (0,0) circle (1.5pt);
+
+    % Radius a
+    \draw[ExColor, very thick] (0,0) -- (1.1,0) node[midway, above] {$a$};
+    \node[ExColor, font=\bfseries] at (0.4, 0.65) {$V$};
+
+    % Radius b
+    \draw[ProofColor, very thick] (0,0) -- (1.0,-1.732) node[midway, left] {$b$};
+
+    % Ground symbol attached to outer shell
+    \draw[ThmColor, very thick] (1.414,-1.414) -- (1.9,-1.414) -- (1.9,-2.0);
+    \draw[ThmColor, very thick] (1.55,-2.0) -- (2.25,-2.0);
+    \draw[ThmColor, very thick] (1.7,-2.18) -- (2.1,-2.18);
+    \draw[ThmColor, very thick] (1.82,-2.36) -- (1.98,-2.36);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Solution:} We use the three fundamental relations: (1) $\bm{J} = \sigma \bm{E}$, (2) $I = \int_S \bm{J} \cdot \dd{\bm{a}}$, and (3) $V = R I$.
+
+\textbf{Step 1: Find the electric potential $\varphi(r)$, electric field $\bm{E}(r)$, and current density $\bm{J}(r)$.}
+For a steady current in a homogeneous medium ($\div{\bm{J}} = 0 \implies \div{\bm{E}} = 0 \implies \laplacian{\varphi} = 0$), the spherically symmetric solution to Laplace's equation in the region $a \le r \le b$ is:
+\begin{equation*}
+    \varphi(r) = A + \frac{B}{r},
+\end{equation*}
+where $A$ and $B$ are constants determined by the boundary conditions $\varphi(a) = V$ and $\varphi(b) = 0$:
+\begin{equation*}
+    \varphi(b) = A + \frac{B}{b} = 0 \implies A = -\frac{B}{b}.
+\end{equation*}
+Substituting $A$ into the first boundary condition at $r=a$:
+\begin{equation*}
+    \varphi(a) = -\frac{B}{b} + \frac{B}{a} = B \left( \frac{b - a}{ab} \right) = V \implies B = \frac{ab}{b - a} V, \qquad A = -\frac{a}{b - a} V.
+\end{equation*}
+Thus, the electric potential is:
+\begin{equation*}
+    \varphi(r) = \frac{V}{b - a} \left( \frac{ab}{r} - a \right).
+\end{equation*}
+From $\varphi(r)$, we compute the radial electric field $\bm{E} = -\grad{\varphi}$:
+\begin{equation*}
+    \bm{E}(r) = -\dv{\varphi}{r} \hat{\bm{r}} = \frac{V}{r^2} \left( \frac{ab}{b - a} \right) \hat{\bm{r}}.
+\end{equation*}
+By microscopic Ohm's law, the current density is:
+\begin{equation*}
+    \bm{J}(r) = \sigma \bm{E}(r) = \frac{\sigma V}{r^2} \left( \frac{ab}{b - a} \right) \hat{\bm{r}}.
+\end{equation*}
+
+\textbf{Step 2: Calculate the total current $I$ flowing through a concentric spherical surface of radius $r$.}
+\begin{equation*}
+    I = \oint_{\text{sphere}} \bm{J} \cdot \dd{\bm{a}} = J(r) \oint_{\text{sphere}} \dd{a} = \frac{\sigma V}{r^2} \left( \frac{ab}{b - a} \right) \left( 4\pi r^2 \right) = 4\pi \sigma V \left( \frac{ab}{b - a} \right).
+\end{equation*}
+Notice that the $r^2$ dependence cancels out, confirming that the total radial current $I$ is independent of radius $r$ (steady-state charge conservation).
+
+\textbf{Step 3: Determine the resistance $R$ via macroscopic Ohm's law.}
+\begin{equation}
+    V = R I \implies R = \frac{V}{I} = \frac{V}{4\pi \sigma V \left(\frac{ab}{b-a}\right)} = \frac{b - a}{4\pi \sigma a b}.
+\end{equation}
+\end{example}
+
+\begin{example}[Charge Accumulation at the Interface of Two Conductors]
+What if $\sigma$ is not constant? Suppose a cylindrical wire of cross-sectional area $A$ is made of two joined conductors with different conductivities $\sigma_1$ and $\sigma_2$ carrying a steady current $I$. \textbf{How much charge $Q_{\text{int}}$ builds up at the junction interface between the two materials?}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Left cylinder (sigma 1)
+    \draw[DefColor, very thick, fill=DefColor!6] (0,1.0) -- (3.0,1.0) -- (3.0,-1.0) -- (0,-1.0) -- cycle;
+    \draw[DefColor, very thick, fill=DefColor!15] (0,0) ellipse (0.35 and 1.0);
+    
+    % Right cylinder (sigma 2)
+    \draw[DefColor, very thick, fill=PropColor!8] (3.0,1.0) -- (6.0,1.0) arc (90:-90:0.35 and 1.0) -- (3.0,-1.0) -- cycle;
+    
+    % Interface line
+    \draw[ExColor, ultra thick] (3.0,1.0) -- (3.0,-1.0);
+    \draw[ExColor, thick, dashed] (3.0,0) ellipse (0.35 and 1.0);
+
+    % Gaussian pillbox
+    \draw[ProofColor, thick, dashed] (2.2, 0.7) -- (3.8, 0.7) -- (3.8, -0.7) -- (2.2, -0.7) -- cycle;
+    \node[ProofColor, above] at (3.0, 0.7) {\small Gaussian pillbox};
+
+    % Labels and arrows
+    \node[DefColor!80!black, font=\bfseries] at (1.3, 0.5) {$\sigma_1$};
+    \node[PropColor!80!black, font=\bfseries] at (4.7, 0.5) {$\sigma_2$};
+
+    \draw[->, ThmColor, very thick] (0.8, -0.2) -- (2.0, -0.2) node[midway, below] {$\bm{E}_1, I$};
+    \draw[->, ThmColor, very thick] (4.0, -0.2) -- (5.2, -0.2) node[midway, below] {$\bm{E}_2, I$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Solution:}
+In a steady state of current flow, the total current $I$ flowing through both sections of the cylinder must be identical. Using $J = I/A = \sigma E \implies I = A \sigma E$:
+\begin{equation}
+    I = A \sigma_1 E_1 = A \sigma_2 E_2 \implies E_2 = \left( \frac{\sigma_1}{\sigma_2} \right) E_1. \label{eq:interface_E}
+\end{equation}
+Now we apply Gauss's law to a thin cylindrical pillbox of cross-sectional area $A$ straddling the interface:
+\begin{equation*}
+    \oint_S \bm{E} \cdot \dd{\bm{A}} = \frac{Q_{\text{int}}}{\varepsilon_0} \implies (E_2 - E_1) A = \frac{Q_{\text{int}}}{\varepsilon_0}.
+\end{equation*}
+Substituting $E_2$ from Eq.~\eqref{eq:interface_E} into Gauss's law:
+\begin{equation*}
+    Q_{\text{int}} = \varepsilon_0 A \left( \frac{\sigma_1}{\sigma_2} E_1 - E_1 \right) = \varepsilon_0 A E_1 \left( \frac{\sigma_1}{\sigma_2} - 1 \right) = \varepsilon_0 A \sigma_1 E_1 \left( \frac{1}{\sigma_2} - \frac{1}{\sigma_1} \right).
+\end{equation*}
+Recognizing that $I = A \sigma_1 E_1$, we express the interface charge directly in terms of the steady current $I$:
+\begin{equation}
+    Q_{\text{int}} = \varepsilon_0 I \left( \frac{1}{\sigma_2} - \frac{1}{\sigma_1} \right).
+\end{equation}
+\end{example}
+
+\subsubsection{Microscopic Physical Intuition of Ohm's Law (Drude Model)}
+
+Let us examine the physical intuition behind $\bm{J} = \sigma \bm{E}$. In plain English, microscopic Ohm's law states that \emph{``a constant electric field creates a steady current''} ($\bm{E} \propto \bm{v}_d$, where $\bm{v}_d$ is the average drift velocity of the charges). Wait: doesn't a constant force produce a constant acceleration ($\bm{F} = m\bm{a}$) rather than a constant velocity?
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Conductor box
+    \draw[DefColor, very thick, fill=DefColor!4] (0,0) rectangle (8.5,2.4);
+
+    % Lattice ions (green circles)
+    \foreach \x/\y in {1.2/1.8, 1.3/0.6, 2.7/1.6, 2.9/0.6, 4.5/1.9, 4.3/0.7, 5.8/1.8, 6.0/0.6, 7.2/1.6, 7.3/0.7} {
+        \draw[DefColor!90!black, very thick, fill=DefColor!25] (\x,\y) circle (0.14);
+    }
+
+    % Electron erratic path (orange)
+    \fill[ExColor] (0.5, 1.1) circle (2.5pt);
+    \draw[->, ExColor, very thick] (0.5,1.1) -- (1.1,1.72) -- (2.78,0.65) -- (1.42,0.65) -- (2.6,1.55) -- (2.82,0.72) -- (4.2,0.72) -- (4.45,1.78) -- (5.9,0.68) -- (5.75,1.72) -- (7.2,0.78) -- (8.0,1.55);
+    \fill[ExColor] (8.0, 1.55) circle (2.5pt);
+
+    % Electric field arrow
+    \draw[->, ThmColor, ultra thick] (6.5, -0.45) -- (7.8, -0.45) node[midway, below] {$\bm{E}$};
+    \node[ExColor!90!black, align=left, font=\small] at (3.2, -0.55) {Charges accelerate due to $\bm{E}$, then collide with lattice atoms\\and scatter; the average behavior is a uniform drift $\bm{v}_d$.};
+\end{tikzpicture}
+\end{center}
+
+In a real material, mobile charges move through an effectively \textbf{viscous medium}: just like a skydiver in free fall, they accelerate briefly under $\bm{E}$, collide with lattice atoms (phonons/impurities), and scatter, reaching a steady terminal drift velocity.
+
+\paragraph{1. Damped Equation of Motion Approach:}
+Modeling the collisions as a linear drag force $-m\gamma \bm{v}$ (where $\gamma$ is a friction/damping coefficient), Newton's second law for a charge carrier $q$ is:
+\begin{equation}
+    \bm{F} = q\bm{E} - m\gamma \bm{v} = m\dv{\bm{v}}{t}.
+\end{equation}
+When the charges reach terminal (steady) velocity, $\dv*{\bm{v}}{t} = \bm{0}$, which gives:
+\begin{equation}
+    q\bm{E} = m\gamma \bm{v} \implies \bm{v} = \frac{q\bm{E}}{m\gamma}.
+\end{equation}
+Substituting this terminal drift velocity into our general expression for $\bm{J}$ (for positive and negative carriers):
+\begin{equation}
+    \bm{J} = \sum_k n_k q_k \ev{\bm{u}_k} = \frac{n_+ q_+^2}{m_+ \gamma_+} \bm{E} + \frac{n_- q_-^2}{m_- \gamma_-} \bm{E} = \underbrace{\left( \frac{n_+ q_+^2}{m_+ \gamma_+} + \frac{n_- q_-^2}{m_- \gamma_-} \right)}_{\equiv \sigma} \bm{E},
+\end{equation}
+recovering Ohm's law $\bm{J} = \sigma \bm{E}$.
+
+\paragraph{2. Mean Free Time (Collision-Time) Derivation for Electrons:}
+We can also express the drift velocity in terms of the average time traveled between collisions. The electric force on a conduction electron ($q = -e$, mass $m_e$) is $\bm{F}_e = -e\bm{E}$, giving it an acceleration:
+\begin{equation}
+    \bm{a} = \frac{\bm{F}_e}{m_e} = -\frac{e\bm{E}}{m_e}.
+\end{equation}
+Let $\bm{v}_i$ be the velocity of an electron immediately after a collision. Its velocity $\bm{v}_f$ after a time $t$ immediately before the next collision is:
+\begin{equation}
+    \bm{v}_f = \bm{v}_i + \bm{a} t = \bm{v}_i - \frac{e\bm{E}}{m_e} t.
+\end{equation}
+Averaging over all electrons and collision intervals, we note that in the absence of an electric field, post-collision velocities are completely random in orientation, so $\ev{\bm{v}_i} = \bm{0}$. Defining $\tau \equiv \ev{t}$ as the average characteristic time between collisions (the \textbf{mean free time}), the drift velocity $\bm{v}_d = \ev{\bm{v}_f}$ is:
+\begin{equation}
+    \bm{v}_d = \ev{\bm{v}_f} = \ev{\bm{v}_i} - \frac{e\bm{E}}{m_e} \ev{t} = -\frac{e\bm{E}}{m_e} \tau.
+\end{equation}
+Substituting $\bm{v}_d$ into the current density $\bm{J} = n q \bm{v}_d = -n e \bm{v}_d$ yields the famous **Drude formula**:
+\begin{equation}
+    \bm{J} = -n e \left( -\frac{e\bm{E}}{m_e} \tau \right) = \left( \frac{n e^2 \tau}{m_e} \right) \bm{E} \implies \boxed{\sigma = \frac{n e^2 \tau}{m_e}, \qquad \rho = \frac{m_e}{n e^2 \tau}.}
+\end{equation}
+
+\begin{example}[Calculation of Ion Drift Velocity in Sea Water]
+The resistivity of sea water is $\rho \approx 25\ \Omega \cdot \text{cm}$. The primary charge carriers are $\text{Na}^+$ and $\text{Cl}^-$ ions, and there are $3 \times 10^{20}\text{ ions/cm}^3$ of \emph{each} type. If we fill a $l = 2\text{ m}$ ($200\text{ cm}$) long plastic tube with sea water and connect a $V = 12\text{ V}$ battery to electrodes at each end, \textbf{what is the resulting average drift speed $v_d$ of the ions in $\text{cm/s}$?}
+
+\textbf{Solution:}
+The magnitude of the current in a conductor of cross-sectional area $A$ is related to the drift speed $v_d$ of the charge carriers by:
+\begin{equation*}
+    J = n e v_d \implies I = J A = n e A v_d,
+\end{equation*}
+where $n$ is the \emph{total} number of mobile charge carriers per unit volume. Since both $\text{Na}^+$ (moving with $\bm{E}$) and $\text{Cl}^-$ (moving opposite to $\bm{E}$) contribute additively to the electric current in the same direction, the total carrier concentration is:
+\begin{equation*}
+    n = n_{\text{Na}^+} + n_{\text{Cl}^-} = 3 \times 10^{20}\text{ cm}^{-3} + 3 \times 10^{20}\text{ cm}^{-3} = 6 \times 10^{20}\text{ cm}^{-3}.
+\end{equation*}
+Rewriting macroscopic Ohm's law $V = R I$ with $R = \rho l / A$:
+\begin{equation*}
+    V = R I = \left( \frac{\rho l}{A} \right) (n e A v_d) = n e v_d \rho l \implies v_d = \frac{V}{n e \rho l}.
+\end{equation*}
+Substituting the numerical values ($e = 1.6 \times 10^{-19}\text{ C}$, $\rho = 25\ \Omega\cdot\text{cm}$, $l = 200\text{ cm}$):
+\begin{equation}
+    v_d = \frac{12\text{ V}}{\left(6 \times 10^{20}\text{ cm}^{-3}\right) \left(1.6 \times 10^{-19}\text{ C}\right) \left(25\ \Omega\cdot\text{cm}\right) \left(200\text{ cm}\right)} = 2.5 \times 10^{-5}\ \frac{\text{V}\cdot\text{cm}}{\text{C}\cdot\Omega} = 2.5 \times 10^{-5}\text{ cm/s}.
+\end{equation}
+\end{example}
+
+\newpage
+% =========================================================================
+\subsection{Electromotive Force, Circuits, and Kirchhoff's Rules}
+
+\subsubsection{Electromotive Force (EMF)}
+
+Consider a simple closed circuit consisting of a battery and a resistor of resistance $R$. Let the potential difference between points $a$ and $b$ across the battery terminals be $\Delta V = V_b - V_a > 0$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Simple circuit loop
+    \draw[DefColor, very thick] (0,0) -- (0,0.8);
+    % Battery symbol
+    \draw[DefColor, ultra thick] (-0.3, 0.8) -- (0.3, 0.8); % negative short plate
+    \draw[DefColor, very thick] (-0.6, 1.15) -- (0.6, 1.15); % positive long plate
+    \node[DefColor, left] at (-0.65, 0.98) {$\Delta V$ (or $\mathcal{E}$)};
+    \node[DefColor, font=\bfseries] at (-0.35, 1.4) {$+$};
+    \node[DefColor, font=\bfseries] at (-0.35, 0.55) {$-$};
+
+    % Top and right wires
+    \draw[DefColor, very thick] (0,1.15) -- (0,2.2) -- (4.2,2.2) -- (4.2,0);
+    
+    % Bottom wire with resistor
+    \draw[DefColor, very thick] (4.2,0) -- (2.9,0);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=6pt, amplitude=3.5pt}] (2.9,0) -- (1.3,0);
+    \node[DefColor, below] at (2.1, -0.15) {$R$};
+    \draw[DefColor, very thick] (1.3,0) -- (0,0);
+
+    % Points a and b
+    \fill[ThmColor] (0,0.3) circle (2pt) node[left] {$a$};
+    \fill[ThmColor] (0,1.75) circle (2pt) node[left] {$b$};
+
+    % Current arrows
+    \draw[->, ThmColor, very thick] (3.5, 0.3) -- (2.5, 0.3) node[midway, above] {$I$};
+    \draw[->, ThmColor, very thick] (1.7, 2.45) -- (2.7, 2.45) node[midway, above] {$I$};
+\end{tikzpicture}
+\end{center}
+
+If a charge $\Delta q$ is moved from point $a$ to point $b$ through the battery, its electric potential energy is increased by:
+\begin{equation}
+    \Delta U = \Delta q \Delta V.
+\end{equation}
+On the other hand, as the charge moves across the resistor $R$, its potential energy decreases due to collisions with the atoms in the resistor (converting electrical energy into thermal energy, so the resistor warms up). Upon returning to point $a$, the potential energy of $\Delta q$ remains unchanged. The rate of energy loss (power dissipated) in the resistor is:
+\begin{equation}
+    P = \frac{\Delta U}{\Delta t} = \left( \frac{\Delta q}{\Delta t} \right) \Delta V = I \Delta V = I^2 R,
+\end{equation}
+which is precisely the power supplied by the battery to maintain a constant current in the closed circuit.
+
+\begin{definition}{Electromotive Force (EMF)}{emf_def}
+The source of electrical energy that moves charges from a region of lower potential to higher potential is characterized by its \textbf{electromotive force (emf)}, denoted $\mathcal{E}$, defined as the work done per unit charge:
+\begin{equation}
+    \mathcal{E} \equiv \dv{W}{q}, \qquad [\mathcal{E}] = \text{Volt (V)} = \text{Joule / Coulomb (J/C)}.
+\end{equation}
+\begin{itemize}
+    \item \textbf{Physical Nature:} Despite its historical name, emf is \textbf{NOT a force}; it is work per unit charge (measured in Volts). We can think of an emf source as a ``charge pump''. Examples include batteries, solar cells, and thermocouples.
+    \item \textbf{Circuit Symbol \& Convention:} A source of emf is drawn with a \textbf{long thin line} for the positive ($+$) terminal and a \textbf{short thick line} for the negative ($-$) terminal. In circuits, conventional current $I$ flows from $+$ to $-$ through the external circuit (opposite to electron flow).
+\end{itemize}
+\end{definition}
+
+Assuming an ideal battery with no internal resistance ($\Delta V = \mathcal{E}$) and ideal connecting wires with zero resistance:
+\begin{itemize}
+    \item Crossing the battery from the negative ($-$) to the positive ($+$) terminal increases the potential by $+\mathcal{E}$.
+    \item Crossing the resistor in the direction of the current $I$ decreases the potential by $-IR$.
+\end{itemize}
+Upon completing a full closed loop, the net change in potential is zero:
+\begin{equation}
+    \mathcal{E} - I R = 0.
+\end{equation}
+This reflects the conservative nature of the electrostatic field: no net electrostatic work is done in moving a charge around any closed loop ($W = -q \oint \bm{E} \cdot \dd{\bm{s}} = 0$).
+
+\paragraph{Resistors in Series and in Parallel}
+
+\emph{Solving a circuit} means determining the currents and voltages everywhere in the network.
+
+\paragraph{Resistors in Series}
+
+Consider two resistors $R_1$ and $R_2$ connected in series across a voltage source $\Delta V$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Top wire with R1 and R2
+    \draw[DefColor, very thick] (0,1.8) -- (1.0,1.8);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=6pt, amplitude=3.5pt}] (1.0,1.8) -- (2.4,1.8) node[midway, above=4pt] {$R_1$};
+    \draw[DefColor, very thick] (2.4,1.8) -- (3.4,1.8);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=6pt, amplitude=3.5pt}] (3.4,1.8) -- (4.8,1.8) node[midway, above=4pt] {$R_2$};
+    \draw[DefColor, very thick] (4.8,1.8) -- (5.8,1.8);
+
+    % Side wires
+    \draw[DefColor, very thick] (0,0) -- (0,1.8);
+    \draw[DefColor, very thick] (5.8,1.8) -- (5.8,0);
+
+    % Bottom wire with battery
+    \draw[DefColor, very thick] (0,0) -- (2.7,0);
+    \draw[DefColor, very thick] (2.7,-0.45) -- (2.7,0.45); % + plate
+    \draw[DefColor, ultra thick] (3.05,-0.25) -- (3.05,0.25); % - plate
+    \draw[DefColor, very thick] (3.05,0) -- (5.8,0);
+    \node[DefColor, below] at (2.88, -0.5) {$\Delta V$};
+    \node[DefColor, font=\small\bfseries] at (2.45, -0.3) {$+$};
+    \node[DefColor, font=\small\bfseries] at (3.3, -0.3) {$-$};
+
+    % Nodes a, b, c
+    \fill[DefColor] (0,1.8) circle (2pt) node[left] {$a$};
+    \fill[DefColor] (2.9,1.8) circle (2pt) node[above] {$b$};
+    \fill[DefColor] (5.8,1.8) circle (2pt) node[right] {$c$};
+
+    % Current arrows
+    \draw[->, ThmColor, very thick] (-0.3, 0.5) -- (-0.3, 1.3) node[midway, left] {$I$};
+    \draw[->, ThmColor, very thick] (6.1, 1.3) -- (6.1, 0.5) node[midway, right] {$I$};
+\end{tikzpicture}
+\end{center}
+
+Because charge/current is conserved and there are no branching junctions, the exact same current $I$ flows through each resistor. The total voltage drop from point $a$ to point $c$ is the sum of the individual voltage drops:
+\begin{equation}
+    \Delta V = I R_1 + I R_2 = I (R_1 + R_2).
+\end{equation}
+Replacing the two resistors by a single equivalent resistor $R_{\text{eq}}$ with an identical voltage drop $\Delta V = I R_{\text{eq}}$ gives $R_{\text{eq}} = R_1 + R_2$. Extending this argument to $N$ resistors in series:
+\begin{equation}
+    \boxed{R_{\text{eq}} = R_1 + R_2 + \dots + R_N = \sum_{i=1}^N R_i \quad \text{(Resistors in Series)}.}
+\end{equation}
+
+\paragraph{Resistors in Parallel}
+
+Now consider two resistors $R_1$ and $R_2$ connected in parallel across a voltage source $\Delta V$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Top branch (R1)
+    \draw[DefColor, very thick] (0,1.2) -- (0,2.4) -- (1.8,2.4);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=6pt, amplitude=3.5pt}] (1.8,2.4) -- (3.4,2.4) node[midway, above=4pt] {$R_1$};
+    \draw[DefColor, very thick] (3.4,2.4) -- (5.2,2.4) -- (5.2,1.2);
+    \draw[->, ThmColor, very thick] (0.5, 2.65) -- (1.5, 2.65) node[midway, above] {$I_1$};
+
+    % Middle branch (R2)
+    \draw[DefColor, very thick] (0,1.2) -- (1.8,1.2);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=6pt, amplitude=3.5pt}] (1.8,1.2) -- (3.4,1.2) node[midway, above=4pt] {$R_2$};
+    \draw[DefColor, very thick] (3.4,1.2) -- (5.2,1.2);
+    \draw[->, ThmColor, very thick] (0.5, 1.45) -- (1.5, 1.45) node[midway, above] {$I_2$};
+
+    % Nodes a and b
+    \fill[DefColor] (0,1.2) circle (2.2pt) node[left] {$a$};
+    \fill[DefColor] (5.2,1.2) circle (2.2pt) node[right] {$b$};
+
+    % Bottom branch (battery)
+    \draw[DefColor, very thick] (0,1.2) -- (0,0) -- (2.4,0);
+    \draw[DefColor, very thick] (2.4,-0.45) -- (2.4,0.45); % + plate
+    \draw[DefColor, ultra thick] (2.75,-0.25) -- (2.75,0.25); % - plate
+    \draw[DefColor, very thick] (2.75,0) -- (5.2,0) -- (5.2,1.2);
+    \node[DefColor, below] at (2.6, -0.5) {$\Delta V$};
+    \node[DefColor, font=\small\bfseries] at (2.15, -0.3) {$+$};
+    \node[DefColor, font=\small\bfseries] at (3.0, -0.3) {$-$};
+
+    \draw[->, ThmColor, very thick] (1.6, -0.3) -- (0.6, -0.3) node[midway, below] {$I$};
+\end{tikzpicture}
+\end{center}
+
+By current conservation, the main current $I$ splits at node $a$ into $I_1$ and $I_2$, so $I = I_1 + I_2$. Because both resistors share the exact same terminal nodes $a$ and $b$, the potential drop across each resistor is identical:
+\begin{equation}
+    \Delta V = \Delta V_1 = \Delta V_2 \implies \Delta V = R_1 I_1 = R_2 I_2.
+\end{equation}
+Substituting $I_1 = \Delta V / R_1$ and $I_2 = \Delta V / R_2$ into the current conservation relation:
+\begin{equation}
+    I = I_1 + I_2 = \frac{\Delta V}{R_1} + \frac{\Delta V}{R_2} = \Delta V \left( \frac{1}{R_1} + \frac{1}{R_2} \right) \equiv \frac{\Delta V}{R_{\text{eq}}}.
+\end{equation}
+Extending this argument to $N$ resistors connected in parallel:
+\begin{equation}
+    \boxed{\frac{1}{R_{\text{eq}}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots + \frac{1}{R_N} = \sum_{i=1}^N \frac{1}{R_i} \quad \text{(Resistors in Parallel)}.}
+\end{equation}
+
+\subsubsection{Kirchhoff's Circuit Rules}
+
+Everything needed to solve an arbitrary electrical network is encapsulated in Kirchhoff's two rules.
+
+\begin{theorem}{Kirchhoff's Circuit Rules}{kirchhoff_rules}
+\begin{enumerate}
+    \item \textbf{Rule \#1 (Junction / Node Rule — Conservation of Charge):} At any junction (node) where current-carrying branches meet, the sum of currents entering the node equals the sum of currents leaving the node:
+    \begin{equation}
+        \sum I_{\text{in}} = \sum I_{\text{out}}.
+    \end{equation}
+    \item \textbf{Rule \#2 (Loop Rule — Conservation of Energy):} The algebraic sum of the potential changes $\Delta V_i$ across all circuit elements around any closed loop is zero:
+    \begin{equation}
+        \sum_{\text{closed loop}} \Delta V_i = 0.
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95, >=Stealth]
+    % Junction diagram on left
+    \draw[DefColor, very thick] (0,0) -- (2.0,0);
+    \draw[DefColor, very thick] (2.0,0) -- (3.8,1.1);
+    \draw[DefColor, very thick] (2.0,0) -- (3.8,-1.1);
+    \fill[DefColor] (2.0,0) circle (2.5pt);
+
+    \draw[->, ThmColor, very thick] (0.4, 0.25) -- (1.6, 0.25) node[midway, above] {$I_1$};
+    \draw[->, ThmColor, very thick] (2.3, 0.45) -- (3.4, 1.12) node[midway, above left] {$I_2$};
+    \draw[->, ThmColor, very thick] (2.3, -0.45) -- (3.4, -1.12) node[midway, below left] {$I_3$};
+    \node[ThmColor, font=\bfseries] at (2.0, -1.7) {Junction Rule: $I_1 = I_2 + I_3$};
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Sign Conventions Cheat-Sheet for the Loop Rule ($\Delta V = V_b - V_a$):}
+The choice of loop traversal direction ($a \to b$, clockwise or counterclockwise) is completely arbitrary—the exact same equation is obtained either way, provided the following sign rules are respected:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{ThmColor!10} \textbf{Element} & \textbf{Traversal vs.\ Current / Polarity ($a \longrightarrow b$)} & \textbf{Potential Change $\Delta V = V_b - V_a$} \\ \hline
+\textbf{Resistor} & 
+\begin{tikzpicture}[baseline=-2pt, >=Stealth]
+    \draw[->, ExColor, thick] (0,0.45) -- (2.8,0.45) node[midway, above] {\scriptsize Travel direction};
+    \fill[black] (0,0) circle (1.5pt) node[below] {$a$ (higher $V$)};
+    \draw[DefColor, very thick] (0,0) -- (0.7,0);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (0.7,0) -- (2.1,0) node[midway, below=3pt] {$R$};
+    \draw[DefColor, very thick] (2.1,0) -- (2.8,0);
+    \fill[black] (2.8,0) circle (1.5pt) node[below] {$b$ (lower $V$)};
+    \draw[->, ThmColor, very thick] (0.9,-0.45) -- (1.9,-0.45) node[midway, below] {$I$};
+\end{tikzpicture} & $\Delta V = V_b - V_a = -I R$ \\ \hline
+\textbf{Resistor} & 
+\begin{tikzpicture}[baseline=-2pt, >=Stealth]
+    \draw[->, ExColor, thick] (0,0.45) -- (2.8,0.45) node[midway, above] {\scriptsize Travel direction};
+    \fill[black] (0,0) circle (1.5pt) node[below] {$a$ (lower $V$)};
+    \draw[DefColor, very thick] (0,0) -- (0.7,0);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (0.7,0) -- (2.1,0) node[midway, below=3pt] {$R$};
+    \draw[DefColor, very thick] (2.1,0) -- (2.8,0);
+    \fill[black] (2.8,0) circle (1.5pt) node[below] {$b$ (higher $V$)};
+    \draw[<-, ThmColor, very thick] (0.9,-0.45) -- (1.9,-0.45) node[midway, below] {$I$};
+\end{tikzpicture} & $\Delta V = V_b - V_a = +I R$ \\ \hline
+\textbf{EMF Source} & 
+\begin{tikzpicture}[baseline=-2pt, >=Stealth]
+    \draw[->, ExColor, thick] (0,0.55) -- (2.8,0.55) node[midway, above] {\scriptsize Travel direction};
+    \fill[black] (0,0) circle (1.5pt) node[below] {$a$ (lower $V$)};
+    \draw[DefColor, very thick] (0,0) -- (1.25,0);
+    \draw[DefColor, ultra thick] (1.25,-0.22) -- (1.25,0.22) node[ below=8pt] {$-$};
+    \draw[DefColor, very thick] (1.55,-0.4) -- (1.55,0.4) node[below=13pt] {$+$};
+    \draw[DefColor, very thick] (1.55,0) -- (2.8,0);
+    \fill[black] (2.8,0) circle (1.5pt) node[below] {$b$ (higher $V$)};
+\end{tikzpicture} & $\Delta V = V_b - V_a = +\mathcal{E}$ \\ \hline
+\textbf{EMF Source} & 
+\begin{tikzpicture}[baseline=-2pt, >=Stealth]
+    \draw[->, ExColor, thick] (0,0.55) -- (2.8,0.55) node[midway, above] {\scriptsize Travel direction};
+    \fill[black] (0,0) circle (1.5pt) node[below] {$a$ (higher $V$)};
+    \draw[DefColor, very thick] (0,0) -- (1.25,0);
+    \draw[DefColor, very thick] (1.25,-0.4) -- (1.25,0.4) node[below=13pt] {$+$};
+    \draw[DefColor, ultra thick] (1.55,-0.22) -- (1.55,0.22) node[below=8pt] {$-$};
+    \draw[DefColor, very thick] (1.55,0) -- (2.8,0);
+    \fill[black] (2.8,0) circle (1.5pt) node[below] {$b$ (lower $V$)};
+\end{tikzpicture} & $\Delta V = V_b - V_a = -\mathcal{E}$ \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{example}[Voltage Divider Circuit]
+Solve the unloaded voltage divider circuit shown below: \textbf{find the current $I$ and the output voltage $V_{\text{out}}$ across resistor $R_2$.}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Left side with Vin
+    \draw[DefColor, very thick] (0,0) -- (0,1.2);
+    \draw[DefColor, ultra thick] (-0.25,1.2) -- (0.25,1.2); % -
+    \draw[DefColor, very thick] (-0.5,1.5) -- (0.5,1.5); % +
+    \node[DefColor, left] at (-0.6, 1.35) {$V_{\text{in}}$};
+    \node[DefColor, font=\small\bfseries] at (-0.3, 1.75) {$+$};
+    \node[DefColor, font=\small\bfseries] at (-0.3, 0.95) {$-$};
+    \draw[DefColor, very thick] (0,1.5) -- (0,2.7) -- (2.8,2.7);
+
+    % Right branch with R1 and R2
+    \draw[DefColor, very thick] (2.8,2.7) -- (2.8,2.3);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (2.8,2.3) -- (2.8,1.5) node[midway, left=4pt] {$R_1$};
+    \draw[DefColor, very thick] (2.8,1.5) -- (2.8,1.1);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (2.8,1.1) -- (2.8,0.3) node[midway, left=4pt] {$R_2$};
+    \draw[DefColor, very thick] (2.8,0.3) -- (2.8,0) -- (0,0);
+
+    % Output terminals across R2
+    \fill[DefColor] (2.8,1.3) circle (2pt);
+    \fill[DefColor] (2.8,0.1) circle (2pt);
+    \draw[DefColor, very thick] (2.8,1.3) -- (4.0,1.3);
+    \draw[DefColor, very thick] (2.8,0.1) -- (4.0,0.1);
+    \draw[DefColor, thick, fill=white] (4.0,1.3) circle (2pt);
+    \draw[DefColor, thick, fill=white] (4.0,0.1) circle (2pt);
+    \draw[<->, ThmColor, thick] (4.0, 0.25) -- (4.0, 1.15) node[midway, right] {$V_{\text{out}}$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Solution:}
+Applying the loop rule ($\sum \Delta V = 0$) clockwise around the closed loop, and noting that the same current $I = I_1 = I_2$ flows through both resistors:
+\begin{equation*}
+    V_{\text{in}} - R_1 I - R_2 I = 0 \implies I = \frac{V_{\text{in}}}{R_1 + R_2}.
+\end{equation*}
+Using Ohm's law across $R_2$, the output voltage is:
+\begin{equation}
+    V_{\text{out}} = I R_2 = \left( \frac{R_2}{R_1 + R_2} \right) V_{\text{in}}.
+\end{equation}
+\end{example}
+
+\begin{example}[Solving a Multiloop Circuit]
+Consider the multiloop circuit below with two given emf sources $\mathcal{E}_1, \mathcal{E}_2$ and three given resistances $R_1, R_2, R_3$. \textbf{Find the currents $I_1, I_2, I_3$ flowing through each resistor.}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.05, >=Stealth]
+    % Nodes coordinates
+    \coordinate (a) at (0,0);
+    \coordinate (b) at (0,1.8);
+    \coordinate (e) at (0,3.6);
+    \coordinate (d) at (4.2,0);
+    \coordinate (c) at (4.2,1.8);
+    \coordinate (f) at (4.2,3.6);
+
+    % Left vertical wires (a-b-e) with R2 between b and e
+    \draw[DefColor, very thick] (a) -- (b);
+    \draw[DefColor, very thick] (b) -- (0,2.3);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (0,2.3) -- (0,3.1) node[midway, left=4pt] {$R_2$};
+    \draw[DefColor, very thick] (0,3.1) -- (e);
+    \draw[->, ThmColor, very thick] (-0.7, 2.3) -- (-0.7, 3.1) node[midway, left] {$I_2$};
+
+    % Top branch (e-f) with E1
+    \draw[DefColor, very thick] (e) -- (1.95,3.6);
+    \draw[DefColor, very thick] (1.95,3.25) -- (1.95,3.95) node[above=2pt] {$+$}; % + left
+    \draw[DefColor, ultra thick] (2.25,3.4) -- (2.25,3.8) node[above=4pt] {$-$}; % - right
+    \node[DefColor, above] at (2.1, 4.1) {$\mathcal{E}_1$};
+    \draw[DefColor, very thick] (2.25,3.6) -- (f);
+
+    % Middle branch (b-c) with E2 and R1
+    \draw[DefColor, very thick] (b) -- (1.35,1.8);
+    \draw[DefColor, ultra thick] (1.35,1.6) -- (1.35,2.0) node[above=4pt] {$-$}; % - left
+    \draw[DefColor, very thick] (1.65,1.45) -- (1.65,2.15) node[above=2pt] {$+$}; % + right
+    \node[DefColor, below] at (1.5, 1.35) {$\mathcal{E}_2$};
+    \draw[DefColor, very thick] (1.65,1.8) -- (2.3,1.8);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (2.3,1.8) -- (3.3,1.8) node[midway, below=4pt] {$R_1$};
+    \draw[DefColor, very thick] (3.3,1.8) -- (c);
+    \draw[->, ThmColor, very thick] (2.4, 2.2) -- (3.2, 2.2) node[midway, above] {$I_1$};
+
+    % Bottom branch (a-d) with R3
+    \draw[DefColor, very thick] (a) -- (1.6,0);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (1.6,0) -- (2.6,0) node[midway, below=4pt] {$R_3$};
+    \draw[DefColor, very thick] (2.6,0) -- (d);
+    \draw[<-, ThmColor, very thick] (1.7, -0.65) -- (2.5, -0.65) node[midway, below] {$I_3$};
+
+    % Right vertical wires (d-c-f)
+    \draw[DefColor, very thick] (d) -- (c) -- (f);
+
+    % Corner/junction labels
+    \fill[ThmColor] (a) circle (2pt) node[below left] {$a$};
+    \fill[ThmColor] (b) circle (2.2pt) node[left] {$b$};
+    \fill[ThmColor] (e) circle (2pt) node[above left] {$e$};
+    \fill[ThmColor] (d) circle (2pt) node[below right] {$d$};
+    \fill[ThmColor] (c) circle (2.2pt) node[right] {$c$};
+    \fill[ThmColor] (f) circle (2pt) node[above right] {$f$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Solution:}
+\begin{enumerate}
+    \item \textbf{Identify Unknowns:} There are 3 unknown currents ($I_1, I_2, I_3$), so we need 3 linearly independent equations. We assign the trial current directions shown in the diagram above.
+    \item \textbf{Apply Junction Rule (Rule \#1) at node $b$:} Currents $I_1$ and $I_2$ leave node $b$, while $I_3$ enters node $b$:
+    \begin{equation}
+        I_1 + I_2 = I_3. \label{eq:multi_junc}
+    \end{equation}
+    (Applying the junction rule at node $c$ yields the exact same equation.)
+    \item \textbf{Apply Loop Rule (Rule \#2) to two independent inner loops:}
+    \begin{itemize}
+        \item \emph{Upper loop ($b \to e \to f \to c \to b$, clockwise):}
+        \begin{equation}
+            -I_2 R_2 - \mathcal{E}_1 + I_1 R_1 - \mathcal{E}_2 = 0. \label{eq:multi_loop1}
+        \end{equation}
+        \item \emph{Lower loop ($a \to b \to c \to d \to a$, clockwise):}
+        \begin{equation}
+            \mathcal{E}_2 - I_1 R_1 - I_3 R_3 = 0. \label{eq:multi_loop2}
+        \end{equation}
+    \end{itemize}
+    \emph{Note:} Traversing the outer perimeter loop ($a \to b \to e \to f \to c \to d \to a$) gives $-I_2 R_2 - \mathcal{E}_1 - I_3 R_3 = 0$, which is simply the sum of Eqs.~\eqref{eq:multi_loop1} and \eqref{eq:multi_loop2} and is therefore not linearly independent.
+    \item \textbf{Algebraic Solution:} Substituting $I_3 = I_1 + I_2$ into Eq.~\eqref{eq:multi_loop2} gives:
+    \begin{equation*}
+        I_1 (R_1 + R_3) + I_2 R_3 = \mathcal{E}_2,
+    \end{equation*}
+    while Eq.~\eqref{eq:multi_loop1} can be written as:
+    \begin{equation*}
+        I_1 R_1 - I_2 R_2 = \mathcal{E}_1 + \mathcal{E}_2.
+    \end{equation*}
+    Solving this $2 \times 2$ linear system yields the three branch currents:
+    \begin{align}
+        I_1 &= \frac{\mathcal{E}_1 R_3 + \mathcal{E}_2 R_3 + \mathcal{E}_2 R_2}{R_1 R_2 + R_1 R_3 + R_2 R_3}, \\
+        I_2 &= -\frac{\mathcal{E}_1 R_1 + \mathcal{E}_1 R_3 + \mathcal{E}_2 R_3}{R_1 R_2 + R_1 R_3 + R_2 R_3}, \\
+        I_3 &= \frac{\mathcal{E}_2 R_2 - \mathcal{E}_1 R_1}{R_1 R_2 + R_1 R_3 + R_2 R_3}.
+    \end{align}
+    Notice that $I_2 < 0$ (assuming positive $\mathcal{E}_1, \mathcal{E}_2$); this negative sign simply indicates that the actual physical current through $R_2$ flows in the direction \emph{opposite} to our initial arrow assumption.
+\end{enumerate}
+\end{example}
+
+\subsubsection{RC Circuits (Transient Behavior)}
+
+Up to now we have considered steady currents ($\pdv*{\rho}{t} = 0$). When a capacitor $C$ is introduced into a circuit with a resistor $R$, charges accumulate or deplete on the capacitor plates over time, leading to time-dependent currents $I(t)$ and voltages $V(t)$.
+
+\paragraph{Kirchhoff's Loop Sign Convention for a Capacitor:}
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Left diagram (-q to +q)
+    \draw[->, ExColor, thick] (0,0.6) -- (2.6,0.6) node[midway, above] {\scriptsize Travel direction};
+    \fill[black] (0,0) circle (1.5pt) node[below] {$a$ (lower $V$)};
+    \draw[DefColor, very thick] (0,0) -- (1.15,0);
+    \draw[DefColor, ultra thick] (1.15,-0.35) -- (1.15,0.35) node[below=12pt, left=-2pt] {$-q$};
+    \draw[DefColor, ultra thick] (1.45,-0.35) -- (1.45,0.35) node[below=12pt, right=-2pt] {$+q$};
+    \draw[DefColor, very thick] (1.45,0) -- (2.6,0);
+    \fill[black] (2.6,0) circle (1.5pt) node[below] {$b$ (higher $V$)};
+    \node[ThmColor, font=\bfseries] at (1.3, -1.0) {$\Delta V = V_b - V_a = +\dfrac{q}{C}$};
+
+    % Right diagram (+q to -q)
+    \begin{scope}[xshift=6.5cm]
+        \draw[->, ExColor, thick] (0,0.6) -- (2.6,0.6) node[midway, above] {\scriptsize Travel direction};
+        \fill[black] (0,0) circle (1.5pt) node[below] {$a$ (higher $V$)};
+        \draw[DefColor, very thick] (0,0) -- (1.15,0);
+        \draw[DefColor, ultra thick] (1.15,-0.35) -- (1.15,0.35) node[below=12pt, left=-2pt] {$+q$};
+        \draw[DefColor, ultra thick] (1.45,-0.35) -- (1.45,0.35) node[below=12pt, right=-2pt] {$-q$};
+        \draw[DefColor, very thick] (1.45,0) -- (2.6,0);
+        \fill[black] (2.6,0) circle (1.5pt) node[below] {$b$ (lower $V$)};
+        \node[ThmColor, font=\bfseries] at (1.3, -1.0) {$\Delta V = V_b - V_a = -\dfrac{q}{C}$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Charging a Capacitor}
+
+Consider a series circuit containing an ideal emf source $\mathcal{E}$, a resistor $R$, an initially uncharged capacitor $C$, and a switch $S$.
+\begin{itemize}
+    \item For $t < 0$, the switch $S$ is open; no current flows and there is no charge/voltage on the capacitor ($q=0, V_C=0$).
+    \item At $t = 0$, the switch $S$ is closed and current begins to flow. At this initial instant ($t=0^+$), $V_C(0^+) = 0$, so the full battery voltage appears across the resistor, initiating a current $I_0 = \frac{\mathcal{E}}{R}$.
+    \item As the capacitor charges ($t > 0$), the voltage across it increases as $V_C(t) = \frac{q(t)}{C}$.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95, >=Stealth]
+    % Circuit for t > 0 (charging)
+    \draw[DefColor, very thick] (0,0) -- (0,0.9);
+    % Capacitor on left
+    \draw[DefColor, ultra thick] (-0.4,0.9) -- (0.4,0.9) node[pos=0, left] {$+q$};
+    \draw[DefColor, ultra thick] (-0.4,1.2) -- (0.4,1.2) node[pos=0, left] {$-q$};
+    \node[DefColor, left] at (-0.65, 1.05) {$C$};
+    \draw[DefColor, very thick] (0,1.2) -- (0,2.2) -- (1.2,2.2);
+
+    % Resistor on top
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (1.2,2.2) -- (2.6,2.2) node[midway, above=4pt] {$R$};
+    \draw[DefColor, very thick] (2.6,2.2) -- (3.8,2.2) -- (3.8,0);
+
+    % Battery on bottom
+    \draw[DefColor, very thick] (3.8,0) -- (2.05,0);
+    \draw[DefColor, ultra thick] (2.05,-0.25) -- (2.05,0.25) node[below=6pt, right=-1pt] {$-$};
+    \draw[DefColor, very thick] (1.75,-0.45) -- (1.75,0.45) node[below=11pt, left=-1pt] {$+$};
+    \node[DefColor, below] at (1.9, -0.5) {$\mathcal{E}$};
+    \draw[DefColor, very thick] (1.75,0) -- (0,0);
+
+    % Current arrow & loop arrow
+    \draw[->, ThmColor, very thick] (0.2, 2.45) -- (1.0, 2.45) node[midway, above] {$I$};
+    \draw[->, ProofColor, thick] (2.1, 0.7) arc (240:60:0.45);
+\end{tikzpicture}
+\end{center}
+
+Traversing the loop clockwise (in the direction of $I$, which here enters the $-q$ plate or opposes the $+q$ plate depending on battery orientation; in general, the capacitor voltage opposes the driving emf $\mathcal{E}$ as it charges):
+\begin{equation}
+    \mathcal{E} - V_C(t) - I(t) R = 0 \implies I(t) R = \mathcal{E} - V_C(t).
+\end{equation}
+Since the current $I(t)$ equals the rate at which charge accumulates on the capacitor plates, $I(t) = +\dv{q}{t}$, and $V_C(t) = \frac{q}{C}$, we obtain the first-order linear differential equation:
+\begin{equation}
+    \mathcal{E} - \dv{q}{t} R - \frac{q}{C} = 0 \implies \dv{q}{t} = \frac{1}{R}\left( \mathcal{E} - \frac{q}{C} \right) = -\frac{q - C\mathcal{E}}{R C}.
+\end{equation}
+Separating variables and integrating from $t' = 0$ (where $q = 0$) to time $t$ (where charge is $q(t)$):
+\begin{equation}
+    \int_0^q \frac{\dd{q'}}{q' - C\mathcal{E}} = -\frac{1}{R C} \int_0^t \dd{t'} \implies \ln\left( \frac{q - C\mathcal{E}}{-C\mathcal{E}} \right) = -\frac{t}{R C}.
+\end{equation}
+Exponentiating both sides yields the charge, capacitor voltage, and current during charging:
+\begin{align}
+    q(t) &= C\mathcal{E} \left( 1 - e^{-t / RC} \right) = Q \left( 1 - e^{-t / \tau} \right), \\
+    V_C(t) &= \frac{q(t)}{C} = \mathcal{E} \left( 1 - e^{-t / RC} \right), \\
+    I(t) &= \dv{q}{t} = \frac{\mathcal{E}}{R} e^{-t / RC} = I_0 e^{-t / \tau},
+\end{align}
+where $Q \equiv C\mathcal{E}$ is the maximum final charge stored on the plates ($t \to \infty$), $I_0 \equiv \frac{\mathcal{E}}{R}$ is the initial current at $t = 0^+$, and $\tau \equiv R C$ is the \textbf{capacitive time constant} of the circuit ($[\tau] = \Omega \cdot \text{F} = \text{s}$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+    % Plot 1: q(t) charging
+    \begin{scope}
+        \draw[->, thick] (0,0) -- (4.8,0) node[right] {$t$};
+        \draw[->, thick] (0,0) -- (0,3.2) node[above] {$q(t)$};
+        \draw[dashed, RemColor] (0,2.6) -- (4.5,2.6);
+        \node[left] at (0,2.6) {$Q = C\mathcal{E}$};
+        \draw[ExColor, ultra thick, domain=0:4.4, samples=60] plot (\x, {2.6*(1 - exp(-\x/1.3))});
+        % Tau marker
+        \draw[dashed, ThmColor] (1.3,0) node[below] {$\tau = RC$} -- (1.3, {2.6*(1-exp(-1))}) -- (0, {2.6*(1-exp(-1))}) node[left] {\small $C\mathcal{E}(1-e^{-1})$};
+        \node[font=\bfseries\small] at (2.4, -0.7) {Charge $q(t)$ during charging};
+    \end{scope}
+
+    % Plot 2: I(t) charging
+    \begin{scope}[xshift=7.2cm]
+        \draw[->, thick] (0,0) -- (4.8,0) node[right] {$t$};
+        \draw[->, thick] (0,0) -- (0,3.2) node[above] {$I(t)$};
+        \node[left] at (0,2.6) {$I_0 = \dfrac{\mathcal{E}}{R}$};
+        \draw[ExColor, ultra thick, domain=0:4.4, samples=60] plot (\x, {2.6*exp(-\x/1.3)});
+        % Tau marker
+        \draw[dashed, ThmColor] (1.3,0) node[below] {$\tau = RC$} -- (1.3, {2.6*exp(-1)}) -- (0, {2.6*exp(-1)}) node[left] {\small $I_0 / e$};
+        \node[font=\bfseries\small] at (2.4, -0.7) {Current $I(t)$ during charging};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Discharging a Capacitor}
+
+Now consider a capacitor initially charged to $q(0) = Q$ (so $V_C(0) = V_0 = Q/C$) connected in series with a resistor $R$ and an open switch $S$ (with no battery). At $t = 0$, the switch is closed and the capacitor begins to discharge through $R$.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95, >=Stealth]
+    % Left circuit: t < 0 (open switch)
+    \begin{scope}
+        \draw[DefColor, very thick] (0,0) -- (0,0.9);
+        \draw[DefColor, ultra thick] (-0.4,0.9) -- (0.4,0.9) node[pos=0, left] {$+Q$};
+        \draw[DefColor, ultra thick] (-0.4,1.2) -- (0.4,1.2) node[pos=0, left] {$-Q$};
+        \node[DefColor, right] at (0.45, 1.05) {$C$};
+        \draw[DefColor, very thick] (0,1.2) -- (0,2.1) -- (1.1,2.1);
+        \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (1.1,2.1) -- (2.5,2.1) node[midway, above=4pt] {$R$};
+        \draw[DefColor, very thick] (2.5,2.1) -- (3.6,2.1) -- (3.6,1.35);
+        % Open switch
+        \draw[DefColor, very thick] (3.6,0.75) -- (3.1,1.25);
+        \node[DefColor, left] at (3.0, 1.0) {$S$};
+        \draw[DefColor, very thick] (3.6,0.75) -- (3.6,0) -- (0,0);
+        \node[font=\bfseries] at (1.8, -0.45) {$t < 0$ (Switch Open)};
+    \end{scope}
+
+    % Right circuit: t > 0 (closed switch)
+    \begin{scope}[xshift=6.5cm]
+        \draw[DefColor, very thick] (0,0) -- (0,0.9);
+        \draw[DefColor, ultra thick] (-0.4,0.9) -- (0.4,0.9) node[pos=0, left] {$+q$};
+        \draw[DefColor, ultra thick] (-0.4,1.2) -- (0.4,1.2) node[pos=0, left] {$-q$};
+        \node[DefColor, right] at (0.45, 1.05) {$C$};
+        \draw[DefColor, very thick] (0,1.2) -- (0,2.1) -- (1.1,2.1);
+        \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (1.1,2.1) -- (2.5,2.1) node[midway, below=4pt] {$R$};
+        \draw[DefColor, very thick] (2.5,2.1) -- (3.6,2.1) -- (3.6,0) -- (0,0);
+        \draw[->, ThmColor, very thick] (3.9, 0.6) -- (3.9, 1.5) node[midway, right] {$I$};
+        \draw[->, ProofColor, thick] (1.4, 0.5) arc (-120:60:0.55);
+        \node[font=\bfseries] at (1.8, -0.45) {$t > 0$ (Switch Closed)};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+Applying Kirchhoff's loop rule counterclockwise (following the discharging current $I$ from the $+q$ plate through $R$ to the $-q$ plate):
+\begin{equation}
+    \frac{q}{C} - I R = 0.
+\end{equation}
+Because the positive charge $q(t)$ on the capacitor plate is \emph{decreasing} as positive charge leaves the plate to form the discharging current $I > 0$, the current is related to $\dv*{q}{t}$ with a \textbf{minus sign}:
+\begin{equation}
+    I = -\dv{q}{t} \implies \frac{q}{C} + R \dv{q}{t} = 0.
+\end{equation}
+Separating variables and integrating from $q(0) = Q$ to $q(t)$:
+\begin{equation}
+    \int_Q^q \frac{\dd{q'}}{q'} = -\frac{1}{R C} \int_0^t \dd{t'} \implies \ln\left(\frac{q}{Q}\right) = -\frac{t}{R C}.
+\end{equation}
+Thus, for a discharging capacitor, the charge, voltage, and current magnitude all decay exponentially with the time constant $\tau = R C$:
+\begin{align}
+    q(t) &= Q e^{-t / RC}, \\
+    V_C(t) &= \frac{q(t)}{C} = \left(\frac{Q}{C}\right) e^{-t / RC} = V_0 e^{-t / \tau}, \\
+    I(t) &= -\dv{q}{t} = \left(\frac{Q}{R C}\right) e^{-t / RC} = I_0 e^{-t / \tau}.
+\end{align}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9, >=Stealth]
+    % Plot 1: V_C(t) discharging
+    \begin{scope}
+        \draw[->, thick] (0,0) -- (4.8,0) node[right] {$t$};
+        \draw[->, thick] (0,0) -- (0,3.2) node[above] {$V_C(t)$};
+        \node[left] at (0,2.6) {$V_0 = \dfrac{Q}{C}$};
+        \draw[ExColor, ultra thick, domain=0:4.4, samples=60] plot (\x, {2.6*exp(-\x/1.3)});
+        \draw[dashed, ThmColor] (1.3,0) node[below] {$\tau = RC$} -- (1.3, {2.6*exp(-1)}) -- (0, {2.6*exp(-1)}) node[left] {\small $V_0 / e$};
+        \node[font=\bfseries\small] at (2.4, -0.7) {Voltage $V_C(t)$ during discharging};
+    \end{scope}
+
+    % Plot 2: I(t) discharging
+    \begin{scope}[xshift=7.2cm]
+        \draw[->, thick] (0,0) -- (4.8,0) node[right] {$t$};
+        \draw[->, thick] (0,0) -- (0,3.2) node[above] {$I(t)$};
+        \node[left] at (0,2.6) {$I_0 = \dfrac{Q}{RC}$};
+        \draw[ExColor, ultra thick, domain=0:4.4, samples=60] plot (\x, {2.6*exp(-\x/1.3)});
+        \draw[dashed, ThmColor] (1.3,0) node[below] {$\tau = RC$} -- (1.3, {2.6*exp(-1)}) -- (0, {2.6*exp(-1)}) node[left] {\small $I_0 / e$};
+        \node[font=\bfseries\small] at (2.4, -0.7) {Current $I(t)$ during discharging};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\begin{example}[Two-Loop RC Circuit with a Switch]
+Consider the RC circuit shown below:
+\begin{center}
+\begin{tikzpicture}[scale=1.0, >=Stealth]
+    % Left branch (emf E)
+    \draw[DefColor, very thick] (0,0) -- (0,0.9);
+    \draw[DefColor, ultra thick] (-0.25,0.9) -- (0.25,0.9); % -
+    \draw[DefColor, very thick] (-0.5,1.2) -- (0.5,1.2); % +
+    \node[DefColor, right] at (0.55, 1.05) {$\mathcal{E}$};
+    \draw[DefColor, very thick] (0,1.2) -- (0,2.2) -- (0.9,2.2);
+
+    % Top left resistor R1
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (0.9,2.2) -- (2.1,2.2) node[midway, below=4pt] {$R_1$};
+    \draw[DefColor, very thick] (2.1,2.2) -- (3.0,2.2);
+
+    % Middle vertical branch with Switch S
+    \draw[DefColor, very thick] (3.0,2.2) -- (3.0,1.5);
+    \draw[DefColor, very thick] (3.0,0.8) -- (3.45,1.35);
+    \node[DefColor, right] at (3.45, 1.05) {$S$};
+    \draw[DefColor, very thick] (3.0,0.8) -- (3.0,0) -- (0,0);
+
+    % Right branch with C and R2
+    \draw[DefColor, very thick] (3.0,2.2) -- (5.6,2.2) -- (5.6,1.25);
+    \draw[DefColor, ultra thick] (5.25,1.25) -- (5.95,1.25);
+    \draw[DefColor, ultra thick] (5.25,0.95) -- (5.95,0.95);
+    \node[DefColor, right] at (6.0, 1.1) {$C$};
+    \draw[DefColor, very thick] (5.6,0.95) -- (5.6,0) -- (4.9,0);
+    \draw[DefColor, very thick, decorate, decoration={zigzag, segment length=5pt, amplitude=3pt}] (4.9,0) -- (3.7,0) node[midway, below=4pt] {$R_2$};
+    \draw[DefColor, very thick] (3.7,0) -- (3.0,0);
+\end{tikzpicture}
+\end{center}
+\begin{enumerate}
+    \item[(a)] \textbf{What is the time constant $\tau$ before the switch $S$ is closed?}
+    \item[(b)] \textbf{Assume the capacitor is fully charged before $S$ is closed. What is the new time constant $\tau^*$ for the decay of charge on $C$ after the switch $S$ is closed at $t = 0$?}
+    \item[(c)] \textbf{Find the total current $I(t)$ flowing downward through the closed switch $S$ as a function of time $t > 0$.}
+\end{enumerate}
+
+\textbf{Solution:}
+\begin{enumerate}
+    \item[(a)] \textbf{Before the switch is closed:} The middle branch is an open circuit, so resistors $R_1$ and $R_2$ are connected in series with the capacitor $C$ and battery $\mathcal{E}$. Thus, the equivalent resistance is $R_{\text{eq}} = R_1 + R_2$, and the charging time constant is:
+    \begin{equation}
+        \tau = R_{\text{eq}} C = (R_1 + R_2) C, \qquad q(t) = C\mathcal{E}\left(1 - e^{-t/\tau}\right).
+    \end{equation}
+    \item[(b)] \textbf{After the switch is closed ($t > 0$):} The closed switch $S$ forms a zero-resistance short circuit along the central vertical branch, isolating the right-hand loop from the battery. The right-hand loop becomes an independent discharging RC circuit containing only $C$ and $R_2$, with decay time constant:
+    \begin{equation}
+        \tau^* = R_2 C,
+    \end{equation}
+    so the charge $q^*(t)$ stored on the fully charged capacitor ($q^*(0) = C\mathcal{E}$) decays according to:
+    \begin{equation}
+        q^*(t) = C\mathcal{E} e^{-t / \tau^*} = C\mathcal{E} e^{-t / (R_2 C)}.
+    \end{equation}
+    \item[(c)] \textbf{Current through the switch $S$:} By Kirchhoff's junction rule at the top middle node, the current passing downward through the closed switch $S$ is the superposition of two currents:
+    \begin{itemize}
+        \item A steady current $I_1 = \dfrac{\mathcal{E}}{R_1}$ driven clockwise by the battery $\mathcal{E}$ through $R_1$ in the left loop (moving downward through $S$).
+        \item A decaying current from the discharging capacitor in the right loop. Since the upper plate of $C$ was charged positively ($+C\mathcal{E}$) by the battery prior to closing the switch, the discharging current flows counterclockwise in the right loop—out of the top plate of $C$ and \textbf{downward} through the switch $S$:
+        \begin{equation*}
+            \dv{q^*}{t} = -\left(\frac{C\mathcal{E}}{\tau^*}\right) e^{-t / \tau^*} = -\left(\frac{\mathcal{E}}{R_2}\right) e^{-t / (R_2 C)},
+        \end{equation*}
+        where the negative sign indicates that the discharging flow is opposite to the initial charging direction, meaning it has magnitude $\abs{I_2(t)} = \left(\frac{\mathcal{E}}{R_2}\right) e^{-t/(R_2 C)}$ directed \emph{downward} through $S$.
+    \end{itemize}
+    Since both currents flow downward across the switch $S$, the total downward switch current is:
+    \begin{equation}
+        I_{\text{switch}}(t) = I_1 + \abs{I_2(t)} = \frac{\mathcal{E}}{R_1} + \left( \frac{\mathcal{E}}{R_2} \right) e^{-t / (R_2 C)}.
+    \end{equation}
+\end{enumerate}
+\end{example}
