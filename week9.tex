@@ -1,0 +1,1007 @@
+\section{Week 9 -- The Magnetic Vector Potential and Magnetic Fields in Matter}
+
+\subsection{Summary of Magnetostatics and Comparison with Electrostatics}
+
+At this juncture of classical electrodynamics, it is instructive to compare the fundamental field equations governing electrostatics and magnetostatics before advancing to time-dependent electrodynamics. Both regimes represent stationary limits ($\pdv*{t} \equiv 0$) of Maxwell's equations.
+
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \rowcolor{ThmColor!12!white}
+        \textbf{Physical Property} & \textbf{Electrostatics} & \textbf{Magnetostatics} \\ \hline
+        \textbf{Divergence} & $\div \bm{E} = \dfrac{1}{\varepsilon_0}\rho \quad \text{(Gauss's Law)}$ & $\div \bm{B} = 0 \quad \text{(No Magnetic Monopoles)}$ \\ \hline
+        \textbf{Curl} & $\curl \bm{E} = \bm{0} \quad \text{(Irrotational / Conservative)}$ & $\curl \bm{B} = \mu_0 \bm{J} \quad \text{(Ampère's Law)}$ \\ \hline
+        \textbf{Integral Law} & $\displaystyle\oint_{\mathcal{S}} \bm{E}\cdot \dd{\bm{a}} = \frac{Q_{\text{enc}}}{\varepsilon_0}$ & $\displaystyle\oint_{\mathcal{P}} \bm{B}\cdot \dd{\bm{l}} = \mu_0 I_{\text{enc}}$ \\ \hline
+        \textbf{Integral Force Law} & Coulomb's Law + Superposition & Biot--Savart Law + Superposition \\ \hline
+        \textbf{Potential} & Scalar Potential $\varphi$: $\bm{E} = -\grad \varphi$ & Vector Potential $\bm{A}$: $\bm{B} = \curl \bm{A}$ \\ \hline
+    \end{tabular}
+    \caption{Symmetry and duality between electrostatic and magnetostatic fundamental laws.}
+    \label{tab:electro_magneto_comparison}
+\end{table}
+
+\begin{remark}[Physical Interpretation of the Divergence and Curl Equations]
+    \begin{itemize}
+        \item \textbf{Gauss's law} $\div \bm{E} = \rho / \varepsilon_0$ directly ties electric flux to scalar source charges $\rho$. Because $\curl \bm{E} = \bm{0}$, electrostatic fields are conservative ($\oint \bm{E}\cdot \dd{\bm{l}} = 0$).
+        \item \textbf{Absence of monopoles} $\div \bm{B} = 0$ implies that magnetic field lines never terminate or originate at localized point sources; they form continuous closed loops or extend to infinity.
+        \item \textbf{Ampère's law} $\curl \bm{B} = \mu_0 \bm{J}$ identifies electric current densities $\bm{J}$ as the fundamental physical sources of magnetic vorticity.
+    \end{itemize}
+\end{remark}
+
+Combining these Maxwell statics equations with the \textbf{Lorentz force law},
+\begin{equation}
+    \bm{F} = q(\bm{E} + \bm{v}\times \bm{B}),
+\end{equation}
+provides the complete mechanical and dynamical description of stationary electromagnetic systems.
+
+\begin{remark}[Why Do We Readily Observe Magnetic Forces?]
+    For individual charges moving at non-relativistic speeds ($v \ll c$), the magnetic force is typically suppressed by a factor of order $v/c \ll 1$ relative to the Coulomb force:
+    \begin{equation}
+        \frac{|\bm{F}_{\text{mag}}|}{|\bm{F}_{\text{elec}}|} \sim \frac{v B}{E} \sim \frac{v}{c^2} \left(\frac{I/\varepsilon_0}{q}\right) \sim \frac{v^2}{c^2} \ll 1.
+    \end{equation}
+    The reason magnetic effects are ubiquitous in everyday life (e.g., compasses, electric motors, wire deflections) stems from \textbf{charge neutrality}: in a current-carrying metallic conductor, an enormous density of conduction electrons drifts with modest speed ($v_d \sim 10^{-4}\,\text{m/s}$), yet the stationary positive ionic lattice cancels the net electric charge ($\rho_{\text{net}} = 0$). Consequently, the dominant Coulomb force vanishes identically ($\bm{E} = \bm{0}$), leaving the collective magnetic force isolated and observable.
+\end{remark}
+
+% =========================================================================
+\subsection{The Magnetic Vector Potential}
+% =========================================================================
+
+\subsubsection{Definition and Gauge Freedom}
+
+In electrostatics, the condition $\curl \bm{E} = \bm{0}$ guarantees the existence of a scalar potential $\varphi$ such that $\bm{E} = -\grad \varphi$, because the curl of any gradient vanishes identically ($\curl(\grad \varphi) = \bm{0}$).
+
+In magnetostatics, we have $\div \bm{B} = 0$. By the Poincaré lemma and vector calculus identities, the divergence of any vector curl is identically zero:
+\begin{equation}
+    \div(\curl \bm{A}) \equiv 0 \quad \text{for any well-behaved vector field } \bm{A}(\gr).
+\end{equation}
+
+\begin{definition}{Magnetic Vector Potential}{vector_potential}
+    The \textbf{magnetic vector potential} $\bm{A}(\gr)$ is a vector field whose curl reproduces the physical magnetic field:
+    \begin{equation}
+        \bm{B} = \curl \bm{A}.
+    \end{equation}
+\end{definition}
+
+Unlike the scalar electric potential $\varphi$, which directly relates to mechanical work per unit charge ($W/q = \Delta \varphi$), the vector potential $\bm{A}$ has dimensions of momentum per unit charge ($[A] = \text{T}\cdot\text{m} = \text{N}\cdot\text{s}/\text{C} = \text{J}/(\text{A}\cdot\text{m})$). In classical magnetostatics, magnetic forces do no work because $\bm{F}_{\text{mag}} \cdot \bm{v} = q(\bm{v}\times \bm{B})\cdot \bm{v} \equiv 0$.
+
+\begin{proposition}{Gauge Invariance in Magnetostatics}{gauge_invariance}
+    The vector potential $\bm{A}$ is not uniquely specified by $\bm{B} = \curl \bm{A}$. If $\bm{A}_0$ generates $\bm{B}$, then any transformation of the form
+    \begin{equation}
+        \bm{A}(\gr) \longrightarrow \bm{A}'(\gr) = \bm{A}_0(\gr) + \grad \lambda(\gr),
+    \end{equation}
+    where $\lambda(\gr)$ is an arbitrary differentiable scalar gauge function, generates the exact same physical magnetic field:
+    \begin{equation}
+        \curl \bm{A}' = \curl \bm{A}_0 + \curl(\grad \lambda) = \curl \bm{A}_0 = \bm{B}.
+    \end{equation}
+\end{proposition}
+
+\begin{example}[Non-Uniqueness of $\bm{A}$ for Uniform Magnetic Field]
+    Consider a uniform magnetic field oriented along the $z$-axis: $\bm{B} = B_0 \hat{\bm{z}}$. The equation $\curl \bm{A} = B_0 \hat{\bm{z}}$ yields:
+    \begin{equation}
+        \pdv{A_z}{y} - \pdv{A_y}{z} = 0, \qquad \pdv{A_x}{z} - \pdv{A_z}{x} = 0, \qquad \pdv{A_y}{x} - \pdv{A_x}{y} = B_0.
+    \end{equation}
+    Multiple valid solutions exist:
+    \begin{align}
+        \bm{A}_1 &= -y B_0 \hat{\bm{x}}, \\
+        \bm{A}_2 &= x B_0 \hat{\bm{y}}, \\
+        \bm{A}_3 &= \frac{B_0}{2} (-y \hat{\bm{x}} + x \hat{\bm{y}}) = \frac{1}{2}(\bm{B}\times \gr).
+    \end{align}
+    All three yield $\curl \bm{A} = B_0 \hat{\bm{z}}$. Furthermore, notice that $\bm{A}_2 - \bm{A}_1 = B_0(x\hat{\bm{y}} + y\hat{\bm{x}}) = \grad(B_0 x y)$, which explicitly demonstrates the gauge transformation with $\lambda(x,y) = B_0 x y$.
+\end{example}
+
+\subsubsection{The Coulomb Gauge and Poisson's Equation}
+
+To eliminate gauge ambiguity, we exploit the Helmholtz theorem: a vector field is uniquely specified up to boundary conditions by prescribing both its curl and its divergence. In magnetostatics, it is customary to choose the \textbf{Coulomb gauge}:
+\begin{equation}
+    \div \bm{A} = 0.
+\end{equation}
+
+\begin{remark}[Feasibility of the Coulomb Gauge]
+    Suppose an initial vector potential $\bm{A}_0$ has non-vanishing divergence $\div \bm{A}_0 = g(\gr) \neq 0$. Applying a gauge transformation $\bm{A} = \bm{A}_0 + \grad \lambda$, we require:
+    \begin{equation}
+        \div \bm{A} = \div \bm{A}_0 + \laplacian \lambda = 0 \implies \laplacian \lambda = -g(\gr).
+    \end{equation}
+    This is mathematically equivalent to the scalar Poisson equation in electrostatics ($\laplacian \varphi = -\rho/\varepsilon_0$). For localized distributions vanishing at infinity, a unique solution always exists:
+    \begin{equation}
+        \lambda(\gr) = \frac{1}{4\pi} \int \frac{g(\gr')}{|\gr - \gr'|} \dd[3]{\gr'}.
+    \end{equation}
+    Hence, setting $\div \bm{A} = 0$ is always achievable without altering $\bm{B}$.
+\end{remark}
+
+Substituting $\bm{B} = \curl \bm{A}$ into Ampère's law $\curl \bm{B} = \mu_0 \bm{J}$:
+\begin{equation}
+    \curl(\curl \bm{A}) = \grad(\div \bm{A}) - \laplacian \bm{A} = \mu_0 \bm{J}.
+\end{equation}
+Imposing the Coulomb gauge condition $\div \bm{A} = 0$ collapses this relation into the celebrated \textbf{vector Poisson equation}:
+\begin{equation}
+    \laplacian \bm{A} = -\mu_0 \bm{J}.
+    \label{eq:vector_poisson}
+\end{equation}
+
+In Cartesian coordinates, Eq.~\eqref{eq:vector_poisson} uncouples into three independent scalar Poisson equations:
+\begin{equation}
+    \laplacian A_x = -\mu_0 J_x, \qquad \laplacian A_y = -\mu_0 J_y, \qquad \laplacian A_z = -\mu_0 J_z.
+\end{equation}
+By direct analogy with the electrostatic solution $\varphi(\gr) = \frac{1}{4\pi\varepsilon_0}\int \frac{\rho(\gr')}{\gr^*} \dd{V'}$, where $\gr^* \equiv |\gr - \gr'|$ is the separation vector, the solution for currents vanishing at infinity is:
+\begin{equation}
+    \bm{A}(\gr) = \frac{\mu_0}{4\pi} \int \frac{\bm{J}(\gr')}{|\gr - \gr'|} \dd[3]{\gr'}.
+\end{equation}
+
+For surface currents $\bm{K}$ and line currents $I$, the corresponding integral formulations become:
+\begin{align}
+    \bm{A}(\gr) &= \frac{\mu_0}{4\pi} \int_{\mathcal{S}} \frac{\bm{K}(\gr')}{|\gr - \gr'|} \dd{a'}, \label{eq:A_surface} \\
+    \bm{A}(\gr) &= \frac{\mu_0 I}{4\pi} \oint_{\mathcal{P}} \frac{\dd{\bm{l}'}}{|\gr - \gr'|}. \label{eq:A_line}
+\end{align}
+
+\subsubsection{The Magnetostatic Triangle}
+
+Figure~\ref{fig:magnetostatic_triangle} summarizes the structural relationships connecting the current density $\bm{J}$, the magnetic vector potential $\bm{A}$, and the magnetic field $\bm{B}$.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[>=Stealth, node distance=4.5cm, auto, thick]
+        % Define nodes
+        \node[circle, draw=ThmColor, fill=ThmColor!10, line width=1.5pt, minimum size=1.8cm, font=\Large\bfseries] (J) {$\bm{J}$};
+        \node[circle, draw=DefColor, fill=DefColor!10, line width=1.5pt, minimum size=1.8cm, font=\Large\bfseries, below left=3.5cm and 2.5cm of J] (A) {$\bm{A}$};
+        \node[circle, draw=ExColor, fill=ExColor!10, line width=1.5pt, minimum size=1.8cm, font=\Large\bfseries, below right=3.5cm and 2.5cm of J] (B) {$\bm{B}$};
+
+        % Path J -> A
+        \draw[->, color=ThmColor, line width=1.2pt] (J) -- node[above left=2pt, align=center, text=black] {
+            $\bm{A}(\gr) = \dfrac{\mu_0}{4\pi}\displaystyle\int \dfrac{\bm{J}(\gr')}{\gr^*}\dd{\tau'}$
+        } (A);
+
+        % Path A -> J
+        \draw[->, dashed, color=DefColor, line width=1.1pt] ([xshift=4mm]A.north east) -- node[below right=-1pt, text=black] {
+            $\laplacian \bm{A} = -\mu_0 \bm{J}$
+        } ([xshift=-4mm]J.south west);
+
+        % Path J -> B
+        \draw[->, color=ExColor, line width=1.2pt] (J) -- node[above right=2pt, align=center, text=black] {
+            $\bm{B}(\gr) = \dfrac{\mu_0}{4\pi}\displaystyle\int \dfrac{\bm{J}\times\hat{\gr}^*}{{\gr^*}^2}\dd{\tau'}$
+        } (B);
+
+        % Path B -> J
+        \draw[->, dashed, color=ThmColor, line width=1.1pt] ([xshift=-4mm]B.north west) -- node[below left=-1pt, text=black] {
+            $\curl \bm{B} = \mu_0 \bm{J},\;\div \bm{B} = 0$
+        } ([xshift=4mm]J.south east);
+
+        % Path A -> B
+        \draw[->, color=ProofColor, line width=1.3pt] (A) -- node[below=4pt, text=black] {
+            $\bm{B} = \curl \bm{A} \quad (\div \bm{A} = 0)$
+        } (B);
+    \end{tikzpicture}
+    \caption{The magnetostatic relation triangle detailing differential and integral links among current source $\bm{J}$, vector potential $\bm{A}$, and magnetic flux density $\bm{B}$.}
+    \label{fig:magnetostatic_triangle}
+\end{figure}
+
+% =========================================================================
+\subsubsection{Example: Spinning Charged Spherical Shell}
+% =========================================================================
+
+\begin{example}[Vector Potential and Magnetic Field of a Rotating Spherical Shell]
+    A spherical shell of radius $R$ carries a uniform surface charge density $\sigma$. It rotates about an axis with constant angular velocity $\bm{\omega}$. Determine the vector potential $\bm{A}(\gr)$ and magnetic field $\bm{B}(\gr)$ everywhere in space.
+
+    \begin{center}
+    \begin{tikzpicture}[scale=1.3, >=Stealth]
+        % Coordinate axes
+        \draw[->, line width=0.8pt] (0,0) -- (0,3.2) node[above] {$z$};
+        \draw[->, line width=0.8pt] (0,0) -- (3.2,0) node[right] {$y$};
+        \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+        % Sphere
+        \draw[color=DefColor, line width=1.2pt] (0,0) circle (1.8cm);
+        \draw[dashed, color=DefColor!70] (1.8,0) arc (0:180:1.8cm and 0.45cm);
+        \draw[color=DefColor!70] (-1.8,0) arc (180:360:1.8cm and 0.45cm);
+
+        % Angular velocity vector omega tilted by psi
+        \draw[->, line width=1.3pt, color=ThmColor] (0,0) -- (-1.2,2.4) node[above left] {$\bm{\omega}$};
+        \draw[line width=0.6pt] (0,1.2) arc (90:116:1.2cm);
+        \node at (-0.3,1.4) {$\psi$};
+
+        % Observation point P along z axis
+        \coordinate (P) at (0,2.6);
+        \filldraw[ProofColor] (P) circle (1.8pt) node[left=2pt] {$P\,(\gr)$};
+        \draw[->, line width=1.2pt, color=ProofColor] (0,0) -- (P) node[midway, right=1pt] {$\gr = z\hat{\bm{z}}$};
+
+        % Source point on sphere surface da'
+        \coordinate (S) at (1.4,1.13);
+        \draw[->, line width=1.1pt, color=Plum] (0,0) -- (S) node[midway, below right=1pt] {$\gr'$};
+        \draw[fill=Emerald!30, draw=DefColor] (1.3, 1.05) rectangle (1.5, 1.25) node[above right=2pt, text=DefColor] {$\dd{a'}$};
+
+        % Separation vector r*
+        \draw[->, line width=1.2pt, color=ExColor] (S) -- (P) node[midway, above right=1pt] {$\gr^*$};
+
+        % Angles
+        \draw[line width=0.6pt] (0,0.8) arc (90:38:0.8cm);
+        \node at (0.35,0.95) {$\theta'$};
+
+        % Azimuthal projection
+        \draw[dashed, color=gray] (S) -- (1.4,-0.3);
+        \draw[dashed, color=gray] (0,0) -- (1.4,-0.3);
+        \draw[line width=0.6pt] (-0.3,-0.25) arc (220:340:0.45cm);
+        \node at (0.4,-0.45) {$\phi'$};
+    \end{tikzpicture}
+    \end{center}
+
+    \textbf{Solution:}
+    Without loss of generality, evaluate $\bm{A}$ at observation point $P$ placed along the $z$-axis: $\gr = r \hat{\bm{z}}$. The rotation axis $\bm{\omega}$ is assumed to lie in the $xz$-plane, tilted at angle $\psi$ relative to the $z$-axis:
+    \begin{equation}
+        \bm{\omega} = \omega \sin\psi \hat{\bm{x}} + \omega \cos\psi \hat{\bm{z}}.
+    \end{equation}
+    A surface point located at spherical coordinates $(R, \theta', \phi')$ has position vector:
+    \begin{equation}
+        \gr' = R(\sin\theta'\cos\phi' \hat{\bm{x}} + \sin\theta'\sin\phi' \hat{\bm{y}} + \cos\theta' \hat{\bm{z}}).
+    \end{equation}
+    The surface current density is $\bm{K}(\gr') = \sigma \bm{v}(\gr') = \sigma (\bm{\omega} \times \gr')$. Computing the cross product:
+    \begin{align}
+        \bm{v} &= \bm{\omega}\times \gr' = \begin{vmatrix}
+            \hat{\bm{x}} & \hat{\bm{y}} & \hat{\bm{z}} \\
+            \omega\sin\psi & 0 & \omega\cos\psi \\
+            R\sin\theta'\cos\phi' & R\sin\theta'\sin\phi' & R\cos\theta'
+        \end{vmatrix} \nonumber \\
+        &= R\omega \Big[ -(\cos\psi\sin\theta'\sin\phi')\hat{\bm{x}} + (\cos\psi\sin\theta'\cos\phi' - \sin\psi\cos\theta')\hat{\bm{y}} + (\sin\psi\sin\theta'\sin\phi')\hat{\bm{z}} \Big].
+    \end{align}
+    The distance from source element $\dd{a'} = R^2 \sin\theta' \dd{\theta'} \dd{\phi'}$ to $P(0,0,r)$ is independent of $\phi'$:
+    \begin{equation}
+        \gr^* = \sqrt{R^2 + r^2 - 2 R r \cos\theta'}.
+    \end{equation}
+    When integrating over $\phi' \in [0, 2\pi]$, terms proportional to $\sin\phi'$ or $\cos\phi'$ vanish identically:
+    \begin{equation}
+        \int_0^{2\pi} \sin\phi'\dd{\phi'} = \int_0^{2\pi} \cos\phi'\dd{\phi'} = 0.
+    \end{equation}
+    The only surviving component is the non-oscillatory term along $\hat{\bm{y}}$:
+    \begin{equation}
+        \bm{A}(r\hat{\bm{z}}) = -\frac{\mu_0 \sigma R^3 \omega \sin\psi}{4\pi} \hat{\bm{y}} \int_0^{2\pi}\dd{\phi'} \int_0^\pi \frac{\cos\theta'\sin\theta'}{\sqrt{R^2 + r^2 - 2Rr\cos\theta'}} \dd{\theta'}.
+    \end{equation}
+    Setting $u = \cos\theta'$, $\dd{u} = -\sin\theta'\dd{\theta'}$, the integral evaluates to:
+    \begin{equation}
+        \mathcal{I} = \int_{-1}^1 \frac{u \dd{u}}{\sqrt{R^2 + r^2 - 2Rru}} = -\frac{R^2 + r^2 + Rru}{3R^2 r^2}\sqrt{R^2 + r^2 - 2Rru}\,\Bigg|_{-1}^{1}.
+    \end{equation}
+    Carefully evaluating the limits:
+    \begin{itemize}
+        \item For $r < R$ (interior): $|R - r| = R - r \implies \mathcal{I} = \dfrac{2r}{3R^2}$.
+        \item For $r > R$ (exterior): $|R - r| = r - R \implies \mathcal{I} = \dfrac{2R}{3r^2}$.
+    \end{itemize}
+    Noting that $\bm{\omega}\times \gr = \bm{\omega}\times (r\hat{\bm{z}}) = -\omega r \sin\psi \hat{\bm{y}}$, we cast the result into a coordinate-free vector form:
+    \begin{equation}
+        \bm{A}(\gr) = \begin{cases}
+            \dfrac{\mu_0 R \sigma}{3} (\bm{\omega}\times \gr), & \text{for } r < R, \\[1.5ex]
+            \dfrac{\mu_0 R^4 \sigma}{3r^3} (\bm{\omega}\times \gr), & \text{for } r > R.
+        \end{cases}
+    \end{equation}
+
+    \textbf{Magnetic Field Computation:}
+    Inside the sphere ($r < R$), align $\bm{\omega} = \omega \hat{\bm{z}}$ so that $\bm{\omega}\times \gr = \omega r \sin\theta \hat{\bm{\phi}}$:
+    \begin{align}
+        \bm{B}_{\text{in}} &= \curl \bm{A} = \frac{1}{r\sin\theta}\pdv{\theta}\left(A_\phi \sin\theta\right)\hat{\bm{r}} - \frac{1}{r}\pdv{r}\left(r A_\phi\right)\hat{\bm{\theta}} \nonumber \\
+        &= \frac{\mu_0 R \sigma \omega}{3} \left( 2\cos\theta \hat{\bm{r}} - 2\sin\theta \hat{\bm{\theta}} \right) = \frac{2}{3}\mu_0 \sigma R \bm{\omega}.
+    \end{align}
+    Remarkably, the magnetic field inside a uniformly charged rotating spherical shell is \textbf{strictly uniform}:
+    \begin{equation}
+        \bm{B}_{\text{in}} = \frac{2}{3}\mu_0 \sigma R \bm{\omega}.
+    \end{equation}
+\end{example}
+
+% =========================================================================
+\subsection{Multipole Expansion of the Vector Potential}
+% =========================================================================
+
+\subsubsection{General Expansion in Legendre Polynomials}
+
+For a localized current loop carrying steady current $I$, the magnetic vector potential at a field point $P$ distant from the source ($r \gg r'$) is expanded in powers of $r'/r$.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[scale=1.2, >=Stealth]
+        % Closed current loop
+        \draw[line width=1.5pt, color=DefColor] (0,0) ellipse (2.2cm and 1.1cm);
+        % Current arrow on loop
+        \draw[->, line width=1.5pt, color=DefColor] (-2.18, 0.1) arc (175:140:2.2cm and 1.1cm) node[above left] {$I$};
+
+        % Origin
+        \coordinate (O) at (0,0);
+        \filldraw (O) circle (1.5pt) node[below left] {$O$};
+
+        % Source point dl'
+        \coordinate (dl) at (1.4,-0.85);
+        \filldraw[ProofColor] (dl) circle (2pt);
+        \draw[->, line width=1.4pt, color=ProofColor] (dl) -- ++(0.7,0.4) node[right] {$\dd{\gr'} = \dd{\bm{l}'}$};
+
+        % Vector r'
+        \draw[->, line width=1.1pt, color=ThmColor] (O) -- (dl) node[midway, below left] {$\gr'$};
+
+        % Observation point P
+        \coordinate (P) at (4.5, 2.2);
+        \filldraw[ThmColor] (P) circle (2pt) node[right] {$P\,(\gr)$ (field point, $r \gg r'$)};
+
+        % Vector r
+        \draw[->, line width=1.2pt, color=ThmColor] (O) -- (P) node[midway, above left] {$\gr$};
+
+        % Separation vector r*
+        \draw[->, line width=1.2pt, color=ExColor] (dl) -- (P) node[midway, below right] {$\gr^* = \gr - \gr'$};
+
+        % Angle alpha
+        \draw[line width=0.6pt] (0.8, 0.4) arc (27:-31:0.9cm);
+        \node at (1.1,0.1) {$\alpha$};
+    \end{tikzpicture}
+    \caption{Geometric configuration for the multipole expansion of a localized current loop.}
+    \label{fig:multipole_expansion}
+\end{figure}
+
+The inverse separation distance is expanded via the generating function of Legendre polynomials $P_n(\cos\alpha)$:
+\begin{equation}
+    \frac{1}{\gr^*} = \frac{1}{\sqrt{r^2 + (r')^2 - 2rr'\cos\alpha}} = \frac{1}{r} \sum_{n=0}^\infty \left(\frac{r'}{r}\right)^n P_n(\cos\alpha),
+\end{equation}
+where $\alpha$ is the subtended angle satisfying $\gr'\cdot \gr = r' r \cos\alpha$. Inserting this into Eq.~\eqref{eq:A_line}:
+\begin{equation}
+    \bm{A}(\gr) = \frac{\mu_0 I}{4\pi} \sum_{n=0}^\infty \frac{1}{r^{n+1}} \oint (r')^n P_n(\cos\alpha) \dd{\bm{l}'}.
+\end{equation}
+Writing out the first three terms explicitly:
+\begin{equation}
+    \bm{A}(\gr) = \frac{\mu_0 I}{4\pi} \left[ \frac{1}{r}\underbrace{\oint \dd{\bm{l}'}}_{\text{Monopole}} + \frac{1}{r^2}\underbrace{\oint r'\cos\alpha \dd{\bm{l}'}}_{\text{Dipole}} + \frac{1}{r^3}\underbrace{\oint (r')^2 \left(\frac{3}{2}\cos^2\alpha - \frac{1}{2}\right) \dd{\bm{l}'}}_{\text{Quadrupole}} + \dots \right].
+\end{equation}
+
+\subsubsection{Monopole and Dipole Moments}
+
+\begin{theorem}{Vanishing of Magnetic Monopole Moment}{magnetic_monopole}
+    The magnetic monopole term is identically zero for any closed circuit:
+    \begin{equation}
+        \bm{A}_{\text{mon}}(\gr) = \frac{\mu_0 I}{4\pi r} \oint \dd{\bm{l}'} \equiv \bm{0}.
+    \end{equation}
+\end{theorem}
+\begin{proofbox}
+    The integral $\oint \dd{\bm{l}'}$ represents the net vector displacement around a closed path, which is trivially zero. This mathematical fact reflects the physical law $\div \bm{B} = 0$: there are no isolated magnetic charges (monopoles).
+\end{proofbox}
+
+For the dipole term, recall that $r'\cos\alpha = \hat{\bm{r}}\cdot \gr'$:
+\begin{equation}
+    \bm{A}_{\text{dip}}(\gr) = \frac{\mu_0 I}{4\pi r^2} \oint (\hat{\bm{r}}\cdot \gr')\dd{\bm{l}'}.
+\end{equation}
+
+\begin{proposition}{Dipole Contour Integral Transformation}{dipole_contour}
+    For any constant vector $\bm{c}$ and closed loop bounding oriented surface $\mathcal{S}$:
+    \begin{equation}
+        \oint (\bm{c}\cdot \gr')\dd{\bm{l}'} = -\bm{c}\times \int_{\mathcal{S}} \dd{\bm{a}'} = \bm{a}\times \bm{c},
+    \end{equation}
+    where $\bm{a} \equiv \int_{\mathcal{S}} \dd{\bm{a}'}$ is the vector area of the loop.
+\end{proposition}
+\begin{proofbox}
+    Apply Stokes' theorem to the vector field $\bm{v} = (\bm{c}\cdot \gr')\bm{d}$, where $\bm{d}$ is an arbitrary constant vector:
+    \begin{equation}
+        \oint (\bm{c}\cdot \gr')\bm{d}\cdot \dd{\bm{l}'} = \int_{\mathcal{S}} [\curl((\bm{c}\cdot \gr')\bm{d})]\cdot \dd{\bm{a}'}.
+    \end{equation}
+    Using the identity $\curl(f \bm{d}) = \grad f \times \bm{d}$ and noting $\grad'(\bm{c}\cdot \gr') = \bm{c}$:
+    \begin{equation}
+        \bm{d}\cdot \oint (\bm{c}\cdot \gr')\dd{\bm{l}'} = \int_{\mathcal{S}} (\bm{c}\times \bm{d})\cdot \dd{\bm{a}'} = \bm{d}\cdot \left(\int_{\mathcal{S}} \dd{\bm{a}'} \times \bm{c}\right) = \bm{d}\cdot (\bm{a}\times \bm{c}).
+    \end{equation}
+    Since $\bm{d}$ is completely arbitrary, the vector identity follows.
+\end{proofbox}
+
+Setting $\bm{c} = \hat{\bm{r}}$, we find:
+\begin{equation}
+    \bm{A}_{\text{dip}}(\gr) = \frac{\mu_0}{4\pi r^2} \left(I \int_{\mathcal{S}}\dd{\bm{a}'}\right) \times \hat{\bm{r}} = \frac{\mu_0}{4\pi} \frac{\bm{m}\times \hat{\bm{r}}}{r^2},
+\end{equation}
+where we introduce the fundamental dipole moment:
+
+\begin{definition}{Magnetic Dipole Moment}{magnetic_dipole_moment}
+    The \textbf{magnetic dipole moment} $\bm{m}$ of a planar or non-planar closed loop carrying current $I$ is:
+    \begin{equation}
+        \bm{m} \equiv I \int_{\mathcal{S}} \dd{\bm{a}'} = I \bm{a}.
+    \end{equation}
+    For a planar loop of area $S$, $\bm{m} = I S \hat{\bm{n}}$, where $\hat{\bm{n}}$ follows the right-hand rule with current direction.
+\end{definition}
+
+\begin{remark}[Origin-Independence of the Magnetic Dipole Moment]
+    In electrostatics, the electric dipole moment $\bm{p} = \int \gr' \rho(\gr')\dd{V'}$ is invariant under translation of the origin ($\gr' \to \gr' + \bm{d}$) \emph{if and only if} the total monopole charge vanishes ($Q = 0$). In magnetostatics, because the magnetic monopole moment is identically zero for any localized current distribution, $\bm{m}$ is \textbf{strictly origin-independent}. In practice, the dipole potential is a suitable approximation whenever the distance $r$ greatly exceeds the size of the loop.
+\end{remark}
+
+% =========================================================================
+\subsection{Magnetic Field of a Pure Dipole}
+% =========================================================================
+
+Aligning the magnetic dipole along the $z$-axis ($\bm{m} = m \hat{\bm{z}}$), spherical coordinates yield:
+\begin{equation}
+    \bm{m}\times \hat{\bm{r}} = (m\hat{\bm{z}})\times \hat{\bm{r}} = m\sin\theta\,\hat{\bm{\phi}}.
+\end{equation}
+The vector potential of the dipole is purely azimuthal:
+\begin{equation}
+    \bm{A}_{\text{dip}}(\gr) = \frac{\mu_0 m}{4\pi} \frac{\sin\theta}{r^2} \hat{\bm{\phi}}.
+\end{equation}
+Computing the magnetic field $\bm{B} = \curl \bm{A}$:
+\begin{align}
+    B_r &= \frac{1}{r\sin\theta} \pdv{\theta}\left(A_\phi \sin\theta\right) = \frac{\mu_0 m}{4\pi r^3} 2\cos\theta, \\
+    B_\theta &= -\frac{1}{r}\pdv{r}\left(r A_\phi\right) = \frac{\mu_0 m}{4\pi r^3} \sin\theta, \\
+    B_\phi &= 0.
+\end{align}
+Thus, in spherical coordinates:
+\begin{equation}
+    \bm{B}_{\text{dip}}(\gr) = \frac{\mu_0 m}{4\pi r^3} \left(2\cos\theta \hat{\bm{r}} + \sin\theta \hat{\bm{\theta}}\right).
+    \label{eq:B_dip_spherical}
+\end{equation}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=1.1, >=Stealth]
+            \draw[->, line width=0.8pt] (0,0) -- (0,3.5) node[above] {$z$};
+            \draw[->, line width=0.8pt] (0,0) -- (3.2,0) node[right] {$y$};
+            \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+            % Dipole vector m along z
+            \draw[->, line width=2pt, color=ThmColor] (0,0) -- (0,1.8) node[left] {$\bm{m}$};
+
+            % Field point r
+            \coordinate (P) at (1.8, 2.2);
+            \draw[->, line width=1.2pt, color=ExColor] (0,0) -- (P) node[midway, above left] {$\gr$};
+            \filldraw[ExColor] (P) circle (1.8pt);
+
+            % Angle theta
+            \draw[line width=0.6pt] (0,1.0) arc (90:50:1.0cm);
+            \node at (0.35, 1.2) {$\theta$};
+
+            % Projection onto xy
+            \draw[dashed, color=gray] (P) -- (1.8, -0.6);
+            \draw[dashed, color=gray] (0,0) -- (1.8, -0.6);
+            \draw[line width=0.6pt] (-0.3, -0.25) arc (220:340:0.45cm);
+            \node at (0.5, -0.45) {$\phi$};
+        \end{tikzpicture}
+        \caption{Spherical coordinate system for dipole $\bm{m} \parallel \hat{\bm{z}}$.}
+        \label{fig:dipole_coord}
+    \end{minipage}\hfill
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.85]
+            % Field lines of pure dipole: r = r0 * sin^2(theta)
+            \draw[->, line width=0.6pt] (-3.5,0) -- (3.5,0) node[right] {$y$};
+            \draw[->, line width=0.6pt] (0,-3.2) -- (0,3.2) node[above] {$z$};
+            \draw[->, line width=1.8pt, color=ProofColor] (0,-0.4) -- (0,0.6) node[above right] {$\bm{m}$};
+
+            \foreach \c in {1.2, 2.0, 2.8} {
+                % Right loops
+                \draw[color=ThmColor, thick, smooth, domain=10:170] plot ({ \c*(sin(\x))^2 * sin(\x) }, { \c*(sin(\x))^2 * cos(\x) });
+                \draw[color=ThmColor, thick, smooth, domain=190:350] plot ({ \c*(sin(\x))^2 * sin(\x) }, { \c*(sin(\x))^2 * cos(\x) });
+                % Direction arrows
+                \draw[->, color=ThmColor, thick] ({ \c*(sin(70))^2 * sin(70) }, { \c*(sin(70))^2 * cos(70) }) -- ++(0.01,-0.02);
+                \draw[->, color=ThmColor, thick] ({ -\c*(sin(70))^2 * sin(70) }, { \c*(sin(70))^2 * cos(70) }) -- ++(-0.01,-0.02);
+            }
+        \end{tikzpicture}
+        \caption{Characteristic closed magnetic field lines for a pure dipole.}
+        \label{fig:dipole_field_lines}
+    \end{minipage}
+\end{figure}
+
+Notice the striking structural identity with the electrostatic dipole field:
+\begin{equation}
+    \bm{E}_{\text{dip}}(\gr) = \frac{1}{4\pi\varepsilon_0 r^3}\left(2\cos\theta \hat{\bm{r}} + \sin\theta \hat{\bm{\theta}}\right).
+\end{equation}
+In coordinate-free notation, decomposing $\hat{\bm{z}} = \cos\theta \hat{\bm{r}} - \sin\theta \hat{\bm{\theta}}$ produces:
+\begin{equation}
+    \bm{B}_{\text{dip}}(\gr) = \frac{\mu_0}{4\pi} \frac{1}{r^3} \Big[ 3(\bm{m}\cdot \hat{\bm{r}})\hat{\bm{r}} - \bm{m} \Big].
+    \label{eq:B_dip_coord_free}
+\end{equation}
+
+% =========================================================================
+\subsubsection{Example: The Bookend Loop}
+% =========================================================================
+
+\begin{example}[Dipole Moment of a Bent Circuit via Superposition]
+    A wire bent into the shape of a ``bookend'' consists of two planar squares of side $w$ situated in the $xy$ and $xz$ planes, carrying a steady current $I$. Find its magnetic dipole moment $\bm{m}$.
+
+    \begin{center}
+    \begin{tikzpicture}[scale=1.1, >=Stealth]
+        % Axes
+        \draw[->, line width=0.8pt] (0,0) -- (0,2.8) node[above] {$z$};
+        \draw[->, line width=0.8pt] (0,0) -- (3.2,0) node[right] {$y$};
+        \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+        % Vertical square in xz plane
+        \draw[line width=1.5pt, color=DefColor] (0,0) -- (0,2.2) node[midway, right] {$w$};
+        \draw[line width=1.5pt, color=DefColor] (0,2.2) -- (-1.4,1.0);
+        \draw[line width=1.5pt, color=DefColor] (-1.4,1.0) -- (-1.4,-1.2) node[midway, left] {$w$};
+        \draw[line width=1.5pt, color=DefColor] (-1.4,-1.2) -- (0,0);
+
+        % Horizontal square in xy plane
+        \draw[line width=1.5pt, color=DefColor] (0,0) -- (2.2,0) node[midway, above] {$w$};
+        \draw[line width=1.5pt, color=DefColor] (2.2,0) -- (0.8,-1.2) node[midway, right] {$w$};
+        \draw[line width=1.5pt, color=DefColor] (0.8,-1.2) -- (-1.4,-1.2) node[midway, below] {$w$};
+
+        % Current arrows
+        \draw[->, line width=1.5pt, color=ExColor] (0,0.8) -- (0,1.4);
+        \draw[->, line width=1.5pt, color=ExColor] (-0.5,1.75) -- (-0.9,1.4);
+        \draw[->, line width=1.5pt, color=ExColor] (-1.4,0.2) -- (-1.4,-0.4);
+        \draw[->, line width=1.5pt, color=ExColor] (-0.8,-1.2) -- (-0.2,-1.2);
+        \draw[->, line width=1.5pt, color=ExColor] (1.3,-0.75) -- (1.7,-0.4);
+        \draw[->, line width=1.5pt, color=ExColor] (1.4,0) -- (0.8,0);
+        \node at (1.1,0.25) {$I$};
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[scale=1.1, >=Stealth]
+        % Loop 1 (vertical)
+        \draw[line width=1.3pt, color=ThmColor] (0,0) -- (0,2) -- (-1.2,1) -- (-1.2,-1) -- cycle;
+        \draw[->, line width=1.3pt, color=ThmColor] (0,0.8) -- (0,1.3);
+        \draw[->, line width=1.3pt, color=ThmColor] (-1.2,-0.2) -- (-1.2,-0.7);
+        \node at (-0.6,0.5) {\Large \textcircled{1}};
+        \node[above] at (0,2) {$\bm{m}_1 = I w^2 \hat{\bm{y}}$};
+
+        \node at (0.8,0.5) {\textbf{\huge +}};
+
+        % Loop 2 (horizontal)
+        \begin{scope}[xshift=2.2cm]
+            \draw[line width=1.3pt, color=PropColor] (0,0) -- (1.8,0) -- (0.8,-1) -- (-1,-1) -- cycle;
+            \draw[->, line width=1.3pt, color=PropColor] (1.2,0) -- (0.6,0);
+            \draw[->, line width=1.3pt, color=PropColor] (-0.6,-1) -- (0,-1);
+            \node at (0.4,-0.5) {\Large \textcircled{2}};
+            \node[below] at (0.4,-1.2) {$\bm{m}_2 = I w^2 \hat{\bm{z}}$};
+        \end{scope}
+    \end{tikzpicture}
+    \end{center}
+
+    \textbf{Solution:}
+    By adding two fictitious, equal and opposite currents along the common edge between $(-w,0,0)$ and the origin, we decompose the non-planar loop into the superposition of two closed planar square loops:
+    \begin{enumerate}
+        \item \textbf{Loop 1} (in the $xz$-plane): Area vector points along $+\hat{\bm{y}}$ by the right-hand rule: $\bm{m}_1 = I w^2 \hat{\bm{y}}$.
+        \item \textbf{Loop 2} (in the $xy$-plane): Area vector points along $+\hat{\bm{z}}$: $\bm{m}_2 = I w^2 \hat{\bm{z}}$.
+    \end{enumerate}
+    The total dipole moment is the vector sum:
+    \begin{equation}
+        \bm{m} = \bm{m}_1 + \bm{m}_2 = I w^2 (\hat{\bm{y}} + \hat{\bm{z}}).
+    \end{equation}
+    The magnitude is $|\bm{m}| = \sqrt{2} I w^2$, pointing symmetrically along the $45^\circ$ line bisecting the $+y$ and $+z$ axes.
+\end{example}
+
+% =========================================================================
+\subsection{Magnetic Fields in Matter}
+% =========================================================================
+
+\subsubsection{Classification: Diamagnetism, Paramagnetism, Ferromagnetism}
+
+In macroscopically neutral matter, magnetic properties stem from atomic electron orbits and intrinsic electron spins. Unlike electric polarization $\bm{P}$, which almost universally aligns parallel to an external electric field $\bm{E}$, materials exhibit distinct magnetic responses depending on their microscopic electronic configuration:
+
+\begin{enumerate}
+    \item \textbf{Paramagnetism:} The induced magnetization $\bm{M}$ is parallel to the external field $\bm{B}_{\text{ext}}$. Paramagnetic atoms possess unpaired electrons with permanent magnetic dipole moments, which experience aligning torques in an external field.
+    \item \textbf{Diamagnetism:} The induced magnetization $\bm{M}$ is anti-parallel to $\bm{B}_{\text{ext}}$. It is a universal response present in all atoms, caused by electromagnetic induction altering the orbital motion of electrons (Lenz's law). It is typically weak and masked whenever paramagnetic or ferromagnetic effects are present.
+    \item \textbf{Ferromagnetism:} Materials exhibit strong, non-linear, and hysteretic spontaneous magnetization even in the complete absence of an applied field, mediated by quantum mechanical exchange interactions forming magnetic domains (e.g., Fe, Co, Ni).
+\end{enumerate}
+
+\subsubsection{Torque and Force on Magnetic Dipoles}
+
+\paragraph{Torque in a Uniform Magnetic Field}
+
+Consider a rectangular loop of dimensions $a \times b$ placed in a uniform magnetic field $\bm{B} = B \hat{\bm{z}}$, tilted at an angle $\theta$ relative to the $z$-axis.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=1.1, >=Stealth]
+            \draw[->, line width=0.8pt] (0,0) -- (0,3.2) node[above] {$z$};
+            \draw[->, line width=0.8pt] (0,0) -- (3.2,0) node[right] {$y$};
+            \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+            % Magnetic field
+            \draw[->, line width=1.4pt, color=ThmColor] (0.8, 1.2) -- (0.8, 2.8) node[above] {$\bm{B}$};
+
+            % Tilted loop
+            \draw[line width=1.3pt, color=DefColor] (-1.2,-0.5) -- (0.8,-0.5) -- (1.5,1.2) -- (-0.5,1.2) -- cycle;
+
+            % Dipole vector m
+            \draw[->, line width=2pt, color=ExColor] (0.15, 0.35) -- (1.1, 2.0) node[above] {$\bm{m}$};
+            \draw[line width=0.6pt] (0.15,1.2) arc (90:58:0.85cm);
+            \node at (0.4, 1.45) {$\theta$};
+
+            % Labels
+            \node[below] at (-0.2,-0.5) {$b$};
+            \node[right] at (1.2,0.3) {$a$};
+        \end{tikzpicture}
+        \caption{Infinitesimal current loop tilted in a uniform magnetic field.}
+        \label{fig:loop_torque_3d}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=1.2, >=Stealth]
+            \draw[->, line width=0.8pt] (0,-1.8) -- (0,2.5) node[above] {$z$};
+            \draw[->, line width=0.8pt] (-2.2,0) -- (2.2,0) node[right] {$y$};
+
+            % Cross-section of tilted loop of length a
+            \draw[line width=2.5pt, color=DefColor] (-1.4,0.7) -- (1.4,-0.7);
+            \filldraw[black] (-1.4,0.7) circle (2pt);
+            \filldraw[black] (1.4,-0.7) circle (2pt);
+
+            % Magnetic field B
+            \draw[->, line width=1.4pt, color=ThmColor] (0,0) -- (0,1.8) node[right] {$\bm{B}$};
+
+            % Dipole m
+            \draw[->, line width=1.8pt, color=ExColor] (0,0) -- (0.9,1.8) node[above right] {$\bm{m}$};
+            \draw[line width=0.6pt] (0,1.0) arc (90:63:1.0cm);
+            \node at (0.25, 1.25) {$\theta$};
+
+            % Forces on sides
+            \draw[->, line width=1.4pt, color=ProofColor] (-1.4,0.7) -- (-2.4,0.7) node[left] {$\bm{F}$};
+            \draw[->, line width=1.4pt, color=ProofColor] (1.4,-0.7) -- (2.4,-0.7) node[right] {$\bm{F}$};
+        \end{tikzpicture}
+        \caption{Side view showing the torque couple aligning $\bm{m}$ with $\bm{B}$.}
+        \label{fig:loop_torque_2d}
+    \end{minipage}
+\end{figure}
+
+The net Lorentz force on any closed loop in a uniform field vanishes identically:
+\begin{equation}
+    \bm{F}_{\text{net}} = I \oint (\dd{\bm{l}}\times \bm{B}) = I \left(\oint \dd{\bm{l}}\right) \times \bm{B} \equiv \bm{0}.
+\end{equation}
+However, equal and opposite forces act on opposite arms: $F = I b B$. The torque about the center of mass is:
+\begin{equation}
+    \bm{\tau} = 2 \left( \frac{a}{2} \sin\theta \right) F \hat{\bm{x}} = I (ab) B \sin\theta \hat{\bm{x}} = m B \sin\theta \hat{\bm{x}}.
+\end{equation}
+In vector notation:
+\begin{equation}
+    \bm{\tau} = \bm{m}\times \bm{B}.
+    \label{eq:torque_dipole}
+\end{equation}
+This mechanical torque acts to rotate $\bm{m}$ into parallel alignment with $\bm{B}$, providing the microscopic drive for paramagnetism.
+
+\paragraph{Force in a Non-Uniform Magnetic Field}
+
+In an inhomogeneous field ($\grad |\bm{B}| \neq 0$), the forces on opposite sides do not balance. By computing the work required to orient a dipole, $U = -\bm{m}\cdot \bm{B}$, the net translational force is:
+\begin{equation}
+    \bm{F} = \grad(\bm{m}\cdot \bm{B}).
+    \label{eq:force_dipole}
+\end{equation}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.9, >=Stealth]
+            % Solenoid cylinder
+            \draw[thick, fill=gray!10] (-0.9,-2.5) rectangle (0.9,0.5);
+            \node at (0,-1) {\textbf{Solenoid}};
+
+            % Diverging field lines at the top
+            \draw[->, thick, color=ThmColor] (0,0.5) -- (0,2.8) node[above] {$\bm{B}$};
+            \draw[->, thick, color=ThmColor] (0.4,0.5) to[out=80, in=230] (1.3,2.6);
+            \draw[->, thick, color=ThmColor] (-0.4,0.5) to[out=100, in=310] (-1.3,2.6);
+            \draw[->, thick, color=ThmColor] (0.7,0.5) to[out=70, in=220] (2.0,2.2);
+            \draw[->, thick, color=ThmColor] (-0.7,0.5) to[out=110, in=320] (-2.0,2.2);
+
+            % Suspended loop
+            \draw[line width=1.5pt, color=DefColor] (0,1.8) ellipse (1.2cm and 0.35cm);
+            \draw[->, line width=1.5pt, color=DefColor] (-1.2,1.8) arc (180:120:1.2cm and 0.35cm) node[above left] {$I$};
+        \end{tikzpicture}
+        \caption{Fringing magnetic field lines at the mouth of a solenoid.}
+        \label{fig:solenoid_fringing}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=1.1, >=Stealth]
+            % Loop circle side view
+            \draw[line width=1.4pt, color=DefColor] (0,0) ellipse (1.6cm and 0.4cm);
+            \draw[->, line width=1.4pt, color=DefColor] (0,-0.4) -- (0.3,-0.4) node[below] {$I$};
+
+            % Radial field vectors tilted outwards
+            \coordinate (R1) at (1.6,0);
+            \coordinate (R2) at (-1.6,0);
+
+            \draw[->, line width=1.3pt, color=ThmColor] (R1) -- ++(0.9, 0.9) node[above right] {$\bm{B}$};
+            \draw[->, line width=1.3pt, color=ThmColor] (R2) -- ++(-0.9, 0.9) node[above left] {$\bm{B}$};
+
+            % Resulting Lorentz force on element Idl x B: downward!
+            \draw[->, line width=1.5pt, color=ExColor] (R1) -- ++(0.7, -0.7) node[below right] {$\dd{\bm{F}}$};
+            \draw[->, line width=1.5pt, color=ExColor] (R2) -- ++(-0.7, -0.7) node[below left] {$\dd{\bm{F}}$};
+
+            % Net force
+            \draw[->, line width=2pt, color=ProofColor] (0,0) -- (0,-1.4) node[right] {$\bm{F}_{\text{net}}$};
+        \end{tikzpicture}
+        \caption{Forces on loop perimeter: the radial component $B_r$ creates a net axial force.}
+        \label{fig:solenoid_force}
+    \end{minipage}
+\end{figure}
+
+For a current loop located above a solenoid (Fig.~\ref{fig:solenoid_fringing}), the field possesses an outward radial component $B_r$. The cross product $\dd{\bm{l}}\times \bm{B}$ yields downward vertical components around the entire circumference:
+\begin{equation}
+    F_z = -2\pi R I B_r = 2\pi R I B \cos\theta.
+\end{equation}
+
+% =========================================================================
+\subsubsection{Microscopic Origin of Diamagnetism: Electronic Orbit Perturbation}
+% =========================================================================
+
+Model an atomic electron of charge $-e$ and mass $m_e$ moving in a circular orbit of radius $R$ at speed $v_0$ around a positively charged nucleus.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[scale=1.2, >=Stealth]
+        % Orbital plane
+        \draw[line width=1.3pt, color=DefColor] (0,0) ellipse (2.2cm and 0.8cm);
+
+        % Nucleus
+        \filldraw[red!80!black] (0,0) circle (3pt) node[below right=2pt] {$+e$};
+
+        % Electron
+        \coordinate (E) at (-1.55, -0.57);
+        \filldraw[blue!80!black] (E) circle (3pt) node[below left=2pt] {$-e$};
+
+        % Radius vector
+        \draw[->, line width=0.9pt] (0,0) -- (E) node[midway, above] {$R$};
+
+        % Velocity
+        \draw[->, line width=1.4pt, color=ProofColor] (E) -- ++(1.1,-0.2) node[below] {$\bm{v}$};
+
+        % Applied Magnetic field B perpendicular to orbit
+        \draw[->, line width=1.4pt, color=ThmColor] (0,0.4) -- (0,2.2) node[above] {$\bm{B}$};
+        \draw[->, line width=1.4pt, color=ThmColor] (1.3,0.3) -- (1.3,2.0) node[above] {$\bm{B}$};
+        \draw[->, line width=1.4pt, color=ThmColor] (-1.3,0.3) -- (-1.3,2.0) node[above] {$\bm{B}$};
+    \end{tikzpicture}
+    \caption{Classical Bohr electron orbit under an applied magnetic field perpendicular to the orbital plane.}
+    \label{fig:atomic_orbit}
+\end{figure}
+
+The orbital period is $T = \frac{2\pi R}{v_0}$, creating an effective current:
+\begin{equation}
+    I = -\frac{e}{T} = -\frac{ev_0}{2\pi R}.
+\end{equation}
+The unperturbed magnetic dipole moment is:
+\begin{equation}
+    \bm{m} = I (\pi R^2)\hat{\bm{z}} = -\frac{1}{2} e v_0 R \hat{\bm{z}} = -\frac{e}{2m_e} \bm{L},
+\end{equation}
+where $\bm{L} = m_e v_0 R \hat{\bm{z}}$ is the electron's orbital angular momentum.
+
+In the unperturbed state, the Coulomb force provides the centripetal acceleration:
+\begin{equation}
+    \frac{1}{4\pi\varepsilon_0}\frac{e^2}{R^2} = m_e \frac{v_0^2}{R}.
+    \label{eq:unperturbed_centripetal}
+\end{equation}
+Now introduce a magnetic field $\bm{B} = B \hat{\bm{z}}$ perpendicular to the orbital plane. The electron experiences an additional Lorentz force $-e(\bm{v}\times \bm{B}) = -e v B (-\hat{\bm{r}}) = e v B \hat{\bm{r}}$, directed radially inward toward the nucleus:
+\begin{equation}
+    \frac{1}{4\pi\varepsilon_0}\frac{e^2}{R^2} + evB = m_e \frac{v^2}{R}.
+\end{equation}
+Subtracting Eq.~\eqref{eq:unperturbed_centripetal}:
+\begin{equation}
+    evB = \frac{m_e}{R}(v^2 - v_0^2) = \frac{m_e}{R}(v + v_0)(v - v_0).
+\end{equation}
+Assuming the orbital perturbation is small ($\Delta v \equiv v - v_0 \ll v_0$, so $v + v_0 \approx 2v_0$):
+\begin{equation}
+    \Delta v \approx \frac{e B R}{2 m_e}.
+\end{equation}
+This change in orbital speed induces a change in the magnetic dipole moment:
+\begin{equation}
+    \Delta \bm{m} = -\frac{1}{2} e (\Delta v) R \hat{\bm{z}} = -\left(\frac{e^2 R^2}{4 m_e}\right) \bm{B}.
+    \label{eq:delta_m_diamagnetism}
+\end{equation}
+
+\begin{theorem}{Diamagnetic Response}{diamagnetic_response}
+    The induced magnetic dipole moment $\Delta \bm{m}$ is strictly anti-parallel to the applied magnetic field $\bm{B}$. Consequently, all atomic orbits develop a diamagnetic response opposing the applied field.
+\end{theorem}
+
+\begin{remark}[Work Done on the Electron]
+    Magnetic forces perform zero work. How then does the electron gain kinetic energy ($\Delta v > 0$)? As $\bm{B}$ is turned on, the time-varying magnetic flux induces an azimuthal electric field by Faraday's law ($\oint \bm{E}\cdot \dd{\bm{l}} = -\dv*{\Phi}{t}$). It is this induced electric field that performs mechanical work on the circulating electron.
+\end{remark}
+
+% =========================================================================
+\subsection{Magnetization and Bound Currents}
+% =========================================================================
+
+\subsubsection{The Vector Potential of Magnetized Matter}
+
+\begin{definition}{Magnetization}{magnetization}
+    The \textbf{magnetization} $\bm{M}(\gr)$ of a material is the macroscopic magnetic dipole moment per unit volume:
+    \begin{equation}
+        \bm{M}(\gr) \equiv \lim_{\Delta V \to 0} \frac{1}{\Delta V} \sum_{i \in \Delta V} \bm{m}_i.
+    \end{equation}
+\end{definition}
+
+Each infinitesimal volume element $\dd{\tau'} = \dd[3]{\gr'}$ carries an elementary dipole moment $\dd{\bm{m}} = \bm{M}(\gr')\dd{\tau'}$. Using the dipole potential:
+\begin{equation}
+    \bm{A}(\gr) = \frac{\mu_0}{4\pi} \int_V \frac{\bm{M}(\gr')\times \hat{\gr}^*}{(\gr^*)^2} \dd{\tau'}, \qquad \gr^* \equiv \gr - \gr'.
+\end{equation}
+Using $\grad'\left(\frac{1}{\gr^*}\right) = \frac{\hat{\gr}^*}{(\gr^*)^2}$, this becomes:
+\begin{equation}
+    \bm{A}(\gr) = \frac{\mu_0}{4\pi} \int_V \left[ \bm{M}(\gr') \times \grad'\left(\frac{1}{\gr^*}\right) \right] \dd{\tau'}.
+\end{equation}
+Using the vector identity $\curl'(f \bm{v}) = f(\curl' \bm{v}) - \bm{v}\times(\grad' f)$, we rewrite the integrand as:
+\begin{equation}
+    \bm{M}(\gr') \times \grad'\left(\frac{1}{\gr^*}\right) = \frac{1}{\gr^*} \big(\curl' \bm{M}(\gr')\big) - \curl'\left( \frac{\bm{M}(\gr')}{\gr^*} \right).
+\end{equation}
+Applying the vector divergence theorem corollary $\int_V (\curl' \bm{v})\dd{\tau'} = -\oint_{\mathcal{S}} \bm{v}\times \dd{\bm{a}'}$:
+\begin{equation}
+    \int_V \curl'\left( \frac{\bm{M}(\gr')}{\gr^*} \right)\dd{\tau'} = -\oint_{\mathcal{S}} \frac{\bm{M}(\gr')\times \hat{\bm{n}}'}{\gr^*} \dd{a'}.
+\end{equation}
+
+\begin{theorem}{Bound Current Representation of Magnetized Matter}{bound_currents}
+    The magnetic vector potential of any magnetized object is identically equivalent to the superposition of a \textbf{bound volume current density} $\bm{J}_b$ and a \textbf{bound surface current density} $\bm{K}_b$:
+    \begin{equation}
+        \bm{A}(\gr) = \frac{\mu_0}{4\pi} \int_V \frac{\bm{J}_b(\gr')}{\gr^*} \dd{\tau'} + \frac{\mu_0}{4\pi} \oint_{\mathcal{S}} \frac{\bm{K}_b(\gr')}{\gr^*} \dd{a'},
+    \end{equation}
+    where
+    \begin{align}
+        \bm{J}_b &= \curl \bm{M}, \label{eq:J_bound} \\
+        \bm{K}_b &= \bm{M} \times \hat{\bm{n}}. \label{eq:K_bound}
+    \end{align}
+\end{theorem}
+
+\subsubsection{Physical Interpretation of Bound Currents}
+
+\paragraph{Uniform Magnetization: Origin of $\bm{K}_b$}
+
+Consider a slab with uniform magnetization $\bm{M} = M \hat{\bm{z}}$. The interior can be visualized as an array of microscopic atomic current loops.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[scale=1.1, >=Stealth]
+        % Slab boundary
+        \draw[thick, fill=gray!6] (0,0) rectangle (6,2.6);
+
+        % Array of microscopic loops
+        \foreach \x in {0.8, 2.0, 3.2, 4.4, 5.2} {
+            \foreach \y in {0.6, 1.3, 2.0} {
+                \draw[thick, color=DefColor] (\x,\y) circle (0.28cm);
+                \draw[->, thick, color=DefColor] (\x+0.28,\y) -- ++(0,0.05);
+                \draw[->, thick, color=DefColor] (\x-0.28,\y) -- ++(0,-0.05);
+            }
+        }
+
+        % Internal cancellation arrows
+        \draw[<->, line width=1.2pt, color=red] (2.28,1.3) -- (2.92,1.3) node[midway, above=-2pt] {\scriptsize cancel};
+
+        % Surface currents
+        \draw[->, line width=2pt, color=ThmColor] (0.2, 2.75) -- (5.8, 2.75) node[right] {$\bm{K}_b = \bm{M}\times \hat{\bm{n}}$};
+        \draw[->, line width=2pt, color=ThmColor] (5.8, -0.15) -- (0.2, -0.15) node[left] {$\bm{K}_b$};
+        \node at (3, 1.3) {\Large $\bm{M}$};
+    \end{tikzpicture}
+    \caption{Microscopic current cancellation in uniformly magnetized matter. Internal adjacent loops cancel exactly, leaving an uncompensated macroscopically observable surface current $\bm{K}_b$.}
+    \label{fig:bound_surface_current}
+\end{figure}
+
+At any interior interface between two adjacent unit cells, adjacent currents flow in opposite directions with identical magnitude and cancel:
+\begin{equation}
+    I_{\text{net, interior}} = I - I = 0.
+\end{equation}
+At the exterior boundary, no adjacent loop exists to cancel the current. For cells of cross-sectional area $a$ and thickness $t$, the dipole moment is $m = M(at) = I a \implies I/t = M$. Thus, the current per unit length along the surface is:
+\begin{equation}
+    K_b = \frac{I}{t} = M \implies \bm{K}_b = \bm{M}\times \hat{\bm{n}}.
+\end{equation}
+
+\paragraph{Non-Uniform Magnetization: Origin of $\bm{J}_b$}
+
+If $\bm{M}$ varies spatially, adjacent interior currents no longer cancel.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=1.1, >=Stealth]
+            \draw[->, line width=0.8pt] (0,0) -- (0,3) node[above] {$z$};
+            \draw[->, line width=0.8pt] (0,0) -- (3.2,0) node[right] {$y$};
+            \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+            % Two adjacent cubes along y
+            \draw[thick] (0.5,0.8) rectangle (1.3,1.8);
+            \draw[thick] (1.3,0.8) rectangle (2.1,1.8);
+
+            % Magnetizations
+            \draw[->, line width=1.5pt, color=ThmColor] (0.9,1.8) -- (0.9,2.5) node[above] {$M_z(y)$};
+            \draw[->, line width=1.8pt, color=ThmColor] (1.7,1.8) -- (1.7,2.8) node[above] {$M_z(y+\dd{y})$};
+
+            % Uncompensated current
+            \draw[->, line width=2pt, color=ExColor] (1.3, 1.3) -- (0.8, 0.9) node[below left] {$I_x$};
+            \node at (1.7,0.5) {$\dd{y}$};
+            \node[right] at (2.1,1.3) {$\dd{z}$};
+        \end{tikzpicture}
+        \caption{Unbalanced $M_z$ along $y$ yields uncompensated current $I_x = \pdv*{M_z}{y}\dd{y}\dd{z}$.}
+        \label{fig:curl_y}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=1.1, >=Stealth]
+            \draw[->, line width=0.8pt] (0,0) -- (0,3) node[above] {$z$};
+            \draw[->, line width=0.8pt] (0,0) -- (3.2,0) node[right] {$y$};
+            \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+            % Two stacked cubes along z
+            \draw[thick] (0.8,0.3) rectangle (1.8,1.1);
+            \draw[thick] (0.8,1.1) rectangle (1.8,1.9);
+
+            % Magnetizations
+            \draw[->, line width=1.5pt, color=PropColor] (1.8,0.7) -- (2.5,0.7) node[right] {$M_y(z)$};
+            \draw[->, line width=1.8pt, color=PropColor] (1.8,1.5) -- (2.8,1.5) node[right] {$M_y(z+\dd{z})$};
+
+            % Uncompensated current opposite to x
+            \draw[->, line width=2pt, color=ExColor] (1.3, 1.1) -- (1.8, 1.5) node[above right] {$-I_x$};
+        \end{tikzpicture}
+        \caption{Unbalanced $M_y$ along $z$ contributes $-\pdv*{M_y}{z}$ to current along $x$.}
+        \label{fig:curl_z}
+    \end{minipage}
+\end{figure}
+
+The net current through the shared boundary of area $\dd{y}\dd{z}$ is:
+\begin{equation}
+    I_x = \left[ M_z(y + \dd{y}) - M_z(y) \right]\dd{z} - \left[ M_y(z + \dd{z}) - M_y(z) \right]\dd{y}.
+\end{equation}
+Dividing by the cross-sectional area $\dd{y}\dd{z}$:
+\begin{equation}
+    (J_b)_x = \frac{I_x}{\dd{y}\dd{z}} = \pdv{M_z}{y} - \pdv{M_y}{z} = (\curl \bm{M})_x.
+\end{equation}
+Repeating the derivation for the $y$ and $z$ components yields $\bm{J}_b = \curl \bm{M}$.
+
+\begin{remark}[Continuity of Bound Currents]
+    Because the divergence of any curl vanishes identically:
+    \begin{equation}
+        \div \bm{J}_b = \div(\curl \bm{M}) \equiv 0.
+    \end{equation}
+    Bound currents satisfy the steady-state charge continuity equation $\div \bm{J} = 0$, guaranteeing that no net bound charge accumulates anywhere in the medium.
+\end{remark}
+
+% =========================================================================
+\subsubsection{Example: Magnetic Field of a Uniformly Magnetized Sphere}
+% =========================================================================
+
+\begin{example}[Uniformly Magnetized Sphere]
+    A sphere of radius $R$ carries a uniform frozen-in magnetization $\bm{M} = M \hat{\bm{z}}$. Find the resulting magnetic field $\bm{B}(\gr)$ inside and outside the sphere.
+
+    \begin{center}
+    \begin{tikzpicture}[scale=1.3, >=Stealth]
+        % Axes
+        \draw[->, line width=0.8pt] (0,0) -- (0,2.8) node[above] {$z$};
+        \draw[->, line width=0.8pt] (0,0) -- (2.8,0) node[right] {$y$};
+        \draw[->, line width=0.8pt] (0,0) -- (-1.8,-1.5) node[below left] {$x$};
+
+        % Sphere outline
+        \draw[line width=1.3pt, color=DefColor] (0,0) circle (1.8cm);
+        \draw[dashed, color=DefColor!70] (1.8,0) arc (0:180:1.8cm and 0.45cm);
+        \draw[color=DefColor!70] (-1.8,0) arc (180:360:1.8cm and 0.45cm);
+
+        % Uniform Magnetization M vector
+        \draw[->, line width=2.2pt, color=ThmColor] (0,-0.6) -- (0,1.2) node[above left] {$\bm{M} = M\hat{\bm{z}}$};
+
+        % Surface normal n = r-hat at surface point
+        \coordinate (S) at (1.27,1.27);
+        \draw[->, line width=1.2pt, color=PropColor] (0,0) -- (S) node[midway, below right] {$\gr$};
+        \draw[->, line width=1.5pt, color=ProofColor] (S) -- ++(0.6,0.6) node[above right] {$\hat{\bm{n}} = \hat{\bm{r}}$};
+
+        % Angle theta
+        \draw[line width=0.6pt] (0,0.8) arc (90:45:0.8cm);
+        \node at (0.35,0.95) {$\theta$};
+
+        % Surface current Kb direction
+        \draw[->, line width=1.8pt, color=ExColor] (S) -- ++(-0.4,0.4) node[above left] {$\bm{K}_b = M\sin\theta\hat{\bm{\phi}}$};
+    \end{tikzpicture}
+    \end{center}
+
+    \textbf{Solution:}
+    \begin{enumerate}
+        \item \textbf{Bound Volume Current:} Because $\bm{M}$ is constant throughout the sphere:
+        \begin{equation}
+            \bm{J}_b = \curl \bm{M} = \bm{0}.
+        \end{equation}
+        \item \textbf{Bound Surface Current:} The unit outward normal is the radial vector $\hat{\bm{n}} = \hat{\bm{r}}$. Decomposing $\hat{\bm{z}} = \cos\theta \hat{\bm{r}} - \sin\theta \hat{\bm{\theta}}$:
+        \begin{equation}
+            \bm{K}_b = \bm{M}\times \hat{\bm{n}} = (M\hat{\bm{z}})\times \hat{\bm{r}} = M(\cos\theta\hat{\bm{r}} - \sin\theta\hat{\bm{\theta}})\times \hat{\bm{r}} = M\sin\theta\,\hat{\bm{\phi}}.
+        \end{equation}
+    \end{enumerate}
+
+    Recall the spinning charged shell analyzed in Section~1.2.4, which carried surface current:
+    \begin{equation}
+        \bm{K}_{\text{spin}} = \sigma \bm{v} = \sigma \omega R \sin\theta\,\hat{\bm{\phi}}.
+    \end{equation}
+    The bound surface current is identical under the identification:
+    \begin{equation}
+        \sigma \omega R \longleftrightarrow M.
+    \end{equation}
+    Applying the results previously derived:
+    \begin{itemize}
+        \item \textbf{Inside the sphere ($r < R$):} The magnetic field is strictly uniform and aligned with $\bm{M}$:
+        \begin{equation}
+            \bm{B}_{\text{in}} = \frac{2}{3}\mu_0 (\sigma \omega R)\hat{\bm{z}} = \frac{2}{3}\mu_0 \bm{M}.
+        \end{equation}
+        \item \textbf{Outside the sphere ($r > R$):} The field is identical to that of a pure magnetic dipole placed at the origin:
+        \begin{equation}
+            \bm{B}_{\text{out}}(\gr) = \frac{\mu_0}{4\pi r^3} \Big[ 3(\bm{m}\cdot \hat{\bm{r}})\hat{\bm{r}} - \bm{m} \Big],
+        \end{equation}
+        where the total magnetic dipole moment is the volume integral of magnetization:
+        \begin{equation}
+            \bm{m} = \int_{\text{sphere}} \bm{M}\dd{\tau} = \bm{M} \left( \frac{4}{3}\pi R^3 \right) = \frac{4\pi}{3} R^3 M \hat{\bm{z}}.
+        \end{equation}
+    \end{itemize}
+\end{example}
+
